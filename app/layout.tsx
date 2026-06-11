@@ -27,7 +27,7 @@ export default function RootLayout({
   return (
     <html
       lang="id"
-      className={`${baloo.variable} ${jakarta.variable} h-full antialiased`}
+      className={`${baloo.variable} ${jakarta.variable} h-full scroll-smooth antialiased`}
     >
       <body className="min-h-full flex flex-col font-body">{children}</body>
     </html>
