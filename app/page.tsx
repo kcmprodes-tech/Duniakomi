@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { Sparkles } from "lucide-react";
 
@@ -49,6 +50,14 @@ export default function Home() {
           dan logo sudah siap untuk dibangun lebih lanjut.
         </p>
       </div>
+
+      {/* Pintu masuk game (sementara — nanti jadi CTA Hero landing) */}
+      <Link
+        href="/kolom-komi"
+        className="inline-flex items-center gap-2 rounded-full bg-navy px-6 py-3 font-body text-base font-bold text-white shadow-lg shadow-navy/20 transition hover:brightness-110 active:scale-95"
+      >
+        🐟 Coba Kolom Komi
+      </Link>
 
       {/* Bukti palet warna brand */}
       <div className="flex flex-wrap items-center justify-center gap-4">
