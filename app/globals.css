@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+:root {
+  /* Warna utama */
+  --navy: #1a2845; /* primer, teks utama, outline */
+  --orange: #f08020; /* aksen utama, CTA, highlight */
+  --white: #ffffff;
+  --black: #000000;
+
+  /* Warna pendukung */
+  --navy-soft: #2d3a5f;
+  --orange-soft: #ffb87a;
+  --blush: #ffc9c9; /* pipi Komi, heart accent */
+  --cream: #fff8ee; /* bg alternatif hangat */
+  --gray-text: #5a6b8a;
+  --kompas: #0e6bb3; /* warna brand Kompas */
+}
+
+@theme inline {
+  /* Warna brand → otomatis jadi utilitas Tailwind: bg-navy, text-orange, dst */
+  --color-navy: var(--navy);
+  --color-orange: var(--orange);
+  --color-white: var(--white);
+  --color-black: var(--black);
+  --color-navy-soft: var(--navy-soft);
+  --color-orange-soft: var(--orange-soft);
+  --color-blush: var(--blush);
+  --color-cream: var(--cream);
+  --color-gray-text: var(--gray-text);
+  --color-kompas: var(--kompas);
+
+  /* Font brand → utilitas font-display (judul) & font-body (teks) */
+  --font-display: var(--font-baloo);
+  --font-body: var(--font-jakarta);
+}
+
+body {
+  background: var(--cream);
+  color: var(--navy);
+}
