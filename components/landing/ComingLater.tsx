@@ -21,12 +21,14 @@ export function ComingLater() {
         <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
           {UNIVERSE.map((k, i) => (
             <Reveal key={k.nama} delay={i * 0.06}>
-              <div className="flex h-full flex-col items-center gap-2 rounded-3xl border-2 border-navy/10 bg-cream/50 p-4 text-center">
+              <div className="group flex h-full flex-col items-center gap-2 rounded-3xl border-2 border-navy/10 bg-cream/50 p-4 text-center transition duration-200 hover:-translate-y-1 hover:border-orange/30 hover:shadow-lg">
                 <div
                   className={`relative flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br ${k.warna}`}
                 >
-                  <span className="text-3xl opacity-30 grayscale">{k.emoji}</span>
-                  <span className="absolute font-display text-2xl font-extrabold text-navy/40">
+                  <span className="text-3xl opacity-30 grayscale transition duration-300 group-hover:opacity-60 group-hover:grayscale-0">
+                    {k.emoji}
+                  </span>
+                  <span className="absolute font-display text-2xl font-extrabold text-navy/40 transition duration-300 group-hover:opacity-0">
                     ?
                   </span>
                 </div>

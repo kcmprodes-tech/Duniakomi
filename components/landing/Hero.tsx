@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { Sparkles } from "lucide-react";
+import { Sparkles, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { KOMI_IMG } from "@/lib/kolom-komi/assets";
 
@@ -60,6 +60,20 @@ export function Hero() {
           </motion.div>
         </motion.div>
       </div>
+
+      <a
+        href="#kolom-komi"
+        aria-label="Scroll ke bawah"
+        className="absolute bottom-5 left-1/2 hidden -translate-x-1/2 sm:block"
+      >
+        <motion.span
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+          className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-navy/10 bg-white/70 text-navy shadow"
+        >
+          <ChevronDown className="h-5 w-5" />
+        </motion.span>
+      </a>
     </section>
   );
 }

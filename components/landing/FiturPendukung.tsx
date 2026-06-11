@@ -35,7 +35,7 @@ export function FiturPendukung() {
       <div className="mt-8 grid gap-5 sm:grid-cols-3">
         {fitur.map((f, i) => (
           <Reveal key={f.judul} delay={i * 0.08}>
-            <Card className="h-full">
+            <Card className="h-full transition duration-200 hover:-translate-y-1 hover:shadow-xl">
               <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-orange/15 text-orange">
                 {f.icon}
               </div>

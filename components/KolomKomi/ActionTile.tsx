@@ -16,7 +16,7 @@ export function ActionTile({
     <Link
       href={href}
       className={cn(
-        "flex flex-col items-center justify-center gap-1 rounded-2xl border-2 border-navy/10 bg-white/90 p-3 text-center shadow-md transition hover:border-orange/40 active:scale-95",
+        "flex flex-col items-center justify-center gap-1 rounded-2xl border-2 border-navy/10 bg-white/90 p-3 text-center shadow-md transition hover:-translate-y-0.5 hover:border-orange/40 hover:shadow-lg active:translate-y-0 active:scale-95",
         className
       )}
     >
