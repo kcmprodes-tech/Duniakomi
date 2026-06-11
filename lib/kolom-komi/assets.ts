@@ -7,6 +7,6 @@ export const KOMI_IMG = {
   base: "/komi/komi-base.png",
   /** Latar ruangan */
   room: "/komi/room.png",
-  /** Logo (sementara memakai logo lama; ganti dengan logo "Kolom Komi") */
-  logo: "/komi.png",
+  /** Logo "Kolom Komi" */
+  logo: "/komi/logo-kolom-komi.png",
 };

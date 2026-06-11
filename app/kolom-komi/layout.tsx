@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import { KolomKomiProvider } from "@/lib/kolom-komi/state";
 import { KOMI_IMG } from "@/lib/kolom-komi/assets";
+import { SplashGate } from "@/components/KolomKomi/SplashGate";
 
 export const metadata: Metadata = {
   title: "Kolom Komi — Temani Komi tiap hari",
@@ -18,7 +19,7 @@ export default function KolomKomiLayout({ children }: { children: ReactNode }) {
         >
           {/* Scrim lembut agar UI tetap terbaca di atas latar */}
           <div className="relative min-h-dvh bg-gradient-to-b from-white/10 via-transparent to-white/50 sm:min-h-[840px]">
-            {children}
+            <SplashGate>{children}</SplashGate>
           </div>
         </div>
       </div>
