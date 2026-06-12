@@ -27,7 +27,7 @@ export function Splash({ onDone }: { onDone: () => void }) {
         initial={{ opacity: 0, y: -16, scale: 0.92 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className="absolute left-1/2 top-[2%] z-10 h-[27%] w-[88%] -translate-x-1/2"
+        className="absolute left-1/2 top-[2%] z-10 h-[27%] w-[88%] -translate-x-1/2 translate-y-[40px]"
       >
         <Image
           src={KOMI_IMG.logo}
