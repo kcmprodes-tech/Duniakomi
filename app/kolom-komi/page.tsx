@@ -1,93 +1,163 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
+import Image from "next/image";
 import Link from "next/link";
-import { AnimatePresence } from "framer-motion";
-import { Flame, Shirt } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Star, CalendarCheck, Utensils, Smile, Zap, Newspaper } from "lucide-react";
 import { useKolomKomi } from "@/lib/kolom-komi/state";
-import { CheckInPanel } from "@/components/KolomKomi/CheckInPanel";
-import { SAPAAN, acak } from "@/lib/kolom-komi/dialog";
 import { cariOutfit } from "@/lib/kolom-komi/items";
+import { KOMI_IMG } from "@/lib/kolom-komi/assets";
 import { GestureLayer } from "@/components/KolomKomi/GestureLayer";
-import { StatusBars } from "@/components/KolomKomi/StatusBars";
-import { KoinBadge } from "@/components/KolomKomi/KoinBadge";
-import { SpeechBubble } from "@/components/KolomKomi/SpeechBubble";
-import { ActionTile } from "@/components/KolomKomi/ActionTile";
+import { CheckInPanel } from "@/components/KolomKomi/CheckInPanel";
 import { Loader } from "@/components/KolomKomi/Loader";
-import { Card } from "@/components/ui/Card";
+
+// Lingkaran progres (dinamis): ring conic-gradient + bola glossy + ikon + %.
+function StatCircle({
+  icon,
+  value,
+  fill,
+  ring,
+}: {
+  icon: ReactNode;
+  value: number;
+  fill: string;
+  ring: string;
+}) {
+  const pct = Math.round(value);
+  return (
+    <div className="h-[58px] w-[58px] drop-shadow-md">
+      <div
+        className="h-full w-full rounded-full p-[3px]"
+        style={{ background: `conic-gradient(${ring} ${pct}%, rgba(255,255,255,0.55) ${pct}%)` }}
+      >
+        <div
+          className="flex h-full w-full flex-col items-center justify-center rounded-full text-white shadow-[inset_0_2px_5px_rgba(255,255,255,0.6),inset_0_-3px_6px_rgba(0,0,0,0.18)]"
+          style={{ background: fill }}
+        >
+          <span className="-mb-0.5">{icon}</span>
+          <span className="font-display text-[11px] font-extrabold leading-none">{pct}%</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const AKSI = [
+  { src: "/komi/makan.png", href: "/kolom-komi/makan", label: "Kasih Makan" },
+  { src: "/komi/baca.png", href: "/kolom-komi/baca", label: "Baca Bareng" },
+  { src: "/komi/travel.png", href: "/kolom-komi/jalan", label: "Ajak Jalan" },
+  { src: "/komi/play.png", href: "/kolom-komi/main", label: "Main Bareng" },
+  { src: "/komi/tidur.png", href: "/kolom-komi/tidur", label: "Tidurin" },
+];
 
 export default function HubPage() {
   const { state } = useKolomKomi();
-  const [pesan, setPesan] = useState(() => acak(SAPAAN));
   const [checkinOpen, setCheckinOpen] = useState(false);
+  const [pesan, setPesan] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!pesan) return;
+    const t = setTimeout(() => setPesan(null), 2200);
+    return () => clearTimeout(t);
+  }, [pesan]);
 
   if (!state) return <Loader />;
 
   const equipped = state.equippedItem ? cariOutfit(state.equippedItem) : undefined;
+  const energyLow = state.energy < 30;
 
-  // 5 aksi utama; Tidurin memberi peringatan saat Energy rendah.
-  const actions = [
-    { href: "/kolom-komi/makan", emoji: "🐟", label: "Kasih Makan", alert: false },
-    { href: "/kolom-komi/baca", emoji: "📰", label: "Baca Bareng", alert: false },
-    { href: "/kolom-komi/jalan", emoji: "🗺️", label: "Ajak Jalan", alert: false },
-    { href: "/kolom-komi/main", emoji: "🎮", label: "Main Bareng", alert: false },
-    { href: "/kolom-komi/tidur", emoji: "🛏️", label: "Tidurin", alert: state.energy < 30 },
+  const stats = [
+    { icon: <Utensils className="h-4 w-4" />, value: state.kenyang, fill: "radial-gradient(circle at 35% 25%, #ffd27a, #f08020)", ring: "#ffe08a" },
+    { icon: <Smile className="h-4 w-4" />, value: state.mood, fill: "radial-gradient(circle at 35% 25%, #ff9ecb, #ff3d92)", ring: "#ffc2e0" },
+    { icon: <Zap className="h-4 w-4" />, value: state.energy, fill: "radial-gradient(circle at 35% 25%, #8fd3ff, #2d9cdb)", ring: "#c2e8ff" },
+    { icon: <Newspaper className="h-4 w-4" />, value: state.update, fill: "radial-gradient(circle at 35% 25%, #6fe0d0, #16b8a6)", ring: "#bff3ec" },
   ];
 
   return (
-    <div className="flex flex-col gap-4 px-5 pb-8 pt-6">
-      {/* Koin + streak */}
-      <div className="flex items-center justify-between">
-        <KoinBadge koin={state.koin} />
-        <button
-          onClick={() => setCheckinOpen(true)}
-          aria-label="Buka check-in harian"
-          className="inline-flex items-center gap-1.5 rounded-full border-2 border-orange/20 bg-white/90 px-3 py-1.5 font-body text-sm font-extrabold text-navy shadow transition hover:-translate-y-0.5 hover:shadow-md active:scale-95"
-        >
-          <Flame className="h-4 w-4 text-orange" /> {state.streak} hari
-        </button>
+    <div className="absolute inset-0 overflow-hidden">
+      {/* Latar ruang */}
+      <Image src={KOMI_IMG.homeBg} alt="" fill priority sizes="460px" className="object-cover" />
+
+      {/* Badge Koin (kiri atas) */}
+      <div className="absolute left-3 top-3 z-20 flex items-center gap-1.5 rounded-full border-2 border-[#e6951b] bg-gradient-to-b from-[#ffd34d] to-[#ffb01f] px-3 py-1 shadow-md">
+        <Star className="h-5 w-5 fill-[#fff3c4] text-[#e6951b]" />
+        <span className="font-display text-lg font-extrabold text-white [text-shadow:0_1px_0_#d98512]">
+          {state.koin}
+        </span>
       </div>
 
-      {/* Komi + sapaan; badan Komi bisa disentuh (gesture) */}
-      <div className="flex flex-col items-center gap-2 pt-1">
-        <SpeechBubble>{pesan}</SpeechBubble>
-        <GestureLayer accessory={equipped?.emoji} size={230} onReaksi={setPesan} />
-        <p className="font-body text-[11px] font-medium text-navy/50">
-          ✋ Coba sentuh badan Komi
-        </p>
-      </div>
+      {/* Badge DAY (kanan atas) → buka check-in */}
+      <button
+        onClick={() => setCheckinOpen(true)}
+        aria-label="Check-in harian"
+        className="absolute right-3 top-3 z-20 flex items-center gap-1.5 rounded-full border-2 border-[#6b32c9] bg-gradient-to-b from-[#9b5cff] to-[#7a2ff0] px-3 py-1 shadow-md transition active:scale-95"
+      >
+        <CalendarCheck className="h-5 w-5 text-white" />
+        <span className="font-display text-base font-extrabold text-white">DAY {state.streak}</span>
+      </button>
 
-      {/* Bar status */}
-      <Card>
-        <StatusBars
-          kenyang={state.kenyang}
-          mood={state.mood}
-          energy={state.energy}
-          update={state.update}
-        />
-      </Card>
-
-      {/* 5 tombol aksi */}
-      <div className="grid grid-cols-5 gap-2">
-        {actions.map((a) => (
-          <ActionTile
-            key={a.href}
-            href={a.href}
-            emoji={a.emoji}
-            label={a.label}
-            alert={a.alert}
-          />
+      {/* Lingkaran progres (kiri) */}
+      <div className="absolute left-2 top-[19%] z-10 flex flex-col gap-2.5">
+        {stats.map((s, i) => (
+          <StatCircle key={i} icon={s.icon} value={s.value} fill={s.fill} ring={s.ring} />
         ))}
       </div>
 
-      {/* Dandanin (sekunder) */}
-      <Link
-        href="/kolom-komi/dandanin"
-        className="flex items-center justify-center gap-2 rounded-full bg-navy py-3 font-body text-sm font-bold text-white shadow-md transition hover:brightness-110 active:scale-95"
-      >
-        <Shirt className="h-4 w-4" /> Dandanin Komi
-      </Link>
+      {/* Tombol kanan: Dandani + Setting */}
+      <div className="absolute right-2 top-[19%] z-10 flex flex-col gap-3">
+        <Link
+          href="/kolom-komi/dandanin"
+          aria-label="Dandani Komi"
+          className="block transition active:scale-95"
+        >
+          <Image src="/komi/dandan.png" alt="Dandani Komi" width={56} height={56} className="drop-shadow-md" />
+        </Link>
+        <button
+          onClick={() => setPesan("Pengaturan segera hadir 🔧")}
+          aria-label="Pengaturan"
+          className="transition active:scale-95"
+        >
+          <Image src="/komi/setting.png" alt="Pengaturan" width={56} height={56} className="drop-shadow-md" />
+        </button>
+      </div>
 
+      {/* Komi di tengah (bisa di-sentuh) */}
+      <div className="absolute bottom-[13%] left-1/2 z-0 -translate-x-1/2">
+        <GestureLayer size={236} accessory={equipped?.emoji} onReaksi={setPesan} />
+      </div>
+
+      {/* Balon reaksi sementara */}
+      <AnimatePresence>
+        {pesan ? (
+          <motion.div
+            initial={{ opacity: 0, y: -8, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute left-1/2 top-[14%] z-30 w-[78%] max-w-xs -translate-x-1/2 rounded-2xl border-2 border-navy/10 bg-white/95 px-4 py-2 text-center font-body text-sm font-medium text-navy shadow-md"
+          >
+            {pesan}
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
+
+      {/* 5 tombol aksi (bawah) */}
+      <div className="absolute bottom-3 left-1/2 z-20 flex -translate-x-1/2 items-center gap-2.5">
+        {AKSI.map((a) => (
+          <Link
+            key={a.href}
+            href={a.href}
+            aria-label={a.label}
+            className={`block transition hover:-translate-y-0.5 active:scale-95 ${
+              a.href === "/kolom-komi/tidur" && energyLow ? "animate-pulse" : ""
+            }`}
+          >
+            <Image src={a.src} alt={a.label} width={58} height={58} className="drop-shadow-md" />
+          </Link>
+        ))}
+      </div>
+
+      {/* Panel check-in */}
       <AnimatePresence>
         {checkinOpen ? <CheckInPanel onClose={() => setCheckinOpen(false)} /> : null}
       </AnimatePresence>

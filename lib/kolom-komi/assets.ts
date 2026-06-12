@@ -15,4 +15,6 @@ export const KOMI_IMG = {
   mancing: "/komi/komi-mancing.png",
   /** Logo KOMPAS.com versi putih */
   kompasPutih: "/komi/kompas-putih.png",
+  /** Latar halaman home (ruang dalam rumah) */
+  homeBg: "/komi/home-bg.png",
 };
