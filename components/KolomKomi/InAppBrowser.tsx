@@ -3,20 +3,20 @@
 import { useEffect, useRef, useState, type UIEvent } from "react";
 import { motion } from "framer-motion";
 import { X, Lock, ExternalLink } from "lucide-react";
-import type { Berita } from "@/lib/kolom-komi/berita";
+import type { HalamanKompas } from "@/lib/kolom-komi/kanal";
 
-// In-app browser (mockup) untuk "membuka" artikel Kompas.com.
+// In-app browser (mockup) untuk "membuka" halaman Kompas.com (artikel atau kanal).
 // Ada bar progres baca; saat scroll sampai habis -> panggil onSelesai (sekali).
 export function InAppBrowser({
-  berita,
+  halaman,
   onClose,
   onSelesai,
 }: {
-  berita: Berita;
+  halaman: HalamanKompas;
   onClose: () => void;
   onSelesai?: () => void;
 }) {
-  const tampilUrl = berita.url.replace(/^https?:\/\//, "");
+  const tampilUrl = halaman.url.replace(/^https?:\/\//, "");
   const [progress, setProgress] = useState(0);
   const selesaiRef = useRef(false);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -35,7 +35,7 @@ export function InAppBrowser({
     if (p >= 99) tandaiSelesai();
   };
 
-  // Kalau artikel terlalu pendek untuk di-scroll, anggap selesai setelah sebentar.
+  // Kalau konten terlalu pendek untuk di-scroll, anggap selesai setelah sebentar.
   useEffect(() => {
     const el = scrollRef.current;
     if (el && el.scrollHeight <= el.clientHeight + 4) {
@@ -68,7 +68,7 @@ export function InAppBrowser({
           <span className="truncate font-body text-xs text-navy/70">{tampilUrl}</span>
         </div>
         <a
-          href={berita.url}
+          href={halaman.url}
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Buka di browser"
@@ -86,7 +86,7 @@ export function InAppBrowser({
         />
       </div>
 
-      {/* Isi artikel (mockup gaya Kompas.com) */}
+      {/* Isi halaman (mockup gaya Kompas.com) */}
       <div ref={scrollRef} onScroll={handleScroll} className="flex-1 overflow-y-auto">
         <div className="mx-auto max-w-2xl px-5 py-6">
           <p className="font-serif text-xl font-extrabold tracking-tight text-kompas">
@@ -94,26 +94,26 @@ export function InAppBrowser({
           </p>
 
           <span className="mt-5 inline-block rounded bg-kompas/10 px-2 py-0.5 font-body text-[11px] font-bold uppercase tracking-wide text-kompas">
-            {berita.kategori}
+            {halaman.kategori}
           </span>
           <h1 className="mt-2 font-display text-2xl font-extrabold leading-tight text-navy sm:text-3xl">
-            {berita.judul}
+            {halaman.judul}
           </h1>
           <p className="mt-1 font-body text-xs text-gray-text">Tim Redaksi · Kompas.com</p>
 
           <div className="mt-4 flex aspect-[16/9] items-center justify-center rounded-2xl bg-gradient-to-br from-kompas/10 to-orange/10 text-5xl">
-            {berita.emoji}
+            {halaman.emoji}
           </div>
 
           <div className="mt-4 flex flex-col gap-3 font-body text-[15px] leading-relaxed text-navy/80">
-            <p className="font-semibold text-navy">{berita.ringkasan}</p>
-            {berita.isi.map((p, i) => (
+            <p className="font-semibold text-navy">{halaman.ringkasan}</p>
+            {halaman.isi.map((p, i) => (
               <p key={i}>{p}</p>
             ))}
           </div>
 
           <a
-            href={berita.url}
+            href={halaman.url}
             target="_blank"
             rel="noopener noreferrer"
             className="mt-6 inline-flex items-center gap-2 rounded-full bg-kompas px-5 py-2.5 font-body text-sm font-bold text-white transition hover:brightness-110 active:scale-95"
@@ -122,10 +122,9 @@ export function InAppBrowser({
           </a>
 
           <p className="mt-4 font-body text-[11px] text-gray-text/70">
-            Prototipe — artikel contoh. Tautan menuju Kompas.com.
+            Prototipe — halaman contoh. Tautan menuju Kompas.com.
           </p>
 
-          {/* Penanda akhir artikel (memastikan ada ruang scroll) */}
           <p className="mt-6 text-center font-body text-xs font-semibold text-navy/40">
             — selesai —
           </p>

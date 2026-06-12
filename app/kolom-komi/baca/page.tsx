@@ -106,7 +106,7 @@ export default function BacaPage() {
         {aktif ? (
           <InAppBrowser
             key={aktif.id}
-            berita={aktif}
+            halaman={aktif}
             onClose={() => setAktif(null)}
             onSelesai={() => selesai(aktif)}
           />
