@@ -27,7 +27,7 @@ export function Splash({ onDone }: { onDone: () => void }) {
         initial={{ opacity: 0, y: -16, scale: 0.92 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className="absolute left-1/2 top-[3%] h-[17%] w-[66%] -translate-x-1/2"
+        className="absolute left-1/2 top-[2%] z-10 h-[27%] w-[88%] -translate-x-1/2"
       >
         <Image
           src={KOMI_IMG.logo}
@@ -39,21 +39,17 @@ export function Splash({ onDone }: { onDone: () => void }) {
         />
       </motion.div>
 
-      {/* Komi sedang mancing */}
-      <motion.div
-        animate={{ y: [0, -7, 0] }}
-        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute bottom-[18%] left-1/2 h-[60%] w-[92%] -translate-x-1/2"
-      >
+      {/* Komi sedang mancing (diam, ukuran +30%) */}
+      <div className="absolute bottom-[18%] left-1/2 h-[78%] w-[96%] -translate-x-1/2">
         <Image
           src={KOMI_IMG.mancing}
           alt="Komi mancing"
           fill
           priority
-          sizes="420px"
+          sizes="480px"
           className="object-contain object-bottom drop-shadow-xl"
         />
-      </motion.div>
+      </div>
 
       {/* Bar loading */}
       <div className="absolute bottom-[11.5%] left-1/2 w-[62%] -translate-x-1/2">
