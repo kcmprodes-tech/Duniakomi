@@ -1,4 +1,4 @@
-import { Drumstick, Smile, Newspaper } from "lucide-react";
+import { Drumstick, Smile, Zap, Newspaper } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { ReactNode } from "react";
 
@@ -42,16 +42,19 @@ function StatBar({
 export function StatusBars({
   kenyang,
   mood,
+  energy,
   update,
 }: {
   kenyang: number;
   mood: number;
+  energy: number;
   update: number;
 }) {
   return (
     <div className="flex flex-col gap-2.5">
       <StatBar icon={<Drumstick className="h-4 w-4" />} label="Kenyang" value={kenyang} color="bg-orange" />
       <StatBar icon={<Smile className="h-4 w-4" />} label="Mood" value={mood} color="bg-rose-400" />
+      <StatBar icon={<Zap className="h-4 w-4" />} label="Energy" value={energy} color="bg-emerald-400" />
       <StatBar icon={<Newspaper className="h-4 w-4" />} label="Update" value={update} color="bg-kompas" />
     </div>
   );

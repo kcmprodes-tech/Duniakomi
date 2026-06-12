@@ -9,6 +9,7 @@ import {
 } from "react";
 import type { HasilAksi, KomiState, OutfitId } from "./types";
 import { cariOutfit } from "./items";
+import { cariFood } from "./foods";
 
 const STORAGE_KEY = "kolom-komi-v1";
 
@@ -27,6 +28,7 @@ function stateAwal(now: Date): KomiState {
     kenyang: 70,
     mood: 70,
     update: 45,
+    energy: 70,
     koin: 10,
     ownedItems: [],
     equippedItem: null,
@@ -36,7 +38,7 @@ function stateAwal(now: Date): KomiState {
   };
 }
 
-// Terapkan peluruhan (decay) berdasar waktu yang berlalu sejak kunjungan terakhir,
+// Terapkan peluruhan (decay) berdasar waktu sejak kunjungan terakhir,
 // lalu perbarui streak harian. Inilah yang bikin Komi "butuh" dikunjungi tiap hari.
 function terapkanWaktuBerlalu(state: KomiState, now: Date): KomiState {
   const last = new Date(state.lastVisitISO);
@@ -47,10 +49,10 @@ function terapkanWaktuBerlalu(state: KomiState, now: Date): KomiState {
     kenyang: clamp(state.kenyang - jam * 2),
     mood: clamp(state.mood - jam * 1.5),
     update: clamp(state.update - jam * 2.5),
+    energy: clamp((state.energy ?? 70) - jam * 1.8),
     lastVisitISO: now.toISOString(),
   };
 
-  // Streak: bandingkan tanggal kalender kunjungan terakhir vs sekarang.
   const hariLalu = tanggalStr(last);
   const hariIni = tanggalStr(now);
   if (hariLalu !== hariIni) {
@@ -63,11 +65,14 @@ function terapkanWaktuBerlalu(state: KomiState, now: Date): KomiState {
 }
 
 interface KomiContextValue {
-  /** null selama belum di-hydrate dari localStorage (render awal di server/klien). */
+  /** null selama belum di-hydrate dari localStorage. */
   state: KomiState | null;
-  beriMakan: () => void;
+  /** Beri makan dengan makanan tertentu (efek beda per makanan). */
+  beriMakan: (foodId: string) => HasilAksi;
+  /** Elus Komi (dipakai Gesture System) — Mood naik sedikit. */
   elus: () => void;
-  ngobrol: () => void;
+  /** Tidurin Komi — pulihkan Energy. */
+  tidurin: () => HasilAksi;
   bacaBerita: (beritaId: string) => HasilAksi;
   beliItem: (id: OutfitId) => HasilAksi;
   pakaiItem: (id: OutfitId | null) => void;
@@ -79,7 +84,6 @@ const KomiContext = createContext<KomiContextValue | null>(null);
 export function KolomKomiProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<KomiState | null>(null);
 
-  // Muat dari localStorage saat komponen mount (hanya di browser).
   useEffect(() => {
     const now = new Date();
     let loaded: KomiState;
@@ -94,7 +98,6 @@ export function KolomKomiProvider({ children }: { children: ReactNode }) {
     setState(loaded);
   }, []);
 
-  // Simpan setiap kali state berubah.
   useEffect(() => {
     if (!state) return;
     try {
@@ -104,16 +107,38 @@ export function KolomKomiProvider({ children }: { children: ReactNode }) {
     }
   }, [state]);
 
-  const beriMakan = () =>
+  const beriMakan = (foodId: string): HasilAksi => {
+    if (!state) return { sukses: false };
+    const food = cariFood(foodId);
+    if (!food) return { sukses: false, pesan: "Makanan tidak ditemukan." };
+    if (state.kenyang >= 98) {
+      return { sukses: false, pesan: "Komi udah kenyang banget, makasih ya! 😸" };
+    }
     setState((s) =>
-      s ? { ...s, kenyang: clamp(s.kenyang + 18), mood: clamp(s.mood + 4) } : s
+      s
+        ? {
+            ...s,
+            kenyang: clamp(s.kenyang + food.efek.kenyang),
+            mood: clamp(s.mood + food.efek.mood),
+          }
+        : s
     );
+    return { sukses: true, pesan: `Nyam! ${food.nama} enak banget. 😋` };
+  };
 
   const elus = () =>
-    setState((s) => (s ? { ...s, mood: clamp(s.mood + 12) } : s));
+    setState((s) => (s ? { ...s, mood: clamp(s.mood + 6) } : s));
 
-  const ngobrol = () =>
-    setState((s) => (s ? { ...s, mood: clamp(s.mood + 8) } : s));
+  const tidurin = (): HasilAksi => {
+    if (!state) return { sukses: false };
+    if (state.energy >= 98) {
+      return { sukses: false, pesan: "Komi udah segar bugar, nggak ngantuk. 😺" };
+    }
+    setState((s) =>
+      s ? { ...s, energy: clamp(s.energy + 55), mood: clamp(s.mood + 4) } : s
+    );
+    return { sukses: true, pesan: "Zzz… Komi tidur nyenyak. Energy pulih! 🛏️" };
+  };
 
   const bacaBerita = (beritaId: string): HasilAksi => {
     if (!state) return { sukses: false };
@@ -158,7 +183,7 @@ export function KolomKomiProvider({ children }: { children: ReactNode }) {
 
   return (
     <KomiContext.Provider
-      value={{ state, beriMakan, elus, ngobrol, bacaBerita, beliItem, pakaiItem, reset }}
+      value={{ state, beriMakan, elus, tidurin, bacaBerita, beliItem, pakaiItem, reset }}
     >
       {children}
     </KomiContext.Provider>

@@ -61,15 +61,28 @@ Ini adalah **bintang utama** Dunia Komi.
 
 **Panel utama "Kamu & Komi":**
 - Komi di tengah, animasi floating/bobbing dengan Framer Motion
-- 3 bar kebutuhan: **Kenyang**, **Mood**, **Update** (Update = signature feature, naik dengan baca berita)
-- 4 tombol aksi: **🐟 Kasih Makan**, **✋ Elus**, **💬 Ngobrol**, **📰 Baca Bareng**
+- 4 bar kebutuhan: **Kenyang**, **Mood**, **Energy**, **Update** (Update = signature feature, naik dengan baca berita; Energy = turun seiring waktu, dipulihkan dengan Tidurin)
+- **5 tombol aksi utama** (lihat detail di bawah):
+  1. **🐟 Kasih Makan** — pilih makanan, beda makanan beda efek
+  2. **📰 Baca Bareng** — link ke artikel Kompas (signature)
+  3. **🗺️ Ajak Jalan** — masuk ke "Komi Berkunjung" (travel mechanic)
+  4. **🎮 Main Bareng** — masuk ke mini-game Kamu & Komi
+  5. **🛏️ Tidurin** — tombol selalu ada, warna berubah saat Energy rendah; ajak Komi tidur
+- **Elus BUKAN tombol lagi** — sekarang gesture tap langsung di badan Komi (lihat section "Gesture System")
 - Counter "Koin Ikan" di pojok
 - Hint dialog: *"Eh, baru dateng nih. Sudah baca berita pagi?"*
+
+**Detail 5 aksi utama:**
+1. **🐟 Kasih Makan** — buka pilihan makanan; tiap makanan beri efek berbeda (mis. ikan biasa naik Kenyang sedikit, makanan langka naik Mood + Kenyang).
+2. **📰 Baca Bareng** — aksi signature, mengarahkan ke artikel Kompas; menaikkan bar Update.
+3. **🗺️ Ajak Jalan** — masuk ke mode "Komi Berkunjung", mekanik travel (Komi mengunjungi tempat/daerah).
+4. **🎮 Main Bareng** — masuk ke mini-game interaktif Kamu & Komi (lihat section "Mini-game").
+5. **🛏️ Tidurin** — tombol **selalu tampil**; warnanya **berubah saat bar Energy rendah** (jadi penanda visual bahwa Komi butuh tidur). Mengajak Komi tidur untuk memulihkan Energy.
 
 **Loop visualization "Cara Kamu & Komi bekerja":**
 1. ☀️ Kamu mampir tiap pagi
 2. 📰 Baca berita bareng Komi
-3. 🐟 Komi dapat ikan dari kamu
+3. 🐟 Kasih makan Komi
 4. 😊 Komi seneng, kamu jadi update
 5. 🎩 Buka item langka untuk dandanin Komi
 6. 🔁 Besok ketemu lagi
@@ -84,6 +97,55 @@ Ini adalah **bintang utama** Dunia Komi.
 
 **CTA utama:**
 - "Daftar dapat akses awal" → newsletter signup
+
+---
+
+## Gesture System (Tap-to-Interact dengan Komi)
+
+**Konsep:** "Elus" tidak lagi jadi tombol. Sebagai gantinya, user bisa **menyentuh langsung badan Komi** (direct manipulation), persis seperti Talking Tom — lebih natural, intuitif, dan memorable. Tiap area tubuh memberi reaksi berbeda.
+
+**Reaksi Komi berdasarkan area yang disentuh:**
+
+| Area disentuh | Reaksi Komi |
+|---------------|-------------|
+| 🐱 **Kepala** | Komi senang, mata tertutup nikmat, ada efek *purr* (mendengkur) |
+| 😆 **Perut** | Komi tertawa geli (ticklish), goyang-goyang, ada efek "hihi" |
+| 🐾 **Kaki/Cakar** | Komi kaget pelan, narik kaki, lucu malu-malu |
+| 💢 **Ekor** | Komi sedikit ngambek, ekor kibas-kibas |
+| 👃 **Hidung** | Komi bersin pelan, lucu |
+
+**Efek interaksi:**
+- Bar **Mood** naik sedikit tiap sentuhan
+- Selalu ada feedback visual + animasi yang memorable (Framer Motion)
+- Reaksi harus terasa hidup & responsif (instant feedback)
+
+> Catatan: di fase prototipe ini gesture cukup divisualisasikan sebagai mockup/demo, belum perlu logika penuh.
+
+---
+
+## Mini-game (Dua Tipe Berbeda Fungsi)
+
+Mini-game dipisah jadi dua kelompok dengan tujuan berbeda:
+
+### A. Mini-game di "Dunia Komi" (knowledge-based → drive pageview berita)
+
+Tujuan: mendorong pembaca konsumsi konten Kompas.
+
+- **Tebak Berita Komi** — kuis dari artikel hari ini
+- **Katla-nya Komi** — tebak kata (ala Wordle)
+- **Trivia Indonesia** — pengetahuan umum dari arsip Kompas
+- **Headline Match** — cocokkan headline dengan kategori
+
+### B. Mini-game di "Kamu & Komi" (interaktif → perdalam afeksi)
+
+Tujuan: memperkuat ikatan emosional user dengan Komi. Diakses lewat aksi **🎮 Main Bareng**.
+
+- **Lempar Ikan** — tap untuk lempar ikan ke Komi
+- **Sembunyi Komi** — Komi sembunyi, user tebak
+- **Mancing Bareng Komi** — idle catching game
+- **Bersih-bersih Rumah Komi** — tap game
+
+> Catatan: di fase prototipe ini semua mini-game cukup mockup visual, belum fungsional.
 
 ---
 
@@ -270,10 +332,13 @@ dunia-komi/
 │   ├── Hero.tsx
 │   ├── KamuDanKomi/
 │   │   ├── index.tsx
-│   │   ├── CompanionMockup.tsx
+│   │   ├── CompanionMockup.tsx     ← panel utama (4 bar + 5 aksi)
+│   │   ├── GestureLayer.tsx        ← tap-to-interact di badan Komi
+│   │   ├── ActionButtons.tsx       ← 5 aksi: Makan/Baca/Jalan/Main/Tidurin
+│   │   ├── KamuKomiGames.tsx       ← mini-game interaktif (mockup)
 │   │   ├── LoopVisualization.tsx
 │   │   └── ItemShowcase.tsx
-│   ├── Games.tsx
+│   ├── Games.tsx                   ← mini-game knowledge-based (mockup)
 │   ├── Comic.tsx
 │   ├── Newsletter.tsx
 │   ├── KomiPoin.tsx

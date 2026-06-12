@@ -44,7 +44,7 @@ export function KolomKomiShowcase() {
                 Kondisi Komi
               </p>
               <div className="mt-3">
-                <StatusBars kenyang={80} mood={65} update={90} />
+                <StatusBars kenyang={80} mood={65} energy={72} update={90} />
               </div>
               <div className="mt-4 grid grid-cols-4 gap-2">
                 {aksi.map((a) => (

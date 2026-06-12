@@ -79,7 +79,12 @@ export default function BacaPage() {
       </div>
 
       <Card>
-        <StatusBars kenyang={state.kenyang} mood={state.mood} update={state.update} />
+        <StatusBars
+          kenyang={state.kenyang}
+          mood={state.mood}
+          energy={state.energy}
+          update={state.update}
+        />
       </Card>
     </div>
   );

@@ -9,6 +9,8 @@ export interface KomiState {
   mood: number;
   /** Seberapa update Komi soal berita, 0–100 — fitur signature (naik dengan Baca Bareng) */
   update: number;
+  /** Energi Komi, 0–100 — turun seiring waktu, dipulihkan dengan Tidurin */
+  energy: number;
   /** Koin Ikan — didapat dari baca berita, dipakai beli kostum */
   koin: number;
   /** Daftar id kostum yang sudah dimiliki */
