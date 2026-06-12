@@ -123,7 +123,7 @@ export default function HubPage() {
       </div>
 
       {/* Komi di tengah (diam, melambai tiap 5 detik, bisa di-sentuh) */}
-      <div className="absolute bottom-[10%] left-1/2 z-0 -translate-x-1/2">
+      <div className="absolute bottom-[10%] left-1/2 z-0 -translate-x-1/2 -translate-y-[40px]">
         <KomiWave size={378} accessory={equipped?.emoji} onReaksi={setPesan} />
       </div>
 
@@ -148,11 +148,11 @@ export default function HubPage() {
             key={a.href}
             href={a.href}
             aria-label={a.label}
-            className={`block transition hover:-translate-y-0.5 active:scale-95 ${
+            className={`relative block h-[60px] w-[60px] shrink-0 transition hover:-translate-y-0.5 active:scale-95 ${
               a.href === "/kolom-komi/tidur" && energyLow ? "animate-pulse" : ""
             }`}
           >
-            <Image src={a.src} alt={a.label} width={60} height={60} className="drop-shadow-md" />
+            <Image src={a.src} alt={a.label} fill sizes="60px" className="object-contain drop-shadow-md" />
           </Link>
         ))}
       </div>
