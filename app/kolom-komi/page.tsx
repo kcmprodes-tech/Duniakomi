@@ -2,8 +2,10 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { AnimatePresence } from "framer-motion";
 import { Flame, Shirt } from "lucide-react";
 import { useKolomKomi } from "@/lib/kolom-komi/state";
+import { CheckInPanel } from "@/components/KolomKomi/CheckInPanel";
 import { SAPAAN, acak } from "@/lib/kolom-komi/dialog";
 import { cariOutfit } from "@/lib/kolom-komi/items";
 import { GestureLayer } from "@/components/KolomKomi/GestureLayer";
@@ -17,6 +19,7 @@ import { Card } from "@/components/ui/Card";
 export default function HubPage() {
   const { state } = useKolomKomi();
   const [pesan, setPesan] = useState(() => acak(SAPAAN));
+  const [checkinOpen, setCheckinOpen] = useState(false);
 
   if (!state) return <Loader />;
 
@@ -36,9 +39,13 @@ export default function HubPage() {
       {/* Koin + streak */}
       <div className="flex items-center justify-between">
         <KoinBadge koin={state.koin} />
-        <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-orange/20 bg-white/90 px-3 py-1.5 font-body text-sm font-extrabold text-navy shadow">
+        <button
+          onClick={() => setCheckinOpen(true)}
+          aria-label="Buka check-in harian"
+          className="inline-flex items-center gap-1.5 rounded-full border-2 border-orange/20 bg-white/90 px-3 py-1.5 font-body text-sm font-extrabold text-navy shadow transition hover:-translate-y-0.5 hover:shadow-md active:scale-95"
+        >
           <Flame className="h-4 w-4 text-orange" /> {state.streak} hari
-        </span>
+        </button>
       </div>
 
       {/* Komi + sapaan; badan Komi bisa disentuh (gesture) */}
@@ -80,6 +87,10 @@ export default function HubPage() {
       >
         <Shirt className="h-4 w-4" /> Dandanin Komi
       </Link>
+
+      <AnimatePresence>
+        {checkinOpen ? <CheckInPanel onClose={() => setCheckinOpen(false)} /> : null}
+      </AnimatePresence>
     </div>
   );
 }

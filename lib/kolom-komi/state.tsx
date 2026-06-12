@@ -10,6 +10,7 @@ import {
 import type { HasilAksi, KomiState, OutfitId } from "./types";
 import { cariOutfit } from "./items";
 import { cariFood } from "./foods";
+import { HADIAH_CHECKIN } from "./checkin";
 
 const STORAGE_KEY = "kolom-komi-v1";
 
@@ -35,6 +36,7 @@ function stateAwal(now: Date): KomiState {
     streak: 1,
     lastVisitISO: now.toISOString(),
     lastReadDates: {},
+    checkins: [],
   };
 }
 
@@ -50,6 +52,7 @@ function terapkanWaktuBerlalu(state: KomiState, now: Date): KomiState {
     mood: clamp(state.mood - jam * 1.5),
     update: clamp(state.update - jam * 2.5),
     energy: clamp((state.energy ?? 70) - jam * 1.8),
+    checkins: state.checkins ?? [],
     lastVisitISO: now.toISOString(),
   };
 
@@ -74,6 +77,7 @@ interface KomiContextValue {
   /** Tidurin Komi — pulihkan Energy. */
   tidurin: () => HasilAksi;
   bacaBerita: (beritaId: string) => HasilAksi;
+  claimCheckin: () => HasilAksi;
   beliItem: (id: OutfitId) => HasilAksi;
   pakaiItem: (id: OutfitId | null) => void;
   reset: () => void;
@@ -159,6 +163,31 @@ export function KolomKomiProvider({ children }: { children: ReactNode }) {
     return { sukses: true, pesan: "+22 Update, dapat 5 Koin Ikan! 🐟" };
   };
 
+  const claimCheckin = (): HasilAksi => {
+    if (!state) return { sukses: false };
+    const today = tanggalStr(new Date());
+    if (state.checkins.includes(today)) {
+      return { sukses: false, pesan: "Sudah check-in hari ini. Besok lagi ya! 🐟" };
+    }
+    const sudahBaca = Object.values(state.lastReadDates).includes(today);
+    if (!sudahBaca) {
+      return { sukses: false, pesan: "Baca minimal 1 berita dulu buat check-in hari ini." };
+    }
+    const pos = state.checkins.length % 7;
+    const hadiah = HADIAH_CHECKIN[pos];
+    setState((s) =>
+      s
+        ? {
+            ...s,
+            checkins: [...s.checkins, today],
+            koin: s.koin + hadiah,
+            mood: clamp(s.mood + 4),
+          }
+        : s
+    );
+    return { sukses: true, pesan: `Check-in Hari ke-${pos + 1}! +${hadiah} Koin Ikan 🐟` };
+  };
+
   const beliItem = (id: OutfitId): HasilAksi => {
     if (!state) return { sukses: false };
     const outfit = cariOutfit(id);
@@ -183,7 +212,17 @@ export function KolomKomiProvider({ children }: { children: ReactNode }) {
 
   return (
     <KomiContext.Provider
-      value={{ state, beriMakan, elus, tidurin, bacaBerita, beliItem, pakaiItem, reset }}
+      value={{
+        state,
+        beriMakan,
+        elus,
+        tidurin,
+        bacaBerita,
+        claimCheckin,
+        beliItem,
+        pakaiItem,
+        reset,
+      }}
     >
       {children}
     </KomiContext.Provider>

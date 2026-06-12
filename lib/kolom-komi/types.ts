@@ -23,6 +23,8 @@ export interface KomiState {
   lastVisitISO: string;
   /** Tanggal terakhir tiap berita dibaca: { [beritaId]: "YYYY-MM-DD" } */
   lastReadDates: Record<string, string>;
+  /** Tanggal-tanggal (YYYY-MM-DD) yang sudah check-in harian (klaim hadiah) */
+  checkins: string[];
 }
 
 /** Hasil sebuah aksi yang bisa gagal (mis. beli item, baca berita). */
