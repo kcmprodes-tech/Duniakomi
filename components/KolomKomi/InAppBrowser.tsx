@@ -1,20 +1,50 @@
 "use client";
 
+import { useEffect, useRef, useState, type UIEvent } from "react";
 import { motion } from "framer-motion";
 import { X, Lock, ExternalLink } from "lucide-react";
 import type { Berita } from "@/lib/kolom-komi/berita";
 
 // In-app browser (mockup) untuk "membuka" artikel Kompas.com.
-// Catatan: situs berita umumnya tidak bisa di-embed (X-Frame-Options),
-// jadi isi ditampilkan sebagai halaman artikel bergaya Kompas + tautan asli.
+// Ada bar progres baca; saat scroll sampai habis -> panggil onSelesai (sekali).
 export function InAppBrowser({
   berita,
   onClose,
+  onSelesai,
 }: {
   berita: Berita;
   onClose: () => void;
+  onSelesai?: () => void;
 }) {
   const tampilUrl = berita.url.replace(/^https?:\/\//, "");
+  const [progress, setProgress] = useState(0);
+  const selesaiRef = useRef(false);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const tandaiSelesai = () => {
+    if (selesaiRef.current) return;
+    selesaiRef.current = true;
+    onSelesai?.();
+  };
+
+  const handleScroll = (e: UIEvent<HTMLDivElement>) => {
+    const el = e.currentTarget;
+    const max = el.scrollHeight - el.clientHeight;
+    const p = max <= 0 ? 100 : Math.min(100, (el.scrollTop / max) * 100);
+    setProgress(p);
+    if (p >= 99) tandaiSelesai();
+  };
+
+  // Kalau artikel terlalu pendek untuk di-scroll, anggap selesai setelah sebentar.
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (el && el.scrollHeight <= el.clientHeight + 4) {
+      setProgress(100);
+      const t = setTimeout(tandaiSelesai, 1600);
+      return () => clearTimeout(t);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <motion.div
@@ -48,8 +78,16 @@ export function InAppBrowser({
         </a>
       </div>
 
+      {/* Bar progres baca */}
+      <div className="h-1 w-full shrink-0 bg-navy/10">
+        <div
+          className="h-full bg-orange transition-[width] duration-150 ease-out"
+          style={{ width: `${progress}%` }}
+        />
+      </div>
+
       {/* Isi artikel (mockup gaya Kompas.com) */}
-      <div className="flex-1 overflow-y-auto">
+      <div ref={scrollRef} onScroll={handleScroll} className="flex-1 overflow-y-auto">
         <div className="mx-auto max-w-2xl px-5 py-6">
           <p className="font-serif text-xl font-extrabold tracking-tight text-kompas">
             KOMPAS<span className="text-navy">.com</span>
@@ -63,7 +101,6 @@ export function InAppBrowser({
           </h1>
           <p className="mt-1 font-body text-xs text-gray-text">Tim Redaksi · Kompas.com</p>
 
-          {/* Placeholder gambar artikel */}
           <div className="mt-4 flex aspect-[16/9] items-center justify-center rounded-2xl bg-gradient-to-br from-kompas/10 to-orange/10 text-5xl">
             {berita.emoji}
           </div>
@@ -86,6 +123,11 @@ export function InAppBrowser({
 
           <p className="mt-4 font-body text-[11px] text-gray-text/70">
             Prototipe — artikel contoh. Tautan menuju Kompas.com.
+          </p>
+
+          {/* Penanda akhir artikel (memastikan ada ruang scroll) */}
+          <p className="mt-6 text-center font-body text-xs font-semibold text-navy/40">
+            — selesai —
           </p>
         </div>
       </div>

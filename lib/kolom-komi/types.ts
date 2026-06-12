@@ -32,3 +32,10 @@ export interface HasilAksi {
   sukses: boolean;
   pesan?: string;
 }
+
+/** Info untuk toast setelah selesai baca artikel. */
+export interface ToastInfo {
+  /** "checkin" = check-in harian pertama; "bonus" = poin artikel tambahan; "sudah" = sudah dibaca */
+  tipe: "checkin" | "bonus" | "sudah";
+  pesan: string;
+}

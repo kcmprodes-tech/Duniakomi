@@ -1,16 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import { useKolomKomi } from "@/lib/kolom-komi/state";
 import { BERITA, type Berita } from "@/lib/kolom-komi/berita";
 import { cariOutfit } from "@/lib/kolom-komi/items";
+import type { ToastInfo } from "@/lib/kolom-komi/types";
 import { ScreenHeader } from "@/components/KolomKomi/ScreenHeader";
 import { KomiCharacter } from "@/components/KolomKomi/KomiCharacter";
 import { StatusBars } from "@/components/KolomKomi/StatusBars";
 import { SpeechBubble } from "@/components/KolomKomi/SpeechBubble";
 import { KoinBadge } from "@/components/KolomKomi/KoinBadge";
 import { InAppBrowser } from "@/components/KolomKomi/InAppBrowser";
+import { Toast } from "@/components/KolomKomi/Toast";
 import { Loader } from "@/components/KolomKomi/Loader";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
@@ -23,20 +25,28 @@ function todayStr(): string {
 }
 
 export default function BacaPage() {
-  const { state, bacaBerita } = useKolomKomi();
+  const { state, selesaiBaca } = useKolomKomi();
   const [pesan, setPesan] = useState("Yuk baca berita bareng, biar makin update! 📰");
   const [aktif, setAktif] = useState<Berita | null>(null);
+  const [toast, setToast] = useState<ToastInfo | null>(null);
+
+  // Toast hilang otomatis setelah beberapa detik.
+  useEffect(() => {
+    if (!toast) return;
+    const t = setTimeout(() => setToast(null), 3800);
+    return () => clearTimeout(t);
+  }, [toast]);
 
   if (!state) return <Loader />;
 
   const equipped = state.equippedItem ? cariOutfit(state.equippedItem) : undefined;
   const today = todayStr();
 
-  // Buka in-app browser + beri reward (sekali per hari).
-  const buka = (b: Berita) => {
-    setAktif(b);
-    const r = bacaBerita(b.id);
-    setPesan(r.sukses ? b.komiSays : r.pesan ?? "");
+  // Selesai baca (scroll sampai habis) → reward + toast.
+  const selesai = (b: Berita) => {
+    const info = selesaiBaca(b.id);
+    if (info.pesan) setToast(info);
+    setPesan(b.komiSays);
   };
 
   return (
@@ -50,7 +60,7 @@ export default function BacaPage() {
 
       <div className="flex items-center justify-between">
         <span className="font-body text-xs font-semibold text-navy/70">
-          Baca → +Update & dapat 🐟
+          Baca sampai habis → check-in & dapat 🐟
         </span>
         <KoinBadge koin={state.koin} />
       </div>
@@ -70,11 +80,11 @@ export default function BacaPage() {
                 </h3>
                 <p className="mt-0.5 font-body text-xs text-gray-text">{b.ringkasan}</p>
                 <Button
-                  onClick={() => buka(b)}
+                  onClick={() => setAktif(b)}
                   variant={sudah ? "outline" : "primary"}
                   className="mt-2 px-4 py-1.5 text-xs"
                 >
-                  {sudah ? "Baca lagi" : "Baca (+22 Update)"}
+                  {sudah ? "Baca lagi" : "Baca artikel"}
                 </Button>
               </div>
             </Card>
@@ -91,10 +101,18 @@ export default function BacaPage() {
         />
       </Card>
 
-      {/* In-app browser membuka "halaman Kompas.com" */}
+      {/* In-app browser + toast */}
       <AnimatePresence>
-        {aktif ? <InAppBrowser berita={aktif} onClose={() => setAktif(null)} /> : null}
+        {aktif ? (
+          <InAppBrowser
+            key={aktif.id}
+            berita={aktif}
+            onClose={() => setAktif(null)}
+            onSelesai={() => selesai(aktif)}
+          />
+        ) : null}
       </AnimatePresence>
+      <AnimatePresence>{toast ? <Toast info={toast} /> : null}</AnimatePresence>
     </div>
   );
 }

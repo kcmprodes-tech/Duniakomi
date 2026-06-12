@@ -7,7 +7,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import type { HasilAksi, KomiState, OutfitId } from "./types";
+import type { HasilAksi, KomiState, OutfitId, ToastInfo } from "./types";
 import { cariOutfit } from "./items";
 import { cariFood } from "./foods";
 import { HADIAH_CHECKIN } from "./checkin";
@@ -77,6 +77,9 @@ interface KomiContextValue {
   /** Tidurin Komi — pulihkan Energy. */
   tidurin: () => HasilAksi;
   bacaBerita: (beritaId: string) => HasilAksi;
+  /** Dipanggil saat user selesai baca artikel (scroll sampai habis di in-app browser).
+   *  Memberi reward artikel + auto check-in harian (kalau belum), lalu kembalikan info toast. */
+  selesaiBaca: (beritaId: string) => ToastInfo;
   claimCheckin: () => HasilAksi;
   beliItem: (id: OutfitId) => HasilAksi;
   pakaiItem: (id: OutfitId | null) => void;
@@ -188,6 +191,52 @@ export function KolomKomiProvider({ children }: { children: ReactNode }) {
     return { sukses: true, pesan: `Check-in Hari ke-${pos + 1}! +${hadiah} Koin Ikan 🐟` };
   };
 
+  const selesaiBaca = (beritaId: string): ToastInfo => {
+    if (!state) return { tipe: "sudah", pesan: "" };
+    const today = tanggalStr(new Date());
+    const sudahArtikel = state.lastReadDates[beritaId] === today;
+    const sudahCheckin = state.checkins.includes(today);
+
+    let info: ToastInfo;
+    if (!sudahCheckin) {
+      const pos = state.checkins.length % 7;
+      const koinTotal = HADIAH_CHECKIN[pos] + (sudahArtikel ? 0 : 5);
+      info = {
+        tipe: "checkin",
+        pesan: `Daily check-in Hari ke-${pos + 1} berhasil! +${koinTotal} Koin Ikan 🔥`,
+      };
+    } else if (!sudahArtikel) {
+      info = { tipe: "bonus", pesan: "Mantap, +22 Update & +5 Koin Ikan! 🐟" };
+    } else {
+      info = { tipe: "sudah", pesan: "Artikel ini sudah kamu baca hari ini 😉" };
+    }
+
+    setState((s) => {
+      if (!s) return s;
+      let next = s;
+      if (!sudahArtikel) {
+        next = {
+          ...next,
+          update: clamp(next.update + 22),
+          koin: next.koin + 5,
+          lastReadDates: { ...next.lastReadDates, [beritaId]: today },
+        };
+      }
+      if (!sudahCheckin) {
+        const pos = next.checkins.length % 7;
+        next = {
+          ...next,
+          checkins: [...next.checkins, today],
+          koin: next.koin + HADIAH_CHECKIN[pos],
+          mood: clamp(next.mood + 4),
+        };
+      }
+      return next;
+    });
+
+    return info;
+  };
+
   const beliItem = (id: OutfitId): HasilAksi => {
     if (!state) return { sukses: false };
     const outfit = cariOutfit(id);
@@ -218,6 +267,7 @@ export function KolomKomiProvider({ children }: { children: ReactNode }) {
         elus,
         tidurin,
         bacaBerita,
+        selesaiBaca,
         claimCheckin,
         beliItem,
         pakaiItem,
