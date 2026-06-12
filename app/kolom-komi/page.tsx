@@ -123,7 +123,7 @@ export default function HubPage() {
       </div>
 
       {/* Komi di tengah (diam, melambai tiap 5 detik, bisa di-sentuh) */}
-      <div className="absolute bottom-[10%] left-1/2 z-0 -translate-x-1/2 -translate-y-[40px]">
+      <div className="absolute bottom-[10%] left-1/2 z-0 -translate-x-1/2 -translate-y-[70px]">
         <KomiWave size={378} accessory={equipped?.emoji} onReaksi={setPesan} />
       </div>
 
@@ -142,7 +142,7 @@ export default function HubPage() {
       </AnimatePresence>
 
       {/* 5 tombol aksi (bawah) */}
-      <div className="absolute bottom-3 left-1/2 z-20 flex -translate-x-1/2 items-center gap-2">
+      <div className="absolute bottom-3 left-1/2 z-20 flex -translate-x-1/2 -translate-y-[30px] items-center gap-2">
         {AKSI.map((a) => (
           <Link
             key={a.href}
