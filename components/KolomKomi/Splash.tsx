@@ -40,7 +40,7 @@ export function Splash({ onDone }: { onDone: () => void }) {
       </motion.div>
 
       {/* Komi sedang mancing (diam, ukuran +30%) */}
-      <div className="absolute bottom-[18%] left-1/2 h-[78%] w-[96%] -translate-x-1/2">
+      <div className="absolute bottom-[18%] left-1/2 h-[78%] w-[96%] -translate-x-1/2 translate-y-[100px]">
         <Image
           src={KOMI_IMG.mancing}
           alt="Komi mancing"
