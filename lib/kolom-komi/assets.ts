@@ -9,4 +9,10 @@ export const KOMI_IMG = {
   room: "/komi/room.png",
   /** Logo "Kolom Komi" */
   logo: "/komi/logo-kolom-komi.png",
+  /** Cover mancing: latar kolam */
+  coverBg: "/komi/cover-bg.png",
+  /** Cover mancing: Komi sedang mancing (transparan) */
+  mancing: "/komi/komi-mancing.png",
+  /** Logo KOMPAS.com versi putih */
+  kompasPutih: "/komi/kompas-putih.png",
 };

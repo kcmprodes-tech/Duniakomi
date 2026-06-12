@@ -5,11 +5,11 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { KOMI_IMG } from "@/lib/kolom-komi/assets";
 
-// Layar cover + loading sebelum masuk game. Bar loading beranimasi,
-// lalu memanggil onDone untuk masuk ke game.
+// Layar cover + loading (tema mancing) sebelum masuk game.
+// Layer: latar kolam + logo + Komi mancing + bar loading beranimasi + logo KOMPAS.
 export function Splash({ onDone }: { onDone: () => void }) {
   useEffect(() => {
-    const t = setTimeout(onDone, 2400);
+    const t = setTimeout(onDone, 2600);
     return () => clearTimeout(t);
   }, [onDone]);
 
@@ -19,59 +19,64 @@ export function Splash({ onDone }: { onDone: () => void }) {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.4 }}
     >
-      {/* Latar ruangan (menutupi game di belakang) */}
-      <Image src={KOMI_IMG.room} alt="" fill priority sizes="460px" className="object-cover" />
-      <div className="absolute inset-0 bg-gradient-to-b from-white/10 via-transparent to-cream/50" />
+      {/* Latar kolam */}
+      <Image src={KOMI_IMG.coverBg} alt="" fill priority sizes="460px" className="object-cover" />
 
-      {/* Isi splash */}
-      <div className="relative flex h-full flex-col items-center justify-between px-8 py-12">
-        {/* Logo Kolom Komi */}
-        <motion.div
-          initial={{ opacity: 0, y: -16, scale: 0.9 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-          className="relative mt-4 h-28 w-60"
-        >
-          <Image
-            src={KOMI_IMG.logo}
-            alt="Kolom Komi"
-            fill
-            priority
-            sizes="260px"
-            className="object-contain drop-shadow-lg"
+      {/* Logo Kolom Komi */}
+      <motion.div
+        initial={{ opacity: 0, y: -16, scale: 0.92 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className="absolute left-1/2 top-[3%] h-[17%] w-[66%] -translate-x-1/2"
+      >
+        <Image
+          src={KOMI_IMG.logo}
+          alt="Kolom Komi"
+          fill
+          priority
+          sizes="320px"
+          className="object-contain drop-shadow-lg"
+        />
+      </motion.div>
+
+      {/* Komi sedang mancing */}
+      <motion.div
+        animate={{ y: [0, -7, 0] }}
+        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute bottom-[18%] left-1/2 h-[60%] w-[92%] -translate-x-1/2"
+      >
+        <Image
+          src={KOMI_IMG.mancing}
+          alt="Komi mancing"
+          fill
+          priority
+          sizes="420px"
+          className="object-contain object-bottom drop-shadow-xl"
+        />
+      </motion.div>
+
+      {/* Bar loading */}
+      <div className="absolute bottom-[11.5%] left-1/2 w-[62%] -translate-x-1/2">
+        <div className="h-4 w-full overflow-hidden rounded-full border-[3px] border-[#7c4f2a] bg-[#caa06f] p-[2px] shadow-inner">
+          <motion.div
+            initial={{ width: "6%" }}
+            animate={{ width: "100%" }}
+            transition={{ duration: 2.3, ease: "easeInOut" }}
+            className="h-full rounded-full bg-gradient-to-b from-[#b6e85f] to-[#5da82c]"
           />
-        </motion.div>
-
-        {/* Karakter Komi */}
-        <motion.div
-          animate={{ y: [0, -12, 0] }}
-          transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
-          className="relative h-[280px] w-[280px]"
-        >
-          <Image
-            src={KOMI_IMG.base}
-            alt="Komi"
-            fill
-            priority
-            sizes="320px"
-            className="object-contain drop-shadow-2xl"
-          />
-        </motion.div>
-
-        {/* Bar loading + KOMPAS.com */}
-        <div className="flex w-full flex-col items-center gap-4">
-          <div className="h-4 w-64 max-w-full overflow-hidden rounded-full border-2 border-navy/15 bg-white/70 p-[3px] shadow-inner">
-            <motion.div
-              initial={{ width: "8%" }}
-              animate={{ width: "100%" }}
-              transition={{ duration: 2.1, ease: "easeInOut" }}
-              className="h-full rounded-full bg-gradient-to-r from-green-400 to-green-500"
-            />
-          </div>
-          <p className="font-serif text-lg italic tracking-wide text-navy">
-            <span className="font-bold not-italic">KOMPAS</span>.com
-          </p>
         </div>
+      </div>
+
+      {/* Logo KOMPAS.com (putih) */}
+      <div className="absolute bottom-[4.5%] left-1/2 h-[4.5%] w-[46%] -translate-x-1/2">
+        <Image
+          src={KOMI_IMG.kompasPutih}
+          alt="KOMPAS.com"
+          fill
+          priority
+          sizes="220px"
+          className="object-contain drop-shadow"
+        />
       </div>
     </motion.div>
   );
