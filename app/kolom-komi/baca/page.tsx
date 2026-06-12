@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { AnimatePresence } from "framer-motion";
 import { useKolomKomi } from "@/lib/kolom-komi/state";
 import { BERITA, type Berita } from "@/lib/kolom-komi/berita";
 import { cariOutfit } from "@/lib/kolom-komi/items";
@@ -9,6 +10,7 @@ import { KomiCharacter } from "@/components/KolomKomi/KomiCharacter";
 import { StatusBars } from "@/components/KolomKomi/StatusBars";
 import { SpeechBubble } from "@/components/KolomKomi/SpeechBubble";
 import { KoinBadge } from "@/components/KolomKomi/KoinBadge";
+import { InAppBrowser } from "@/components/KolomKomi/InAppBrowser";
 import { Loader } from "@/components/KolomKomi/Loader";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
@@ -23,13 +25,16 @@ function todayStr(): string {
 export default function BacaPage() {
   const { state, bacaBerita } = useKolomKomi();
   const [pesan, setPesan] = useState("Yuk baca berita bareng, biar makin update! 📰");
+  const [aktif, setAktif] = useState<Berita | null>(null);
 
   if (!state) return <Loader />;
 
   const equipped = state.equippedItem ? cariOutfit(state.equippedItem) : undefined;
   const today = todayStr();
 
-  const handle = (b: Berita) => {
+  // Buka in-app browser + beri reward (sekali per hari).
+  const buka = (b: Berita) => {
+    setAktif(b);
     const r = bacaBerita(b.id);
     setPesan(r.sukses ? b.komiSays : r.pesan ?? "");
   };
@@ -65,12 +70,11 @@ export default function BacaPage() {
                 </h3>
                 <p className="mt-0.5 font-body text-xs text-gray-text">{b.ringkasan}</p>
                 <Button
-                  onClick={() => handle(b)}
-                  disabled={sudah}
+                  onClick={() => buka(b)}
                   variant={sudah ? "outline" : "primary"}
                   className="mt-2 px-4 py-1.5 text-xs"
                 >
-                  {sudah ? "✓ Sudah dibaca hari ini" : "Baca (+22 Update)"}
+                  {sudah ? "Baca lagi" : "Baca (+22 Update)"}
                 </Button>
               </div>
             </Card>
@@ -86,6 +90,11 @@ export default function BacaPage() {
           update={state.update}
         />
       </Card>
+
+      {/* In-app browser membuka "halaman Kompas.com" */}
+      <AnimatePresence>
+        {aktif ? <InAppBrowser berita={aktif} onClose={() => setAktif(null)} /> : null}
+      </AnimatePresence>
     </div>
   );
 }
