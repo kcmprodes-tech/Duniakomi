@@ -8,7 +8,7 @@ import { Star, CalendarCheck, Utensils, Smile, Zap, Newspaper } from "lucide-rea
 import { useKolomKomi } from "@/lib/kolom-komi/state";
 import { cariOutfit } from "@/lib/kolom-komi/items";
 import { KOMI_IMG } from "@/lib/kolom-komi/assets";
-import { GestureLayer } from "@/components/KolomKomi/GestureLayer";
+import { KomiWave } from "@/components/KolomKomi/KomiWave";
 import { CheckInPanel } from "@/components/KolomKomi/CheckInPanel";
 import { Loader } from "@/components/KolomKomi/Loader";
 
@@ -122,9 +122,9 @@ export default function HubPage() {
         </button>
       </div>
 
-      {/* Komi di tengah (bisa di-sentuh) */}
-      <div className="absolute bottom-[13%] left-1/2 z-0 -translate-x-1/2">
-        <GestureLayer size={236} accessory={equipped?.emoji} onReaksi={setPesan} />
+      {/* Komi di tengah (diam, melambai tiap 5 detik, bisa di-sentuh) */}
+      <div className="absolute bottom-[10%] left-1/2 z-0 -translate-x-1/2">
+        <KomiWave size={378} accessory={equipped?.emoji} onReaksi={setPesan} />
       </div>
 
       {/* Balon reaksi sementara */}
