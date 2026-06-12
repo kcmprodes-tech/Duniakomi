@@ -142,7 +142,7 @@ export default function HubPage() {
       </AnimatePresence>
 
       {/* 5 tombol aksi (bawah) */}
-      <div className="absolute bottom-3 left-1/2 z-20 flex -translate-x-1/2 items-center gap-2.5">
+      <div className="absolute bottom-3 left-1/2 z-20 flex -translate-x-1/2 items-center gap-2">
         {AKSI.map((a) => (
           <Link
             key={a.href}
@@ -152,7 +152,7 @@ export default function HubPage() {
               a.href === "/kolom-komi/tidur" && energyLow ? "animate-pulse" : ""
             }`}
           >
-            <Image src={a.src} alt={a.label} width={58} height={58} className="drop-shadow-md" />
+            <Image src={a.src} alt={a.label} width={60} height={60} className="drop-shadow-md" />
           </Link>
         ))}
       </div>
