@@ -22,12 +22,11 @@ export function KomiCharacter({
   mood = "bob",
   className,
 }: Props) {
+  // Tanpa scale "balon". Idle diam; hanya "happy" yang sedikit hidup (geser + miring tipis).
   const anim =
-    mood === "none"
-      ? undefined
-      : mood === "happy"
-        ? { scale: [1, 1.05, 1], y: [0, -6, 0], rotate: [0, -1.5, 1.5, 0] }
-        : { scale: [1, 1.03, 1], y: [0, -3, 0] };
+    mood === "happy"
+      ? { y: [0, -6, 0], rotate: [0, -1.5, 1.5, 0] }
+      : undefined;
 
   return (
     <motion.div

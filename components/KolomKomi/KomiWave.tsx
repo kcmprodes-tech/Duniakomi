@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
 import { useKolomKomi } from "@/lib/kolom-komi/state";
 import { REAKSI, type AreaKomi } from "@/lib/kolom-komi/reactions";
 
@@ -68,13 +67,8 @@ export function KomiWave({
   };
 
   return (
-    // Napas halus terus-menerus (scale + naik-turun tipis dari kaki) → terasa hidup.
-    <motion.div
-      className="relative"
-      style={{ width: size, height: size, transformOrigin: "bottom center" }}
-      animate={{ scale: [1, 1.025, 1], y: [0, -3, 0] }}
-      transition={{ duration: 3.6, repeat: Infinity, ease: "easeInOut" }}
-    >
+    // Diam (tanpa scale "balon"); kehidupan datang dari lambaian frame berkala.
+    <div className="relative" style={{ width: size, height: size }}>
       {FRAMES.map((src, i) => (
         <Image
           key={i}
@@ -105,6 +99,6 @@ export function KomiWave({
           className={`absolute ${z.className} cursor-pointer rounded-full`}
         />
       ))}
-    </motion.div>
+    </div>
   );
 }
