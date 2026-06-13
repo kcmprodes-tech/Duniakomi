@@ -26,15 +26,15 @@ export function KomiCharacter({
     mood === "none"
       ? undefined
       : mood === "happy"
-        ? { y: [0, -18, 0], rotate: [0, -3, 3, 0] }
-        : { y: [0, -12, 0] };
+        ? { scale: [1, 1.05, 1], y: [0, -6, 0], rotate: [0, -1.5, 1.5, 0] }
+        : { scale: [1, 1.03, 1], y: [0, -3, 0] };
 
   return (
     <motion.div
       className={cn("relative", className)}
-      style={{ width: size, height: size }}
+      style={{ width: size, height: size, transformOrigin: "bottom center" }}
       animate={anim}
-      transition={{ duration: mood === "happy" ? 1.1 : 2.4, repeat: Infinity, ease: "easeInOut" }}
+      transition={{ duration: mood === "happy" ? 1.8 : 3.4, repeat: Infinity, ease: "easeInOut" }}
     >
       <Image
         src={src}

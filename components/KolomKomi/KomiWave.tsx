@@ -2,11 +2,15 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import { useKolomKomi } from "@/lib/kolom-komi/state";
 import { REAKSI, type AreaKomi } from "@/lib/kolom-komi/reactions";
 
 // Frame melambai dari folder spritsheet_lambai (1.png = diam, 3.png = puncak lambai, 6.png = balik diam).
 const FRAMES = [1, 2, 3, 4, 5, 6].map((n) => `/komi/spritsheet_lambai/${n}.png`);
+
+// Urutan lambaian yang lebih natural: angkat → kibas cakar (wiggle) → turun.
+const WAVE_SEQ = [0, 1, 2, 3, 2, 3, 4, 5];
 
 // Zona tap di atas Komi (perkiraan posisi pada pose berdiri).
 const ZONES: { id: AreaKomi; className: string }[] = [
@@ -26,9 +30,9 @@ export function KomiWave({
   onReaksi?: (teks: string) => void;
 }) {
   const { elus } = useKolomKomi();
-  const [frame, setFrame] = useState(0); // 0 = diam (frame 1)
+  const [frame, setFrame] = useState(0);
 
-  // Diam; tiap 5 detik mainkan satu lambaian (frame 1→6) lalu kembali diam.
+  // Idle diam; tiap beberapa detik mainkan satu lambaian lalu kembali diam.
   useEffect(() => {
     let mounted = true;
     let stepT: ReturnType<typeof setTimeout>;
@@ -38,19 +42,19 @@ export function KomiWave({
       let i = 0;
       const run = () => {
         if (!mounted) return;
-        if (i < FRAMES.length) {
-          setFrame(i);
+        if (i < WAVE_SEQ.length) {
+          setFrame(WAVE_SEQ[i]);
           i += 1;
-          stepT = setTimeout(run, 110);
+          stepT = setTimeout(run, 120);
         } else {
-          setFrame(0); // kembali ke pose diam
-          loopT = setTimeout(lambai, 5000);
+          setFrame(0);
+          loopT = setTimeout(lambai, 6000);
         }
       };
       run();
     };
 
-    loopT = setTimeout(lambai, 5000); // lambaian pertama setelah 5 detik idle
+    loopT = setTimeout(lambai, 4000);
     return () => {
       mounted = false;
       clearTimeout(stepT);
@@ -64,8 +68,13 @@ export function KomiWave({
   };
 
   return (
-    <div className="relative" style={{ width: size, height: size }}>
-      {/* Semua frame ditumpuk (preload); hanya frame aktif yang terlihat */}
+    // Napas halus terus-menerus (scale + naik-turun tipis dari kaki) → terasa hidup.
+    <motion.div
+      className="relative"
+      style={{ width: size, height: size, transformOrigin: "bottom center" }}
+      animate={{ scale: [1, 1.025, 1], y: [0, -3, 0] }}
+      transition={{ duration: 3.6, repeat: Infinity, ease: "easeInOut" }}
+    >
       {FRAMES.map((src, i) => (
         <Image
           key={i}
@@ -87,7 +96,6 @@ export function KomiWave({
         </span>
       ) : null}
 
-      {/* Zona sentuh */}
       {ZONES.map((z) => (
         <button
           key={z.id}
@@ -97,6 +105,6 @@ export function KomiWave({
           className={`absolute ${z.className} cursor-pointer rounded-full`}
         />
       ))}
-    </div>
+    </motion.div>
   );
 }
