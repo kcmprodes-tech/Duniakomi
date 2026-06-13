@@ -11,7 +11,7 @@ import {
   sudahCheckinHariIni,
   indexSiklus,
 } from "@/lib/kolom-komi/checkin";
-import { Button } from "@/components/ui/Button";
+import { GameButton } from "@/components/ui/kit";
 import { cn } from "@/lib/utils";
 
 export function CheckInPanel({ onClose }: { onClose: () => void }) {
@@ -96,18 +96,18 @@ export function CheckInPanel({ onClose }: { onClose: () => void }) {
               ✓ Sudah check-in hari ini. Sampai jumpa besok! 🐟
             </p>
           ) : sudahBaca ? (
-            <Button onClick={claim} className="w-full py-3 text-base">
+            <GameButton variant="success" onClick={claim} className="w-full">
               🐟 Klaim Hari ke-{target + 1} (+{HADIAH_CHECKIN[target]} Koin)
-            </Button>
+            </GameButton>
           ) : (
             <div className="flex flex-col gap-2">
               <p className="text-center font-body text-sm text-gray-text">
                 Baca minimal 1 berita dulu buat check-in hari ini.
               </p>
               <Link href="/kolom-komi/baca" onClick={onClose}>
-                <Button variant="outline" className="w-full py-2.5">
+                <GameButton variant="info" className="w-full">
                   📰 Baca Bareng dulu
-                </Button>
+                </GameButton>
               </Link>
             </div>
           )}

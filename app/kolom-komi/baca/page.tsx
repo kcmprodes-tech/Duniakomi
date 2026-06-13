@@ -15,7 +15,7 @@ import { InAppBrowser } from "@/components/KolomKomi/InAppBrowser";
 import { Toast } from "@/components/KolomKomi/Toast";
 import { Loader } from "@/components/KolomKomi/Loader";
 import { Card } from "@/components/ui/Card";
-import { Button } from "@/components/ui/Button";
+import { GameButton } from "@/components/ui/kit";
 
 function todayStr(): string {
   const d = new Date();
@@ -79,13 +79,14 @@ export default function BacaPage() {
                   {b.judul}
                 </h3>
                 <p className="mt-0.5 font-body text-xs text-gray-text">{b.ringkasan}</p>
-                <Button
+                <GameButton
                   onClick={() => setAktif(b)}
-                  variant={sudah ? "outline" : "primary"}
-                  className="mt-2 px-4 py-1.5 text-xs"
+                  variant={sudah ? "secondary" : "primary"}
+                  size="sm"
+                  className="mt-2"
                 >
                   {sudah ? "Baca lagi" : "Baca artikel"}
-                </Button>
+                </GameButton>
               </div>
             </Card>
           );

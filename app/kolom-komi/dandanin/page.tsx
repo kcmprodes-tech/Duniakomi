@@ -9,7 +9,7 @@ import { SpeechBubble } from "@/components/KolomKomi/SpeechBubble";
 import { KoinBadge } from "@/components/KolomKomi/KoinBadge";
 import { Loader } from "@/components/KolomKomi/Loader";
 import { Card } from "@/components/ui/Card";
-import { Button } from "@/components/ui/Button";
+import { GameButton } from "@/components/ui/kit";
 
 export default function DandaninPage() {
   const { state, beliItem, pakaiItem } = useKolomKomi();
@@ -54,21 +54,27 @@ export default function DandaninPage() {
               <p className="font-body text-[11px] leading-snug text-gray-text">{o.deskripsi}</p>
 
               {o.comingSoon ? (
-                <Button variant="outline" disabled className="mt-1 w-full text-xs">
+                <GameButton variant="secondary" disabled size="sm" className="mt-1 w-full">
                   Coming Soon
-                </Button>
+                </GameButton>
               ) : owned ? (
-                <Button
-                  variant={dipakai ? "secondary" : "outline"}
-                  className="mt-1 w-full text-xs"
+                <GameButton
+                  variant={dipakai ? "secondary" : "success"}
+                  size="sm"
+                  className="mt-1 w-full"
                   onClick={() => pakai(o.id)}
                 >
                   {dipakai ? "✓ Dipakai" : "Pakai"}
-                </Button>
+                </GameButton>
               ) : (
-                <Button className="mt-1 w-full text-xs" onClick={() => beli(o.id)}>
+                <GameButton
+                  variant="primary"
+                  size="sm"
+                  className="mt-1 w-full"
+                  onClick={() => beli(o.id)}
+                >
                   Beli · {o.harga} 🐟
-                </Button>
+                </GameButton>
               )}
             </Card>
           );

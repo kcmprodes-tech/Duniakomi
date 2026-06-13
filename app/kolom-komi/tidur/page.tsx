@@ -10,7 +10,7 @@ import { StatusBars } from "@/components/KolomKomi/StatusBars";
 import { SpeechBubble } from "@/components/KolomKomi/SpeechBubble";
 import { Loader } from "@/components/KolomKomi/Loader";
 import { Card } from "@/components/ui/Card";
-import { Button } from "@/components/ui/Button";
+import { GameButton } from "@/components/ui/kit";
 
 export default function TidurPage() {
   const { state, tidurin } = useKolomKomi();
@@ -53,9 +53,9 @@ export default function TidurPage() {
         />
       </Card>
 
-      <Button onClick={handle} className="w-full py-3 text-base">
+      <GameButton onClick={handle} className="w-full">
         🛏️ Tidurin Komi
-      </Button>
+      </GameButton>
     </div>
   );
 }
