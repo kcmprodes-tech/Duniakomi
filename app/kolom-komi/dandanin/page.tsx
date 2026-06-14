@@ -9,6 +9,7 @@ import { SpeechBubble } from "@/components/KolomKomi/SpeechBubble";
 import { Loader } from "@/components/KolomKomi/Loader";
 import { Card } from "@/components/ui/Card";
 import { Badge, GameButton } from "@/components/ui/kit";
+import { KoinIcon } from "@/components/KolomKomi/KoinIcon";
 
 export default function DandaninPage() {
   const { state, beliItem, pakaiItem } = useKolomKomi();
@@ -69,7 +70,7 @@ export default function DandaninPage() {
                   className="mt-1 w-full"
                   onClick={() => beli(o.id)}
                 >
-                  Beli · {o.harga} 🪙
+                  Beli · {o.harga} <KoinIcon size={14} />
                 </GameButton>
               )}
             </Card>

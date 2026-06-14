@@ -5,6 +5,7 @@ import { useKolomKomi } from "@/lib/kolom-komi/state";
 import { ActionScreen } from "@/components/KolomKomi/ActionScreen";
 import { Loader } from "@/components/KolomKomi/Loader";
 import { GameButton, Panel } from "@/components/ui/kit";
+import { KoinIcon } from "@/components/KolomKomi/KoinIcon";
 
 // Cara mendapatkan Koin (selaras dengan logika di lib/kolom-komi/state.tsx).
 const CARA = [
@@ -38,7 +39,7 @@ export default function PoinPage() {
     <ActionScreen title="Koin" koin={state.koin}>
       {/* Total koin + ringkasan diperoleh/dibelanjakan */}
       <Panel className="flex flex-col items-center gap-1 text-center">
-        <span className="text-5xl">🪙</span>
+        <KoinIcon size={48} />
         <p className="font-display text-5xl font-extrabold text-orange [text-shadow:0_2px_0_rgba(0,0,0,0.1)]">
           {state.koin}
         </p>
@@ -48,14 +49,14 @@ export default function PoinPage() {
         <div className="mt-3 flex w-full gap-2">
           <div className="flex-1 rounded-2xl bg-white/70 py-2">
             <p className="font-body text-[11px] font-semibold text-gray-text">Diperoleh</p>
-            <p className="font-display text-lg font-extrabold" style={{ color: "#4ea62e" }}>
-              +{state.totalDapat ?? 0} 🪙
+            <p className="flex items-center justify-center gap-1 font-display text-lg font-extrabold" style={{ color: "#4ea62e" }}>
+              +{state.totalDapat ?? 0} <KoinIcon size={15} />
             </p>
           </div>
           <div className="flex-1 rounded-2xl bg-white/70 py-2">
             <p className="font-body text-[11px] font-semibold text-gray-text">Dibelanjakan</p>
-            <p className="font-display text-lg font-extrabold" style={{ color: "#e03131" }}>
-              −{state.totalBelanja ?? 0} 🪙
+            <p className="flex items-center justify-center gap-1 font-display text-lg font-extrabold" style={{ color: "#e03131" }}>
+              −{state.totalBelanja ?? 0} <KoinIcon size={15} />
             </p>
           </div>
         </div>
@@ -67,7 +68,7 @@ export default function PoinPage() {
       <Panel title="Riwayat">
         {riwayat.length === 0 ? (
           <p className="py-2 text-center font-body text-sm text-gray-text">
-            Belum ada transaksi. Yuk baca berita atau main game! 🪙
+            Belum ada transaksi. Yuk baca berita atau main game!
           </p>
         ) : (
           <div className="flex flex-col divide-y divide-navy/5">
@@ -78,10 +79,10 @@ export default function PoinPage() {
                   <p className="font-body text-[11px] text-gray-text">{fmtWaktu(r.t)}</p>
                 </div>
                 <span
-                  className="shrink-0 font-display text-sm font-extrabold"
+                  className="inline-flex shrink-0 items-center gap-1 font-display text-sm font-extrabold"
                   style={{ color: r.jumlah > 0 ? "#4ea62e" : "#e03131" }}
                 >
-                  {r.jumlah > 0 ? `+${r.jumlah}` : r.jumlah} 🪙
+                  {r.jumlah > 0 ? `+${r.jumlah}` : r.jumlah} <KoinIcon size={14} />
                 </span>
               </div>
             ))}

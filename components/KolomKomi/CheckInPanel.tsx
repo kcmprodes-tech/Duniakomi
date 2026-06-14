@@ -13,6 +13,7 @@ import {
 } from "@/lib/kolom-komi/checkin";
 import { GameButton } from "@/components/ui/kit";
 import { cn } from "@/lib/utils";
+import { KoinIcon } from "./KoinIcon";
 
 export function CheckInPanel({ onClose }: { onClose: () => void }) {
   const { state, claimCheckin } = useKolomKomi();
@@ -80,7 +81,7 @@ export function CheckInPanel({ onClose }: { onClose: () => void }) {
                   <Check className="h-4 w-4 text-emerald-500" />
                 ) : (
                   <span className={isJackpot ? "text-base" : "text-sm"}>
-                    {isJackpot ? "🎁" : "🪙"}
+                    {isJackpot ? "🎁" : <KoinIcon size={16} />}
                   </span>
                 )}
                 <span className="font-body text-[9px] font-bold text-navy/70">{h}</span>
@@ -93,11 +94,11 @@ export function CheckInPanel({ onClose }: { onClose: () => void }) {
         <div className="mt-4">
           {sudahCheckin ? (
             <p className="rounded-2xl bg-emerald-50 px-4 py-3 text-center font-body text-sm font-semibold text-emerald-600">
-              ✓ Sudah check-in hari ini. Sampai jumpa besok! 🪙
+              ✓ Sudah check-in hari ini. Sampai jumpa besok!
             </p>
           ) : sudahBaca ? (
             <GameButton variant="success" onClick={claim} className="w-full">
-              🪙 Klaim Hari ke-{target + 1} (+{HADIAH_CHECKIN[target]} Koin)
+              <KoinIcon size={16} /> Klaim Hari ke-{target + 1} (+{HADIAH_CHECKIN[target]} Koin)
             </GameButton>
           ) : (
             <div className="flex flex-col gap-2">

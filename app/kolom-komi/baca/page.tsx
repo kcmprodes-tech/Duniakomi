@@ -55,7 +55,7 @@ export default function BacaPage() {
       </div>
 
       <p className="font-body text-xs font-semibold text-navy/70">
-        Baca sampai habis → check-in harian & dapat Koin 🪙
+        Baca sampai habis → check-in harian & dapat Koin
       </p>
 
       <div className="flex flex-col gap-3">

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import type { ReactNode } from "react";
+import { KoinIcon } from "./KoinIcon";
 
 // Shell seragam untuk semua layar aksi Kolom Komi:
 // header glossy (tombol kembali + judul + counter Koin) + area konten.
@@ -32,7 +33,7 @@ export function ActionScreen({
         </h1>
         {koin != null ? (
           <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border-2 border-[#e6951b] bg-gradient-to-b from-[#ffd34d] to-[#ffb01f] px-3 py-1 shadow-md">
-            <span className="text-base leading-none">🪙</span>
+            <KoinIcon size={18} />
             <span className="font-display text-base font-extrabold leading-none text-white [text-shadow:0_1px_0_#d98512]">
               {koin}
             </span>

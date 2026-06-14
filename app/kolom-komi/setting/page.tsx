@@ -44,7 +44,7 @@ export default function SettingPage() {
       <Panel title="Progres">
         <div className="flex flex-col items-center gap-3 text-center">
           <p className="font-body text-sm font-semibold text-navy">
-            Streak {state.streak} hari · {state.koin} Koin 🪙
+            Streak {state.streak} hari · {state.koin} Koin
           </p>
 
           {konfirmasi ? (

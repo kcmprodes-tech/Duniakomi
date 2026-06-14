@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { HasilAksi } from "@/lib/kolom-komi/types";
 import { GameIntro, GameResult } from "./GamePanels";
+import { KoinIcon } from "./KoinIcon";
 
 // Mini-game "Sembunyi Komi": Komi ngintip dari salah satu kotak sebentar,
 // lalu semua kotak tertutup — tap kotak tempat Komi tadi. Ronde makin susah.
@@ -97,7 +98,7 @@ export function SembunyiKomi({ onSelesai }: { onSelesai: (skor: number) => Hasil
       <div className="flex items-center justify-between font-display font-extrabold text-navy">
         <span className="text-base">Ronde {ronde}</span>
         <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-[#e6951b] bg-gradient-to-b from-[#ffd34d] to-[#ffb01f] px-3 py-1 text-white shadow-md [text-shadow:0_1px_0_#d98512]">
-          <span>🪙</span> {skor}
+          <KoinIcon size={16} /> {skor}
         </span>
       </div>
 

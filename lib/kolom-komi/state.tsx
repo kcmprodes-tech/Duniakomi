@@ -186,7 +186,7 @@ export function KolomKomiProvider({ children }: { children: ReactNode }) {
       sukses: true,
       pesan:
         koinDapat > 0
-          ? `Seru! Dapat ${koinDapat} Koin 🪙`
+          ? `Seru! Dapat ${koinDapat} Koin`
           : "Yah, belum dapat koin. Coba lagi ya!",
     };
   };
@@ -208,14 +208,14 @@ export function KolomKomiProvider({ children }: { children: ReactNode }) {
           }
         : s
     );
-    return { sukses: true, pesan: "+22 Update, dapat 5 Koin! 🪙" };
+    return { sukses: true, pesan: "+22 Update, dapat 5 Koin!" };
   };
 
   const claimCheckin = (): HasilAksi => {
     if (!state) return { sukses: false };
     const today = tanggalStr(new Date());
     if (state.checkins.includes(today)) {
-      return { sukses: false, pesan: "Sudah check-in hari ini. Besok lagi ya! 🪙" };
+      return { sukses: false, pesan: "Sudah check-in hari ini. Besok lagi ya!" };
     }
     const sudahBaca = Object.values(state.lastReadDates).includes(today);
     if (!sudahBaca) {
@@ -234,7 +234,7 @@ export function KolomKomiProvider({ children }: { children: ReactNode }) {
           }
         : s
     );
-    return { sukses: true, pesan: `Check-in Hari ke-${pos + 1}! +${hadiah} Koin 🪙` };
+    return { sukses: true, pesan: `Check-in Hari ke-${pos + 1}! +${hadiah} Koin` };
   };
 
   const selesaiBaca = (beritaId: string): ToastInfo => {
@@ -252,7 +252,7 @@ export function KolomKomiProvider({ children }: { children: ReactNode }) {
         pesan: `Daily check-in Hari ke-${pos + 1} berhasil! +${koinTotal} Koin 🔥`,
       };
     } else if (!sudahArtikel) {
-      info = { tipe: "bonus", pesan: "Mantap, +22 Update & +5 Koin! 🪙" };
+      info = { tipe: "bonus", pesan: "Mantap, +22 Update & +5 Koin!" };
     } else {
       info = { tipe: "sudah", pesan: "Artikel ini sudah kamu baca hari ini 😉" };
     }

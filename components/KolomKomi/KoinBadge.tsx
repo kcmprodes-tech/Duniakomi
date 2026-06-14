@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { KoinIcon } from "./KoinIcon";
 
 export function KoinBadge({ koin, className }: { koin: number; className?: string }) {
   return (
@@ -8,7 +9,7 @@ export function KoinBadge({ koin, className }: { koin: number; className?: strin
         className
       )}
     >
-      <span className="text-base">🪙</span>
+      <KoinIcon size={16} />
       {koin}
       <span className="text-[10px] font-semibold text-gray-text">Koin</span>
     </span>
