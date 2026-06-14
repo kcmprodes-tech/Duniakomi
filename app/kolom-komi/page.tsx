@@ -4,7 +4,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { Star, CalendarCheck, Utensils, Smile, Zap, Newspaper } from "lucide-react";
+import { CalendarCheck, Utensils, Smile, Zap, Newspaper } from "lucide-react";
 import { useKolomKomi } from "@/lib/kolom-komi/state";
 import { cariOutfit } from "@/lib/kolom-komi/items";
 import { KOMI_IMG } from "@/lib/kolom-komi/assets";
@@ -79,13 +79,17 @@ export default function HubPage() {
       {/* Latar ruang */}
       <Image src={KOMI_IMG.homeBg} alt="" fill priority sizes="460px" className="object-cover" />
 
-      {/* Badge Koin (kiri atas) */}
-      <div className="absolute left-3 top-3 z-20 flex items-center gap-1.5 rounded-full border-2 border-[#e6951b] bg-gradient-to-b from-[#ffd34d] to-[#ffb01f] px-3 py-1 shadow-md">
-        <Star className="h-5 w-5 fill-[#fff3c4] text-[#e6951b]" />
+      {/* Badge Koin (kiri atas) → detail poin */}
+      <Link
+        href="/kolom-komi/poin"
+        aria-label="Detail Koin Ikan"
+        className="absolute left-3 top-3 z-20 flex items-center gap-1.5 rounded-full border-2 border-[#e6951b] bg-gradient-to-b from-[#ffd34d] to-[#ffb01f] px-3 py-1 shadow-md transition active:scale-95"
+      >
+        <span className="text-lg leading-none drop-shadow-[0_1px_0_#d98512]">🐟</span>
         <span className="font-display text-lg font-extrabold text-white [text-shadow:0_1px_0_#d98512]">
           {state.koin}
         </span>
-      </div>
+      </Link>
 
       {/* Badge DAY (kanan atas) → buka check-in */}
       <button
