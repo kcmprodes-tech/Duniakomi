@@ -53,7 +53,7 @@ export function CheckInPanel({ onClose }: { onClose: () => void }) {
           <h2 className="font-display text-2xl font-extrabold text-navy">Check-in Harian</h2>
         </div>
         <p className="mt-1 font-body text-sm text-gray-text">
-          Baca berita tiap hari bareng Komi, kumpulin Koin Ikan! Streak{" "}
+          Baca berita tiap hari bareng Komi, kumpulin Koin! Streak{" "}
           <span className="font-bold text-navy">{state.streak} hari</span> 🔥
         </p>
 
@@ -80,7 +80,7 @@ export function CheckInPanel({ onClose }: { onClose: () => void }) {
                   <Check className="h-4 w-4 text-emerald-500" />
                 ) : (
                   <span className={isJackpot ? "text-base" : "text-sm"}>
-                    {isJackpot ? "🎁" : "🐟"}
+                    {isJackpot ? "🎁" : "🪙"}
                   </span>
                 )}
                 <span className="font-body text-[9px] font-bold text-navy/70">{h}</span>
@@ -93,11 +93,11 @@ export function CheckInPanel({ onClose }: { onClose: () => void }) {
         <div className="mt-4">
           {sudahCheckin ? (
             <p className="rounded-2xl bg-emerald-50 px-4 py-3 text-center font-body text-sm font-semibold text-emerald-600">
-              ✓ Sudah check-in hari ini. Sampai jumpa besok! 🐟
+              ✓ Sudah check-in hari ini. Sampai jumpa besok! 🪙
             </p>
           ) : sudahBaca ? (
             <GameButton variant="success" onClick={claim} className="w-full">
-              🐟 Klaim Hari ke-{target + 1} (+{HADIAH_CHECKIN[target]} Koin)
+              🪙 Klaim Hari ke-{target + 1} (+{HADIAH_CHECKIN[target]} Koin)
             </GameButton>
           ) : (
             <div className="flex flex-col gap-2">

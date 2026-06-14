@@ -41,34 +41,43 @@ export function KomiWave({
   const laughingRef = useRef(false);
   const laughTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
-  // Idle diam; tiap beberapa detik mainkan satu lambaian (kecuali sedang tertawa).
+  // Idle diam; tiap beberapa detik mainkan satu lambaian. Loop SELALU dijadwalkan
+  // ulang (termasuk saat di-interupsi tertawa) supaya lambaian tak pernah berhenti.
   useEffect(() => {
     let mounted = true;
     let stepT: ReturnType<typeof setTimeout>;
     let loopT: ReturnType<typeof setTimeout>;
 
-    const lambai = () => {
+    const jadwalkan = (delay: number) => {
+      loopT = setTimeout(mainkan, delay);
+    };
+
+    const mainkan = () => {
       if (!mounted) return;
       if (laughingRef.current) {
-        loopT = setTimeout(lambai, 2500);
+        jadwalkan(2000); // sedang tertawa → coba lagi nanti, jangan matikan loop
         return;
       }
       let i = 0;
-      const run = () => {
-        if (!mounted || laughingRef.current) return;
+      const step = () => {
+        if (!mounted) return;
+        if (laughingRef.current) {
+          jadwalkan(2000); // tertawa menyela di tengah lambai → reschedule, bukan berhenti
+          return;
+        }
         if (i < WAVE_SEQ.length) {
           setActive({ set: "wave", frame: WAVE_SEQ[i] });
           i += 1;
-          stepT = setTimeout(run, 120);
+          stepT = setTimeout(step, 120);
         } else {
           setActive({ set: "wave", frame: 0 });
-          loopT = setTimeout(lambai, 6000);
+          jadwalkan(5000);
         }
       };
-      run();
+      step();
     };
 
-    loopT = setTimeout(lambai, 4000);
+    jadwalkan(3000);
     return () => {
       mounted = false;
       clearTimeout(stepT);

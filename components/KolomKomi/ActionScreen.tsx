@@ -12,7 +12,7 @@ export function ActionScreen({
   children,
 }: {
   title: string;
-  /** Tampilkan counter Koin Ikan di kanan header (opsional). */
+  /** Tampilkan counter Koin di kanan header (opsional). */
   koin?: number;
   children: ReactNode;
 }) {
@@ -32,7 +32,7 @@ export function ActionScreen({
         </h1>
         {koin != null ? (
           <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border-2 border-[#e6951b] bg-gradient-to-b from-[#ffd34d] to-[#ffb01f] px-3 py-1 shadow-md">
-            <span className="text-base leading-none">🐟</span>
+            <span className="text-base leading-none">🪙</span>
             <span className="font-display text-base font-extrabold leading-none text-white [text-shadow:0_1px_0_#d98512]">
               {koin}
             </span>

@@ -3,7 +3,7 @@ import type { OutfitId } from "./types";
 export interface Outfit {
   id: OutfitId;
   nama: string;
-  /** Harga dalam Koin Ikan (0 = gratis) */
+  /** Harga dalam Koin (0 = gratis) */
   harga: number;
   /** Path gambar Komi memakai kostum ini (di public/komi/).
    *  Diselaraskan dengan nama file asli saat aset masuk. */

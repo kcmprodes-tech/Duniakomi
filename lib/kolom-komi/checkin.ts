@@ -1,6 +1,6 @@
 import type { KomiState } from "./types";
 
-// Hadiah Koin Ikan untuk check-in Hari ke-1 sampai ke-7 (naik bertahap, hari ke-7 jackpot).
+// Hadiah Koin untuk check-in Hari ke-1 sampai ke-7 (naik bertahap, hari ke-7 jackpot).
 export const HADIAH_CHECKIN = [5, 8, 10, 12, 15, 25, 50];
 
 /** Tanggal hari ini (lokal) format YYYY-MM-DD. */

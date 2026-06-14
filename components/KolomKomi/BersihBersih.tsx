@@ -77,7 +77,7 @@ export function BersihBersih({ onSelesai }: { onSelesai: (skor: number) => Hasil
       <GameIntro
         emoji="🧹"
         title="Bersih-bersih"
-        desc="Rumah Komi berantakan! Tap semua kotoran secepat mungkin. Makin cepat beres, makin banyak Koin Ikan."
+        desc="Rumah Komi berantakan! Tap semua kotoran secepat mungkin. Makin cepat beres, makin banyak Koin."
         mulaiLabel="Mulai Bersih-bersih 🧹"
         onMulai={mulai}
       />

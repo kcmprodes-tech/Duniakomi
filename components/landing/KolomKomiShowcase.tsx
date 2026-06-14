@@ -17,7 +17,7 @@ const aksi = [
 const loop = [
   { emoji: "☀️", text: "Mampir tiap pagi" },
   { emoji: "📰", text: "Baca berita bareng Komi" },
-  { emoji: "🐟", text: "Komi dapat Koin Ikan" },
+  { emoji: "🪙", text: "Komi dapat Koin" },
   { emoji: "😸", text: "Komi senang, kamu makin update" },
 ];
 

@@ -2,6 +2,16 @@
 
 export type OutfitId = "peci" | "jas" | "agustusan" | "ramadan";
 
+/** Satu baris riwayat transaksi koin. */
+export interface Transaksi {
+  /** Waktu transaksi (ISO string). */
+  t: string;
+  /** Perubahan koin: positif = diperoleh, negatif = dibelanjakan. */
+  jumlah: number;
+  /** Keterangan singkat, mis. "Baca berita" / "Beli Peci". */
+  label: string;
+}
+
 export interface KomiState {
   /** Tingkat kenyang Komi, 0–100 */
   kenyang: number;
@@ -11,7 +21,7 @@ export interface KomiState {
   update: number;
   /** Energi Komi, 0–100 — turun seiring waktu, dipulihkan dengan Tidurin */
   energy: number;
-  /** Koin Ikan — didapat dari baca berita, dipakai beli kostum */
+  /** Koin — uang recehan Komi; dari baca berita/check-in/mini-game, dipakai beli kostum */
   koin: number;
   /** Daftar id kostum yang sudah dimiliki */
   ownedItems: OutfitId[];
@@ -25,6 +35,12 @@ export interface KomiState {
   lastReadDates: Record<string, string>;
   /** Tanggal-tanggal (YYYY-MM-DD) yang sudah check-in harian (klaim hadiah) */
   checkins: string[];
+  /** Total koin yang pernah diperoleh (akumulasi). */
+  totalDapat: number;
+  /** Total koin yang pernah dibelanjakan (akumulasi). */
+  totalBelanja: number;
+  /** Riwayat transaksi koin terbaru (maks 50, terbaru di depan). */
+  riwayat: Transaksi[];
 }
 
 /** Hasil sebuah aksi yang bisa gagal (mis. beli item, baca berita). */

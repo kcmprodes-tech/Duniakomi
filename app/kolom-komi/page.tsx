@@ -82,10 +82,10 @@ export default function HubPage() {
       {/* Badge Koin (kiri atas) → detail poin */}
       <Link
         href="/kolom-komi/poin"
-        aria-label="Detail Koin Ikan"
+        aria-label="Detail Koin"
         className="absolute left-3 top-3 z-20 flex items-center gap-1.5 rounded-full border-2 border-[#e6951b] bg-gradient-to-b from-[#ffd34d] to-[#ffb01f] px-3 py-1 shadow-md transition active:scale-95"
       >
-        <span className="text-lg leading-none drop-shadow-[0_1px_0_#d98512]">🐟</span>
+        <span className="text-lg leading-none drop-shadow-[0_1px_0_#d98512]">🪙</span>
         <span className="font-display text-lg font-extrabold text-white [text-shadow:0_1px_0_#d98512]">
           {state.koin}
         </span>

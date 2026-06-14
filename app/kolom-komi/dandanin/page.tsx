@@ -12,7 +12,7 @@ import { Badge, GameButton } from "@/components/ui/kit";
 
 export default function DandaninPage() {
   const { state, beliItem, pakaiItem } = useKolomKomi();
-  const [pesan, setPesan] = useState("Yuk dandanin Komi pakai Koin Ikan! 👒");
+  const [pesan, setPesan] = useState("Yuk dandanin Komi pakai Koin! 👒");
 
   if (!state) return <Loader />;
 
@@ -69,7 +69,7 @@ export default function DandaninPage() {
                   className="mt-1 w-full"
                   onClick={() => beli(o.id)}
                 >
-                  Beli · {o.harga} 🐟
+                  Beli · {o.harga} 🪙
                 </GameButton>
               )}
             </Card>

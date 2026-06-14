@@ -7,7 +7,7 @@ import { ProgressBar } from "@/components/ui/kit";
 import { GameIntro, GameResult } from "./GamePanels";
 
 // Mini-game "Tangkap Ikan": ikan muncul acak di kolam, tap untuk menangkap
-// dalam batas waktu. Skor → reward Koin Ikan (lewat onSelesai).
+// dalam batas waktu. Skor → reward Koin (lewat onSelesai).
 
 type Fase = "intro" | "main" | "habis";
 type Jenis = "ikan" | "emas" | "sampah";
@@ -99,7 +99,7 @@ export function TangkapIkan({ onSelesai }: { onSelesai: (skor: number) => HasilA
       <GameIntro
         emoji="🎣"
         title="Tangkap Ikan"
-        desc={`Tap ikan sebanyak mungkin dalam ${DURASI} detik. Tiap ikan jadi Koin Ikan buat Komi!`}
+        desc={`Tap ikan sebanyak mungkin dalam ${DURASI} detik. Tiap ikan jadi Koin buat Komi!`}
         mulaiLabel="Mulai Mancing 🎣"
         onMulai={mulai}
         info={

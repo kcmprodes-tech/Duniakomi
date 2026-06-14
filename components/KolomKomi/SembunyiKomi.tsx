@@ -97,7 +97,7 @@ export function SembunyiKomi({ onSelesai }: { onSelesai: (skor: number) => Hasil
       <div className="flex items-center justify-between font-display font-extrabold text-navy">
         <span className="text-base">Ronde {ronde}</span>
         <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-[#e6951b] bg-gradient-to-b from-[#ffd34d] to-[#ffb01f] px-3 py-1 text-white shadow-md [text-shadow:0_1px_0_#d98512]">
-          <span>🐟</span> {skor}
+          <span>🪙</span> {skor}
         </span>
       </div>
 

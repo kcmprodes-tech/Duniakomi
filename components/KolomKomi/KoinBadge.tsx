@@ -8,7 +8,7 @@ export function KoinBadge({ koin, className }: { koin: number; className?: strin
         className
       )}
     >
-      <span className="text-base">🐟</span>
+      <span className="text-base">🪙</span>
       {koin}
       <span className="text-[10px] font-semibold text-gray-text">Koin</span>
     </span>
