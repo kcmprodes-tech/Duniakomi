@@ -4,13 +4,12 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { useKolomKomi } from "@/lib/kolom-komi/state";
 import { cariOutfit } from "@/lib/kolom-komi/items";
-import { ScreenHeader } from "@/components/KolomKomi/ScreenHeader";
+import { ActionScreen } from "@/components/KolomKomi/ActionScreen";
 import { KomiCharacter } from "@/components/KolomKomi/KomiCharacter";
 import { StatusBars } from "@/components/KolomKomi/StatusBars";
 import { SpeechBubble } from "@/components/KolomKomi/SpeechBubble";
 import { Loader } from "@/components/KolomKomi/Loader";
-import { Card } from "@/components/ui/Card";
-import { GameButton } from "@/components/ui/kit";
+import { GameButton, Panel } from "@/components/ui/kit";
 
 export default function TidurPage() {
   const { state, tidurin } = useKolomKomi();
@@ -24,10 +23,8 @@ export default function TidurPage() {
   const handle = () => setPesan(tidurin().pesan ?? "");
 
   return (
-    <div className="flex flex-col gap-4 px-5 pb-8 pt-6">
-      <ScreenHeader title="Tidurin Komi" />
-
-      <div className="flex flex-col items-center gap-3 pt-1">
+    <ActionScreen title="Tidurin Komi" koin={state.koin}>
+      <div className="flex flex-col items-center gap-3">
         <SpeechBubble>{pesan}</SpeechBubble>
         <div className="relative">
           <KomiCharacter mood="none" size={190} accessory={equipped?.emoji} />
@@ -44,18 +41,18 @@ export default function TidurPage() {
         </div>
       </div>
 
-      <Card>
+      <Panel>
         <StatusBars
           kenyang={state.kenyang}
           mood={state.mood}
           energy={state.energy}
           update={state.update}
         />
-      </Card>
+      </Panel>
 
       <GameButton onClick={handle} className="w-full">
         🛏️ Tidurin Komi
       </GameButton>
-    </div>
+    </ActionScreen>
   );
 }

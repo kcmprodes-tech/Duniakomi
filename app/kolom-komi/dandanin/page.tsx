@@ -3,13 +3,12 @@
 import { useState } from "react";
 import { useKolomKomi } from "@/lib/kolom-komi/state";
 import { OUTFITS, cariOutfit } from "@/lib/kolom-komi/items";
-import { ScreenHeader } from "@/components/KolomKomi/ScreenHeader";
+import { ActionScreen } from "@/components/KolomKomi/ActionScreen";
 import { KomiCharacter } from "@/components/KolomKomi/KomiCharacter";
 import { SpeechBubble } from "@/components/KolomKomi/SpeechBubble";
-import { KoinBadge } from "@/components/KolomKomi/KoinBadge";
 import { Loader } from "@/components/KolomKomi/Loader";
 import { Card } from "@/components/ui/Card";
-import { GameButton } from "@/components/ui/kit";
+import { Badge, GameButton } from "@/components/ui/kit";
 
 export default function DandaninPage() {
   const { state, beliItem, pakaiItem } = useKolomKomi();
@@ -29,13 +28,10 @@ export default function DandaninPage() {
   };
 
   return (
-    <div className="flex flex-col gap-4 px-5 pb-8 pt-6">
-      <ScreenHeader title="Dandanin Komi" />
-
+    <ActionScreen title="Dandanin Komi" koin={state.koin}>
       <div className="flex flex-col items-center gap-2">
         <SpeechBubble>{pesan}</SpeechBubble>
         <KomiCharacter mood="bob" size={180} accessory={equipped?.emoji} />
-        <KoinBadge koin={state.koin} />
       </div>
 
       <div className="grid grid-cols-2 gap-3">
@@ -45,9 +41,9 @@ export default function DandaninPage() {
           return (
             <Card key={o.id} className="relative flex flex-col items-center gap-1.5 text-center">
               {o.badge ? (
-                <span className="absolute right-2 top-2 rounded-full bg-orange/15 px-2 py-0.5 font-body text-[9px] font-bold uppercase text-orange">
+                <Badge tone="sale" className="absolute right-2 top-2 px-2 py-0 text-[9px]">
                   {o.badge}
-                </span>
+                </Badge>
               ) : null}
               <span className="text-4xl">{o.emoji}</span>
               <h3 className="font-display text-sm font-extrabold text-navy">{o.nama}</h3>
@@ -80,6 +76,6 @@ export default function DandaninPage() {
           );
         })}
       </div>
-    </div>
+    </ActionScreen>
   );
 }

@@ -5,11 +5,12 @@ import { AnimatePresence } from "framer-motion";
 import { useKolomKomi } from "@/lib/kolom-komi/state";
 import { cariOutfit } from "@/lib/kolom-komi/items";
 import { KANAL, type Kanal } from "@/lib/kolom-komi/kanal";
-import { ScreenHeader } from "@/components/KolomKomi/ScreenHeader";
+import { ActionScreen } from "@/components/KolomKomi/ActionScreen";
 import { KomiCharacter } from "@/components/KolomKomi/KomiCharacter";
 import { SpeechBubble } from "@/components/KolomKomi/SpeechBubble";
 import { InAppBrowser } from "@/components/KolomKomi/InAppBrowser";
 import { Loader } from "@/components/KolomKomi/Loader";
+import { Badge } from "@/components/ui/kit";
 
 export default function JalanPage() {
   const { state } = useKolomKomi();
@@ -19,10 +20,8 @@ export default function JalanPage() {
   const equipped = state.equippedItem ? cariOutfit(state.equippedItem) : undefined;
 
   return (
-    <div className="flex flex-col gap-4 px-5 pb-8 pt-6">
-      <ScreenHeader title="Ajak Jalan" />
-
-      <div className="flex flex-col items-center gap-2 pt-1">
+    <ActionScreen title="Ajak Jalan" koin={state.koin}>
+      <div className="flex flex-col items-center gap-2">
         <SpeechBubble>
           Komi mau jalan-jalan! Mau nemenin ke mana? Tiap tempat ada cerita dari Kompas. 🗺️
         </SpeechBubble>
@@ -42,9 +41,9 @@ export default function JalanPage() {
           >
             <span className="text-4xl">{k.tempatEmoji}</span>
             <p className="font-display text-sm font-extrabold text-navy">{k.tempat}</p>
-            <span className="rounded-full bg-white/80 px-2 py-0.5 font-body text-[10px] font-bold text-kompas">
-              Kanal {k.kanal}
-            </span>
+            <Badge tone="best" className="px-2 py-0 text-[9px]">
+              {k.kanal}
+            </Badge>
           </button>
         ))}
       </div>
@@ -55,6 +54,6 @@ export default function JalanPage() {
           <InAppBrowser key={aktif.id} halaman={aktif} onClose={() => setAktif(null)} />
         ) : null}
       </AnimatePresence>
-    </div>
+    </ActionScreen>
   );
 }

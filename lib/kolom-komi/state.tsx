@@ -76,6 +76,8 @@ interface KomiContextValue {
   elus: () => void;
   /** Tidurin Komi — pulihkan Energy. */
   tidurin: () => HasilAksi;
+  /** Reward setelah main mini-game (Tangkap Ikan): koin sesuai skor + mood naik. */
+  selesaiMain: (skor: number) => HasilAksi;
   bacaBerita: (beritaId: string) => HasilAksi;
   /** Dipanggil saat user selesai baca artikel (scroll sampai habis di in-app browser).
    *  Memberi reward artikel + auto check-in harian (kalau belum), lalu kembalikan info toast. */
@@ -145,6 +147,27 @@ export function KolomKomiProvider({ children }: { children: ReactNode }) {
       s ? { ...s, energy: clamp(s.energy + 55), mood: clamp(s.mood + 4) } : s
     );
     return { sukses: true, pesan: "Zzz… Komi tidur nyenyak. Energy pulih! 🛏️" };
+  };
+
+  const selesaiMain = (skor: number): HasilAksi => {
+    if (!state) return { sukses: false };
+    const koinDapat = Math.max(0, Math.round(skor)); // 1 Koin Ikan per poin
+    setState((s) =>
+      s
+        ? {
+            ...s,
+            koin: s.koin + koinDapat,
+            mood: clamp(s.mood + Math.min(12, 4 + skor / 4)),
+          }
+        : s
+    );
+    return {
+      sukses: true,
+      pesan:
+        koinDapat > 0
+          ? `Seru! Dapat ${koinDapat} Koin Ikan 🐟`
+          : "Yah, belum kebagian ikan. Coba lagi ya!",
+    };
   };
 
   const bacaBerita = (beritaId: string): HasilAksi => {
@@ -266,6 +289,7 @@ export function KolomKomiProvider({ children }: { children: ReactNode }) {
         beriMakan,
         elus,
         tidurin,
+        selesaiMain,
         bacaBerita,
         selesaiBaca,
         claimCheckin,

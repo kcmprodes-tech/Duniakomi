@@ -1,51 +1,44 @@
 "use client";
 
 import { useKolomKomi } from "@/lib/kolom-komi/state";
-import { cariOutfit } from "@/lib/kolom-komi/items";
-import { ScreenHeader } from "@/components/KolomKomi/ScreenHeader";
-import { KomiCharacter } from "@/components/KolomKomi/KomiCharacter";
-import { SpeechBubble } from "@/components/KolomKomi/SpeechBubble";
+import { ActionScreen } from "@/components/KolomKomi/ActionScreen";
+import { TangkapIkan } from "@/components/KolomKomi/TangkapIkan";
 import { Loader } from "@/components/KolomKomi/Loader";
-import { Card } from "@/components/ui/Card";
 
-// Mockup mini-game interaktif "Main Bareng" — belum fungsional.
-const GAMES = [
-  { emoji: "🎣", nama: "Mancing Bareng", desc: "Mancing ikan santai bareng Komi." },
-  { emoji: "🐟", nama: "Lempar Ikan", desc: "Lempar ikan, Komi tangkap!" },
-  { emoji: "🙈", nama: "Sembunyi Komi", desc: "Komi sembunyi, kamu cari." },
-  { emoji: "🧹", nama: "Bersih-bersih", desc: "Rapikan rumah Komi." },
+// Game lain yang menyusul (mockup) — ditampilkan kecil sebagai roadmap.
+const SEGERA = [
+  { emoji: "🎯", nama: "Lempar Ikan" },
+  { emoji: "🙈", nama: "Sembunyi Komi" },
+  { emoji: "🧹", nama: "Bersih-bersih" },
 ];
 
 export default function MainPage() {
-  const { state } = useKolomKomi();
+  const { state, selesaiMain } = useKolomKomi();
   if (!state) return <Loader />;
-  const equipped = state.equippedItem ? cariOutfit(state.equippedItem) : undefined;
 
   return (
-    <div className="flex flex-col gap-4 px-5 pb-8 pt-6">
-      <ScreenHeader title="Main Bareng" />
+    <ActionScreen title="Main Bareng" koin={state.koin}>
+      <TangkapIkan onSelesai={selesaiMain} />
 
-      <div className="flex flex-col items-center gap-2 pt-1">
-        <SpeechBubble>Main bareng Komi yuk! Pilih permainannya. 🎮</SpeechBubble>
-        <KomiCharacter mood="happy" size={140} accessory={equipped?.emoji} />
-      </div>
-
-      <p className="font-body text-xs font-semibold text-navy/60">
-        Mini-game interaktif — segera hadir ✨
-      </p>
-
-      <div className="grid grid-cols-2 gap-3">
-        {GAMES.map((g) => (
-          <Card key={g.nama} className="relative flex flex-col items-center gap-1 text-center">
-            <span className="absolute right-2 top-2 rounded-full bg-orange/15 px-2 py-0.5 font-body text-[9px] font-bold uppercase text-orange">
-              Segera
+      <div className="mt-1 flex flex-col gap-2">
+        <p className="font-body text-xs font-semibold text-navy/60">
+          Game lain segera hadir ✨
+        </p>
+        <div className="flex flex-wrap gap-2">
+          {SEGERA.map((g) => (
+            <span
+              key={g.nama}
+              className="inline-flex items-center gap-1.5 rounded-full border-2 border-navy/10 bg-white/70 px-3 py-1.5 font-body text-xs font-semibold text-navy/50"
+            >
+              <span className="text-base">{g.emoji}</span>
+              {g.nama}
+              <span className="rounded-full bg-navy/10 px-1.5 py-0.5 text-[9px] font-bold uppercase">
+                Segera
+              </span>
             </span>
-            <span className="text-3xl">{g.emoji}</span>
-            <p className="font-display text-sm font-extrabold text-navy">{g.nama}</p>
-            <p className="font-body text-[11px] leading-snug text-gray-text">{g.desc}</p>
-          </Card>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
+    </ActionScreen>
   );
 }

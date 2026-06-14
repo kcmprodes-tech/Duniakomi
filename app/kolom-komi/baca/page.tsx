@@ -6,16 +6,14 @@ import { useKolomKomi } from "@/lib/kolom-komi/state";
 import { BERITA, type Berita } from "@/lib/kolom-komi/berita";
 import { cariOutfit } from "@/lib/kolom-komi/items";
 import type { ToastInfo } from "@/lib/kolom-komi/types";
-import { ScreenHeader } from "@/components/KolomKomi/ScreenHeader";
+import { ActionScreen } from "@/components/KolomKomi/ActionScreen";
 import { KomiCharacter } from "@/components/KolomKomi/KomiCharacter";
 import { StatusBars } from "@/components/KolomKomi/StatusBars";
 import { SpeechBubble } from "@/components/KolomKomi/SpeechBubble";
-import { KoinBadge } from "@/components/KolomKomi/KoinBadge";
 import { InAppBrowser } from "@/components/KolomKomi/InAppBrowser";
 import { Toast } from "@/components/KolomKomi/Toast";
 import { Loader } from "@/components/KolomKomi/Loader";
-import { Card } from "@/components/ui/Card";
-import { GameButton } from "@/components/ui/kit";
+import { GameButton, Panel } from "@/components/ui/kit";
 
 function todayStr(): string {
   const d = new Date();
@@ -50,26 +48,24 @@ export default function BacaPage() {
   };
 
   return (
-    <div className="flex flex-col gap-4 px-5 pb-8 pt-6">
-      <ScreenHeader title="Baca Bareng" />
-
+    <ActionScreen title="Baca Bareng" koin={state.koin}>
       <div className="flex flex-col items-center gap-2">
         <SpeechBubble>{pesan}</SpeechBubble>
         <KomiCharacter mood="bob" size={150} accessory={equipped?.emoji} />
       </div>
 
-      <div className="flex items-center justify-between">
-        <span className="font-body text-xs font-semibold text-navy/70">
-          Baca sampai habis → check-in & dapat 🐟
-        </span>
-        <KoinBadge koin={state.koin} />
-      </div>
+      <p className="font-body text-xs font-semibold text-navy/70">
+        Baca sampai habis → check-in harian & dapat Koin Ikan 🐟
+      </p>
 
       <div className="flex flex-col gap-3">
         {BERITA.map((b) => {
           const sudah = state.lastReadDates[b.id] === today;
           return (
-            <Card key={b.id} className="flex items-start gap-3">
+            <div
+              key={b.id}
+              className="flex items-start gap-3 rounded-2xl border-2 border-navy/10 bg-white/90 p-3 shadow-md"
+            >
               <span className="text-2xl">{b.emoji}</span>
               <div className="flex-1">
                 <span className="font-body text-[11px] font-bold uppercase tracking-wide text-orange">
@@ -88,19 +84,19 @@ export default function BacaPage() {
                   {sudah ? "Baca lagi" : "Baca artikel"}
                 </GameButton>
               </div>
-            </Card>
+            </div>
           );
         })}
       </div>
 
-      <Card>
+      <Panel>
         <StatusBars
           kenyang={state.kenyang}
           mood={state.mood}
           energy={state.energy}
           update={state.update}
         />
-      </Card>
+      </Panel>
 
       {/* In-app browser + toast */}
       <AnimatePresence>
@@ -114,6 +110,6 @@ export default function BacaPage() {
         ) : null}
       </AnimatePresence>
       <AnimatePresence>{toast ? <Toast info={toast} /> : null}</AnimatePresence>
-    </div>
+    </ActionScreen>
   );
 }
