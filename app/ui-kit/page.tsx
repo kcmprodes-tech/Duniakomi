@@ -1,6 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
+import { KoinIcon } from "@/components/KolomKomi/KoinIcon";
 import {
   Play,
   Pause,
@@ -227,7 +228,7 @@ export default function UiKitPage() {
           {/* CURRENCIES & ITEMS */}
           <Section title="Currencies & Items">
             <div className="flex flex-wrap items-center gap-3">
-              <Counter icon="🪙" value="250" />
+              <Counter icon={<KoinIcon size={20} />} value="250" />
               <Counter icon="💎" value="1.350" withButtons />
               <Counter icon="🐟" value="86" />
             </div>

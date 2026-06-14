@@ -1,7 +1,9 @@
 "use client";
 
+import type { ReactNode } from "react";
 import Link from "next/link";
 import { Fish, Hand, MessageCircle, Newspaper } from "lucide-react";
+import { KoinIcon } from "@/components/KolomKomi/KoinIcon";
 import { Reveal } from "./Reveal";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
@@ -14,10 +16,10 @@ const aksi = [
   { icon: <Newspaper className="h-5 w-5" />, label: "Baca" },
 ];
 
-const loop = [
+const loop: { emoji?: string; icon?: ReactNode; text: string }[] = [
   { emoji: "☀️", text: "Mampir tiap pagi" },
   { emoji: "📰", text: "Baca berita bareng Komi" },
-  { emoji: "🪙", text: "Komi dapat Koin" },
+  { icon: <KoinIcon size={26} />, text: "Komi dapat Koin" },
   { emoji: "😸", text: "Komi senang, kamu makin update" },
 ];
 
@@ -70,7 +72,7 @@ export function KolomKomiShowcase() {
                   key={l.text}
                   className="flex items-center gap-3 rounded-2xl bg-white/5 px-4 py-3"
                 >
-                  <span className="text-2xl">{l.emoji}</span>
+                  {l.icon ?? <span className="text-2xl">{l.emoji}</span>}
                   <span className="font-body text-sm font-semibold text-white/90">{l.text}</span>
                 </div>
               ))}
