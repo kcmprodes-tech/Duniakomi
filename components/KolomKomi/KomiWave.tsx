@@ -1,15 +1,21 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useKolomKomi } from "@/lib/kolom-komi/state";
 import { REAKSI, type AreaKomi } from "@/lib/kolom-komi/reactions";
 
-// Frame melambai dari folder spritsheet_lambai (1.png = diam, 3.png = puncak lambai, 6.png = balik diam).
-const FRAMES = [1, 2, 3, 4, 5, 6].map((n) => `/komi/spritsheet_lambai/${n}.png`);
+// Frame melambai (1.png = diam, 3.png = puncak lambai, 6.png = balik diam).
+const WAVE_FRAMES = [1, 2, 3, 4, 5, 6].map((n) => `/komi/spritsheet_lambai/${n}.png`);
+// Frame tertawa geli (dipakai saat perut/kaki Komi disentuh).
+const LAUGH_FRAMES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(
+  (n) => `/komi/spritsheet_tertawa/tertawa-${n}.png`
+);
 
-// Urutan lambaian yang lebih natural: angkat → kibas cakar (wiggle) → turun.
+// Urutan lambaian: angkat → kibas cakar (wiggle) → turun.
 const WAVE_SEQ = [0, 1, 2, 3, 2, 3, 4, 5];
+// Urutan tertawa: maju penuh lalu beberapa kali "ngakak" di tengah, lalu reda.
+const LAUGH_SEQ = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 6, 7, 8, 9, 6, 7, 8, 9];
 
 // Zona tap di atas Komi (perkiraan posisi pada pose berdiri).
 const ZONES: { id: AreaKomi; className: string }[] = [
@@ -18,6 +24,8 @@ const ZONES: { id: AreaKomi; className: string }[] = [
   { id: "perut", className: "left-1/2 top-[44%] h-[30%] w-[50%] -translate-x-1/2" },
   { id: "kaki", className: "bottom-[2%] left-1/2 h-[20%] w-[54%] -translate-x-1/2" },
 ];
+
+type Active = { set: "wave" | "laugh"; frame: number };
 
 export function KomiWave({
   size = 378,
@@ -29,24 +37,31 @@ export function KomiWave({
   onReaksi?: (teks: string) => void;
 }) {
   const { elus } = useKolomKomi();
-  const [frame, setFrame] = useState(0);
+  const [active, setActive] = useState<Active>({ set: "wave", frame: 0 });
+  const laughingRef = useRef(false);
+  const laughTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
-  // Idle diam; tiap beberapa detik mainkan satu lambaian lalu kembali diam.
+  // Idle diam; tiap beberapa detik mainkan satu lambaian (kecuali sedang tertawa).
   useEffect(() => {
     let mounted = true;
     let stepT: ReturnType<typeof setTimeout>;
     let loopT: ReturnType<typeof setTimeout>;
 
     const lambai = () => {
+      if (!mounted) return;
+      if (laughingRef.current) {
+        loopT = setTimeout(lambai, 2500);
+        return;
+      }
       let i = 0;
       const run = () => {
-        if (!mounted) return;
+        if (!mounted || laughingRef.current) return;
         if (i < WAVE_SEQ.length) {
-          setFrame(WAVE_SEQ[i]);
+          setActive({ set: "wave", frame: WAVE_SEQ[i] });
           i += 1;
           stepT = setTimeout(run, 120);
         } else {
-          setFrame(0);
+          setActive({ set: "wave", frame: 0 });
           loopT = setTimeout(lambai, 6000);
         }
       };
@@ -61,17 +76,39 @@ export function KomiWave({
     };
   }, []);
 
+  // Bersihkan timer tawa saat unmount.
+  useEffect(() => () => clearTimeout(laughTimer.current), []);
+
+  // Mainkan animasi tertawa sekali, lalu kembali ke pose diam.
+  const tertawa = () => {
+    clearTimeout(laughTimer.current);
+    laughingRef.current = true;
+    let i = 0;
+    const run = () => {
+      if (i < LAUGH_SEQ.length) {
+        setActive({ set: "laugh", frame: LAUGH_SEQ[i] });
+        i += 1;
+        laughTimer.current = setTimeout(run, 90);
+      } else {
+        laughingRef.current = false;
+        setActive({ set: "wave", frame: 0 });
+      }
+    };
+    run();
+  };
+
   const tap = (id: AreaKomi) => {
     elus();
     onReaksi?.(REAKSI[id]);
+    // Perut & kaki = titik geli → Komi tertawa.
+    if (id === "perut" || id === "kaki") tertawa();
   };
 
   return (
-    // Diam (tanpa scale "balon"); kehidupan datang dari lambaian frame berkala.
     <div className="relative" style={{ width: size, height: size }}>
-      {FRAMES.map((src, i) => (
+      {WAVE_FRAMES.map((src, i) => (
         <Image
-          key={i}
+          key={`w${i}`}
           src={src}
           alt="Komi"
           fill
@@ -79,7 +116,21 @@ export function KomiWave({
           priority={i === 0}
           sizes="420px"
           className={`object-contain object-bottom drop-shadow-xl ${
-            i === frame ? "" : "invisible"
+            active.set === "wave" && active.frame === i ? "" : "invisible"
+          }`}
+        />
+      ))}
+
+      {LAUGH_FRAMES.map((src, i) => (
+        <Image
+          key={`l${i}`}
+          src={src}
+          alt=""
+          fill
+          unoptimized
+          sizes="420px"
+          className={`object-contain object-bottom drop-shadow-xl ${
+            active.set === "laugh" && active.frame === i ? "" : "invisible"
           }`}
         />
       ))}
