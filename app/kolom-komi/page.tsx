@@ -113,13 +113,13 @@ export default function HubPage() {
         >
           <Image src="/komi/dandan.png" alt="Dandani Komi" width={56} height={56} className="drop-shadow-md" />
         </Link>
-        <button
-          onClick={() => setPesan("Pengaturan segera hadir 🔧")}
+        <Link
+          href="/kolom-komi/setting"
           aria-label="Pengaturan"
-          className="transition active:scale-95"
+          className="block transition active:scale-95"
         >
           <Image src="/komi/setting.png" alt="Pengaturan" width={56} height={56} className="drop-shadow-md" />
-        </button>
+        </Link>
       </div>
 
       {/* Komi di tengah (diam, melambai tiap 5 detik, bisa di-sentuh) */}
