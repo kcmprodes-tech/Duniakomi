@@ -7,6 +7,7 @@ import { TangkapIkan } from "@/components/KolomKomi/TangkapIkan";
 import { LemparIkan } from "@/components/KolomKomi/LemparIkan";
 import { SembunyiKomi } from "@/components/KolomKomi/SembunyiKomi";
 import { BersihBersih } from "@/components/KolomKomi/BersihBersih";
+import { TebakBerita } from "@/components/KolomKomi/TebakBerita";
 import { Loader } from "@/components/KolomKomi/Loader";
 
 const GAMES = [
@@ -14,6 +15,7 @@ const GAMES = [
   { id: "lempar", emoji: "🐟", nama: "Lempar Ikan", desc: "Timing-nya pas, Komi nangkep!", Comp: LemparIkan },
   { id: "sembunyi", emoji: "🙈", nama: "Sembunyi Komi", desc: "Inget Komi ngintip di mana.", Comp: SembunyiKomi },
   { id: "bersih", emoji: "🧹", nama: "Bersih-bersih", desc: "Rapikan rumah Komi cepat!", Comp: BersihBersih },
+  { id: "kuis", emoji: "🧠", nama: "Tebak Berita", desc: "Kuis dari berita hari ini.", Comp: TebakBerita },
 ] as const;
 
 export default function MainPage() {

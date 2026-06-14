@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { useKolomKomi } from "@/lib/kolom-komi/state";
 import { REAKSI, type AreaKomi } from "@/lib/kolom-komi/reactions";
+import { playSfx } from "@/lib/kolom-komi/sound";
 
 // Frame melambai (1.png = diam, 3.png = puncak lambai, 6.png = balik diam).
 const WAVE_FRAMES = [1, 2, 3, 4, 5, 6].map((n) => `/komi/spritsheet_lambai/${n}.png`);
@@ -110,7 +111,12 @@ export function KomiWave({
     elus();
     onReaksi?.(REAKSI[id]);
     // Perut & kaki = titik geli → Komi tertawa.
-    if (id === "perut" || id === "kaki") tertawa();
+    if (id === "perut" || id === "kaki") {
+      tertawa();
+      playSfx("giggle");
+    } else {
+      playSfx("pop");
+    }
   };
 
   return (

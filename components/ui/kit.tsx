@@ -2,6 +2,7 @@
 
 import { useState, type ButtonHTMLAttributes, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import { playSfx } from "@/lib/kolom-komi/sound";
 
 /* =========================================================================
    Design System "Kolom Komi" — gaya glossy/chunky (mengacu ui set.png),
@@ -32,11 +33,16 @@ export function GameButton({
   size = "md",
   className,
   children,
+  onClick,
   ...props
 }: ButtonHTMLAttributes<HTMLButtonElement> & { variant?: Variant; size?: Size }) {
   const v = VARIANT[variant];
   return (
     <button
+      onClick={(e) => {
+        playSfx("tap");
+        onClick?.(e);
+      }}
       style={{ ["--edge" as string]: v.edge }}
       className={cn(
         "relative inline-flex items-center justify-center gap-2 bg-gradient-to-b font-display font-extrabold text-white transition-[transform,box-shadow]",
@@ -181,21 +187,35 @@ export function ProgressRing({
 }
 
 /* ---- Toggle ON/OFF ---- */
-export function Toggle({ defaultOn = false }: { defaultOn?: boolean }) {
-  const [on, setOn] = useState(defaultOn);
+export function Toggle({
+  defaultOn = false,
+  on,
+  onChange,
+}: {
+  defaultOn?: boolean;
+  on?: boolean;
+  onChange?: (v: boolean) => void;
+}) {
+  const [internal, setInternal] = useState(defaultOn);
+  const isOn = on ?? internal;
+  const toggle = () => {
+    const next = !isOn;
+    if (on === undefined) setInternal(next);
+    onChange?.(next);
+  };
   return (
     <button
-      onClick={() => setOn((o) => !o)}
+      onClick={toggle}
       className={cn(
         "relative flex h-8 w-[68px] items-center rounded-full border-2 px-1 font-display text-[10px] font-extrabold uppercase text-white transition-colors",
-        on ? "justify-start border-[#3a7e20] bg-gradient-to-b from-[#8ed863] to-[#4ea62e]" : "justify-end border-navy/20 bg-navy/20"
+        isOn ? "justify-start border-[#3a7e20] bg-gradient-to-b from-[#8ed863] to-[#4ea62e]" : "justify-end border-navy/20 bg-navy/20"
       )}
     >
-      <span className="px-1">{on ? "On" : "Off"}</span>
+      <span className="px-1">{isOn ? "On" : "Off"}</span>
       <span
         className={cn(
           "absolute top-1/2 h-6 w-6 -translate-y-1/2 rounded-full bg-white shadow transition-all",
-          on ? "right-1" : "left-1"
+          isOn ? "right-1" : "left-1"
         )}
       />
     </button>

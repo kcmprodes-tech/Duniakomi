@@ -1,15 +1,28 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { useKolomKomi } from "@/lib/kolom-komi/state";
 import { ActionScreen } from "@/components/KolomKomi/ActionScreen";
 import { Loader } from "@/components/KolomKomi/Loader";
 import { GameButton, Panel, Toggle } from "@/components/ui/kit";
+import { getAudio, setMusic, setSfx } from "@/lib/kolom-komi/sound";
+import { resetOnboarding } from "@/components/KolomKomi/Onboarding";
 
 export default function SettingPage() {
   const { state, reset } = useKolomKomi();
+  const router = useRouter();
   const [konfirmasi, setKonfirmasi] = useState(false);
   const [pesan, setPesan] = useState("");
+  const [sfx, setSfxOn] = useState(true);
+  const [musik, setMusikOn] = useState(false);
+
+  // Sinkronkan posisi toggle dengan setting audio tersimpan (setelah mount).
+  useEffect(() => {
+    const a = getAudio();
+    setSfxOn(a.sfx);
+    setMusikOn(a.musik);
+  }, []);
 
   if (!state) return <Loader />;
 
@@ -27,16 +40,24 @@ export default function SettingPage() {
         <div className="flex flex-col gap-3">
           <div className="flex items-center justify-between">
             <span className="font-body text-sm font-semibold text-navy">Efek Suara</span>
-            <Toggle defaultOn />
+            <Toggle on={sfx} onChange={(v) => { setSfxOn(v); setSfx(v); }} />
           </div>
           <div className="flex items-center justify-between">
             <span className="font-body text-sm font-semibold text-navy">Musik Latar</span>
-            <Toggle />
+            <Toggle on={musik} onChange={(v) => { setMusikOn(v); setMusic(v); }} />
           </div>
           <p className="font-body text-[11px] text-gray-text">
-            *Audio belum aktif di prototipe ini — tampilan saja dulu.
+            Suara dibuat sederhana langsung dari aplikasi (belum pakai musik/efek asli).
           </p>
         </div>
+      </Panel>
+
+      <div className="pt-3" />
+
+      <Panel title="Lainnya">
+        <GameButton variant="info" className="w-full" onClick={() => { resetOnboarding(); router.push("/kolom-komi"); }}>
+          Lihat ulang perkenalan
+        </GameButton>
       </Panel>
 
       <div className="pt-3" />

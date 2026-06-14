@@ -12,6 +12,7 @@ import { KomiStage } from "@/components/KolomKomi/KomiStage";
 import { CheckInPanel } from "@/components/KolomKomi/CheckInPanel";
 import { Loader } from "@/components/KolomKomi/Loader";
 import { KoinIcon } from "@/components/KolomKomi/KoinIcon";
+import { Onboarding } from "@/components/KolomKomi/Onboarding";
 
 // Lingkaran progres (dinamis): ring conic-gradient + bola glossy + ikon + %.
 function StatCircle({
@@ -166,6 +167,8 @@ export default function HubPage() {
       <AnimatePresence>
         {checkinOpen ? <CheckInPanel onClose={() => setCheckinOpen(false)} /> : null}
       </AnimatePresence>
+
+      <Onboarding />
     </div>
   );
 }

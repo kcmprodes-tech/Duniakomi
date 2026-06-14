@@ -11,6 +11,7 @@ import type { HasilAksi, KomiState, OutfitId, ToastInfo, Transaksi } from "./typ
 import { cariOutfit } from "./items";
 import { cariFood } from "./foods";
 import { HADIAH_CHECKIN } from "./checkin";
+import { playSfx, ensureMusic } from "./sound";
 
 const STORAGE_KEY = "kolom-komi-v1";
 
@@ -136,6 +137,13 @@ export function KolomKomiProvider({ children }: { children: ReactNode }) {
     }
   }, [state]);
 
+  // Nyalakan musik latar (kalau di-set on) setelah interaksi pertama user.
+  useEffect(() => {
+    const handler = () => ensureMusic();
+    window.addEventListener("pointerdown", handler, { once: true });
+    return () => window.removeEventListener("pointerdown", handler);
+  }, []);
+
   const beriMakan = (foodId: string): HasilAksi => {
     if (!state) return { sukses: false };
     const food = cariFood(foodId);
@@ -172,6 +180,7 @@ export function KolomKomiProvider({ children }: { children: ReactNode }) {
   const selesaiMain = (skor: number): HasilAksi => {
     if (!state) return { sukses: false };
     const koinDapat = Math.max(0, Math.round(skor));
+    if (koinDapat > 0) playSfx("win");
     setState((s) => {
       if (!s) return s;
       const tambahan = koinDapat > 0 ? transaksiBaru(s, koinDapat, "Main mini-game") : {};
@@ -208,6 +217,7 @@ export function KolomKomiProvider({ children }: { children: ReactNode }) {
           }
         : s
     );
+    playSfx("coin");
     return { sukses: true, pesan: "+22 Update, dapat 5 Koin!" };
   };
 
@@ -234,6 +244,7 @@ export function KolomKomiProvider({ children }: { children: ReactNode }) {
           }
         : s
     );
+    playSfx("success");
     return { sukses: true, pesan: `Check-in Hari ke-${pos + 1}! +${hadiah} Koin` };
   };
 
@@ -290,6 +301,7 @@ export function KolomKomiProvider({ children }: { children: ReactNode }) {
       return next;
     });
 
+    if (info.tipe !== "sudah") playSfx("success");
     return info;
   };
 
