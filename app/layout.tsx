@@ -16,7 +16,7 @@ const jakarta = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
   title: "Dunia Komi",
-  description: "Kamu & Komi — sahabat baca berita tiap hari.",
+  description: "Kolom Komi — sahabat baca berita tiap hari.",
 };
 
 export default function RootLayout({

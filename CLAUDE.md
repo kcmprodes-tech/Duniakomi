@@ -22,11 +22,11 @@
 
 **Tahap saat ini:** PROTOTIPE LANDING PAGE untuk presentasi internal.
 
-**Strategi:** Fokus membangun landing page yang menjual visi Dunia Komi, dengan **fitur "Kamu & Komi" (virtual companion) sebagai bintang utama showcase**. Virtual companion TIDAK dibangun fungsional di fase ini, tapi divisualisasikan dengan mockup yang sangat meyakinkan.
+**Strategi:** Fokus membangun landing page yang menjual visi Dunia Komi, dengan **fitur "Kolom Komi" (virtual companion) sebagai bintang utama showcase**. Virtual companion TIDAK dibangun fungsional di fase ini, tapi divisualisasikan dengan mockup yang sangat meyakinkan.
 
 **Yang dibangun di prototipe ini:**
 1. Landing page Dunia Komi (lengkap, polished, production-grade)
-2. Section showcase "Kamu & Komi" yang sangat detail & meyakinkan
+2. Section showcase "Kolom Komi" yang sangat detail & meyakinkan
 3. Section pendukung: Game (mockup), Komik strip, Newsletter, Komi Poin
 4. Section "Coming Later" — teaser karakter pendukung (Universe roadmap)
 5. Section pagar editorial
@@ -41,17 +41,17 @@
 
 ---
 
-## Fitur Utama: "Kamu & Komi"
+## Fitur Utama: "Kolom Komi"
 
 Ini adalah **bintang utama** Dunia Komi.
 
 ### Filosofi nama
 
-"Kamu & Komi" memposisikan user dan Komi sebagai **dua sahabat yang setara**, bukan owner & pet. Lebih hangat, lebih dewasa, lebih cocok untuk persona Komi yang sudah bapak-bapak.
+"Kolom Komi" = "kolomnya Komi" — rubrik/sudut harian tempat Komi menemani kamu baca berita tiap hari. Memadukan **kolom** (rubrik khas media seperti Kompas) dengan **companion** (Komi sebagai sahabat yang nungguin kamu): tetap hangat & setara (bukan owner–pet), tapi nyambung ke dunia editorial Kompas. *(Sebelumnya bernama "Kamu & Komi".)*
 
 ### Tagline utama
 
-> **"Kamu & Komi — sahabat baca berita tiap hari."**
+> **"Kolom Komi — sahabat baca berita tiap hari."**
 
 ### Headline section utama (di landing page)
 
@@ -59,14 +59,14 @@ Ini adalah **bintang utama** Dunia Komi.
 
 ### Konsep yang ditampilkan di landing page (mockup visual)
 
-**Panel utama "Kamu & Komi":**
+**Panel utama "Kolom Komi":**
 - Komi di tengah, animasi floating/bobbing dengan Framer Motion
 - 4 bar kebutuhan: **Kenyang**, **Mood**, **Energy**, **Update** (Update = signature feature, naik dengan baca berita; Energy = turun seiring waktu, dipulihkan dengan Tidurin)
 - **5 tombol aksi utama** (lihat detail di bawah):
   1. **🐟 Kasih Makan** — pilih makanan, beda makanan beda efek
   2. **📰 Baca Bareng** — link ke artikel Kompas (signature)
   3. **🗺️ Ajak Jalan** — masuk ke "Komi Berkunjung" (travel mechanic)
-  4. **🎮 Main Bareng** — masuk ke mini-game Kamu & Komi
+  4. **🎮 Main Bareng** — masuk ke mini-game Kolom Komi
   5. **🛏️ Tidurin** — tombol selalu ada, warna berubah saat Energy rendah; ajak Komi tidur
 - **Elus BUKAN tombol lagi** — sekarang gesture tap langsung di badan Komi (lihat section "Gesture System")
 - Counter "Koin Ikan" di pojok
@@ -76,10 +76,10 @@ Ini adalah **bintang utama** Dunia Komi.
 1. **🐟 Kasih Makan** — buka pilihan makanan; tiap makanan beri efek berbeda (mis. ikan biasa naik Kenyang sedikit, makanan langka naik Mood + Kenyang).
 2. **📰 Baca Bareng** — aksi signature, mengarahkan ke artikel Kompas; menaikkan bar Update.
 3. **🗺️ Ajak Jalan** — masuk ke mode "Komi Berkunjung", mekanik travel (Komi mengunjungi tempat/daerah).
-4. **🎮 Main Bareng** — masuk ke mini-game interaktif Kamu & Komi (lihat section "Mini-game").
+4. **🎮 Main Bareng** — masuk ke mini-game interaktif Kolom Komi (lihat section "Mini-game").
 5. **🛏️ Tidurin** — tombol **selalu tampil**; warnanya **berubah saat bar Energy rendah** (jadi penanda visual bahwa Komi butuh tidur). Mengajak Komi tidur untuk memulihkan Energy.
 
-**Loop visualization "Cara Kamu & Komi bekerja":**
+**Loop visualization "Cara Kolom Komi bekerja":**
 1. ☀️ Kamu mampir tiap pagi
 2. 📰 Baca berita bareng Komi
 3. 🐟 Kasih makan Komi
@@ -92,7 +92,7 @@ Ini adalah **bintang utama** Dunia Komi.
 - Label "Coming Soon" / "Item Langka"
 
 **Social proof:**
-- Counter: "Sudah X pembaca yang nungguin Kamu & Komi"
+- Counter: "Sudah X pembaca yang nungguin Kolom Komi"
 - Testimoni fiktif
 
 **CTA utama:**
@@ -136,7 +136,7 @@ Tujuan: mendorong pembaca konsumsi konten Kompas.
 - **Trivia Indonesia** — pengetahuan umum dari arsip Kompas
 - **Headline Match** — cocokkan headline dengan kategori
 
-### B. Mini-game di "Kamu & Komi" (interaktif → perdalam afeksi)
+### B. Mini-game di "Kolom Komi" (interaktif → perdalam afeksi)
 
 Tujuan: memperkuat ikatan emosional user dengan Komi. Diakses lewat aksi **🎮 Main Bareng**.
 
@@ -204,7 +204,7 @@ Di bagian bawah landing page, sebelum footer, taruh section dengan:
 - **Pose default**: melambai dengan kedipan satu mata + acungan jempol
 - **Asset**: 
   - `public/komi.png` — logo "Dunia Komi" utama
-  - `public/kamu-dan-komi.png` — logo fitur "Kamu & Komi"
+  - `public/komi/logo-kolom-komi.png` — logo fitur "Kolom Komi"
 
 ### Kepribadian Komi
 
@@ -218,11 +218,11 @@ Di bagian bawah landing page, sebelum footer, taruh section dengan:
   - *"Waduh, harga cabai naik lagi. Komi mau ngiritin ikan deh."*
 - **Yang DIHINDARI**: sarcasm pedas, bahasa gaul ekstrem (gw, kek, anjir), politik partisan, nada menggurui
 
-### Tone shift untuk Kamu & Komi (persahabatan, bukan kepemilikan)
+### Tone shift untuk Kolom Komi (persahabatan, bukan kepemilikan)
 
 - ❌ "Pelihara Komi" → ✅ "Temani Komi"
 - ❌ "Pet kamu lapar" → ✅ "Komi lapar nih"
-- ❌ "Karaktermu naik level" → ✅ "Kamu & Komi naik level"
+- ❌ "Karaktermu naik level" → ✅ "Kolom Komi naik level"
 
 ---
 
@@ -307,7 +307,7 @@ User adalah **product owner**, BUKAN developer:
 
 **Hari 1**: Setup Next.js, dependencies, struktur folder, design system dasar
 **Hari 2**: Navbar + Hero section dengan animasi Komi
-**Hari 3**: Section "Kamu & Komi" — bintang utama (mockup virtual companion, loop)
+**Hari 3**: Section "Kolom Komi" — bintang utama (mockup virtual companion, loop)
 **Hari 4**: Section pendukung — Game, Komik, Newsletter, Komi Poin
 **Hari 5**: Section "Coming Later" (Universe teaser) + Pagar Editorial + Footer + responsive
 **Hari 6**: Polish animasi, copy editing, hover states
@@ -330,12 +330,12 @@ dunia-komi/
 ├── components/
 │   ├── Navbar.tsx
 │   ├── Hero.tsx
-│   ├── KamuDanKomi/
+│   ├── KolomKomi/
 │   │   ├── index.tsx
 │   │   ├── CompanionMockup.tsx     ← panel utama (4 bar + 5 aksi)
 │   │   ├── GestureLayer.tsx        ← tap-to-interact di badan Komi
 │   │   ├── ActionButtons.tsx       ← 5 aksi: Makan/Baca/Jalan/Main/Tidurin
-│   │   ├── KamuKomiGames.tsx       ← mini-game interaktif (mockup)
+│   │   ├── KolomKomiGames.tsx       ← mini-game interaktif (mockup)
 │   │   ├── LoopVisualization.tsx
 │   │   └── ItemShowcase.tsx
 │   ├── Games.tsx                   ← mini-game knowledge-based (mockup)
@@ -352,7 +352,7 @@ dunia-komi/
 │   └── utils.ts
 └── public/
     ├── komi.png
-    └── kamu-dan-komi.png
+    └── komi/logo-kolom-komi.png
 ```
 
 ---
@@ -363,7 +363,7 @@ Demo dianggap berhasil jika:
 - ✅ Bisa dibuka di browser (link Vercel)
 - ✅ Responsif HP & desktop
 - ✅ Karakter Komi konsisten di seluruh halaman
-- ✅ Section Kamu & Komi terlihat hidup & meyakinkan
+- ✅ Section Kolom Komi terlihat hidup & meyakinkan
 - ✅ Section "Coming Later" menjual visi jangka panjang
 - ✅ Pagar editorial jelas terlihat
 - ✅ Tone & copy konsisten dengan kepribadian Komi

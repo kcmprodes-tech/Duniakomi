@@ -19,7 +19,7 @@ Inspirasi tone: seperti karakter di *Si Juki*, *Tahilalats*, atau *Bobo dan kawa
 ## 🐱 PAK KOMI (Protagonis Utama)
 
 **Status:** Aktif sekarang  
-**Logo:** `public/komi.png`, `public/kamu-dan-komi.png`
+**Logo:** `public/komi.png`, `public/komi/logo-kolom-komi.png`
 
 ### Visual
 - Kucing putih berbulu lebat (Persia/Anggora)
