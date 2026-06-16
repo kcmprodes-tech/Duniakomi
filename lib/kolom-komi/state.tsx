@@ -218,14 +218,14 @@ export function KolomKomiProvider({ children }: { children: ReactNode }) {
         ? {
             ...s,
             update: clamp(s.update + 22),
-            koin: s.koin + 5,
+            koin: s.koin + 10,
             lastReadDates: { ...s.lastReadDates, [beritaId]: hariIni },
-            ...transaksiBaru(s, 5, "Baca berita"),
+            ...transaksiBaru(s, 10, "Baca berita"),
           }
         : s
     );
     playSfx("coin");
-    return { sukses: true, pesan: "+22 Update, dapat 5 Koin!" };
+    return { sukses: true, pesan: "+22 Update, dapat 10 Koin!" };
   };
 
   const claimCheckin = (): HasilAksi => {
@@ -264,13 +264,13 @@ export function KolomKomiProvider({ children }: { children: ReactNode }) {
     let info: ToastInfo;
     if (!sudahCheckin) {
       const pos = state.checkins.length % 7;
-      const koinTotal = HADIAH_CHECKIN[pos] + (sudahArtikel ? 0 : 5);
+      const koinTotal = HADIAH_CHECKIN[pos] + (sudahArtikel ? 0 : 10);
       info = {
         tipe: "checkin",
         pesan: `Daily check-in Hari ke-${pos + 1} berhasil! +${koinTotal} Koin 🔥`,
       };
     } else if (!sudahArtikel) {
-      info = { tipe: "bonus", pesan: "Mantap, +22 Update & +5 Koin!" };
+      info = { tipe: "bonus", pesan: "Mantap, +22 Update & +10 Koin!" };
     } else {
       info = { tipe: "sudah", pesan: "Artikel ini sudah kamu baca hari ini 😉" };
     }
@@ -286,11 +286,11 @@ export function KolomKomiProvider({ children }: { children: ReactNode }) {
         next = {
           ...next,
           update: clamp(next.update + 22),
-          koin: next.koin + 5,
+          koin: next.koin + 10,
           lastReadDates: { ...next.lastReadDates, [beritaId]: today },
         };
-        riwayat = [{ t: nowIso, jumlah: 5, label: "Baca berita" }, ...riwayat];
-        totalDapat += 5;
+        riwayat = [{ t: nowIso, jumlah: 10, label: "Baca berita" }, ...riwayat];
+        totalDapat += 10;
       }
       if (!sudahCheckin) {
         const pos = next.checkins.length % 7;

@@ -23,4 +23,6 @@ export const KOMI_IMG = {
   tidurBelum: "/komi/komitidur_belumtidur.png",
   /** Tidurin — Komi sudah tidur (lampu mati, zzz) */
   tidurSudah: "/komi/komitidur_sudahtidur.png",
+  /** Latar halaman Baca Bareng (Komi baca di teras) */
+  bacaBg: "/komi/komi-baca.png",
 };
