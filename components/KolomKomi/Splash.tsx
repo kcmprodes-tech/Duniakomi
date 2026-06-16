@@ -27,15 +27,16 @@ export function Splash({ onDone }: { onDone: () => void }) {
         initial={{ opacity: 0, y: -16, scale: 0.92 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className="absolute left-1/2 top-[3.5%] z-10 h-[30%] w-[72%] -translate-x-1/2"
+        className="absolute left-1/2 top-[2.5%] z-10 w-[320px] -translate-x-1/2"
       >
         <Image
           src={KOMI_IMG.logo}
           alt="Kolom Komi"
-          fill
+          width={320}
+          height={366}
           priority
-          sizes="320px"
-          className="object-contain drop-shadow-lg"
+          unoptimized
+          className="h-auto w-full drop-shadow-lg"
         />
       </motion.div>
 
