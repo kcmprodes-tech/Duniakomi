@@ -1,58 +1,97 @@
 "use client";
 
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowLeft, Smile, Zap } from "lucide-react";
 import { useKolomKomi } from "@/lib/kolom-komi/state";
-import { cariOutfit } from "@/lib/kolom-komi/items";
-import { ActionScreen } from "@/components/KolomKomi/ActionScreen";
-import { KomiCharacter } from "@/components/KolomKomi/KomiCharacter";
-import { StatusBars } from "@/components/KolomKomi/StatusBars";
-import { SpeechBubble } from "@/components/KolomKomi/SpeechBubble";
+import { KOMI_IMG } from "@/lib/kolom-komi/assets";
 import { Loader } from "@/components/KolomKomi/Loader";
-import { GameButton, Panel } from "@/components/ui/kit";
+import { NeedBar, BAR_TOP_1, BAR_TOP_2 } from "@/components/KolomKomi/NeedBar";
+import { playSfx } from "@/lib/kolom-komi/sound";
 
 export default function TidurPage() {
-  const { state, tidurin } = useKolomKomi();
-  const [pesan, setPesan] = useState(
-    "Komi agak ngantuk… ajak tidur yuk biar energinya pulih. 🛏️"
-  );
+  const { state, pulihTidur } = useKolomKomi();
+  const [tidur, setTidur] = useState(false);
+
+  // Ref biar interval pakai versi terbaru tanpa re-create tiap render.
+  const pulihRef = useRef(pulihTidur);
+  pulihRef.current = pulihTidur;
+  const stateRef = useRef(state);
+  stateRef.current = state;
+
+  // Selama tidur: isi Energy & Mood perlahan sampai penuh (±7-9 detik).
+  useEffect(() => {
+    if (!tidur) return;
+    const id = setInterval(() => {
+      const s = stateRef.current;
+      if (s && s.energy >= 100 && s.mood >= 100) {
+        clearInterval(id);
+        return;
+      }
+      pulihRef.current(3, 3);
+    }, 280);
+    return () => clearInterval(id);
+  }, [tidur]);
 
   if (!state) return <Loader />;
 
-  const equipped = state.equippedItem ? cariOutfit(state.equippedItem) : undefined;
-  const handle = () => setPesan(tidurin().pesan ?? "");
+  const tidurkan = () => {
+    if (tidur) return;
+    setTidur(true);
+    playSfx("pop");
+  };
 
   return (
-    <ActionScreen title="Tidurin Komi" koin={state.koin}>
-      <div className="flex flex-col items-center gap-3">
-        <SpeechBubble>{pesan}</SpeechBubble>
-        <div className="relative">
-          <KomiCharacter mood="none" size={190} accessory={equipped?.emoji} />
-          {[0, 1, 2].map((i) => (
-            <motion.span
-              key={i}
-              className="absolute right-0 top-2 font-display text-2xl font-extrabold text-kompas"
-              animate={{ y: [-2, -30], opacity: [0, 1, 0] }}
-              transition={{ duration: 2.2, repeat: Infinity, delay: i * 0.6, ease: "easeOut" }}
-            >
-              z
-            </motion.span>
-          ))}
-        </div>
-      </div>
+    <div className="absolute inset-0 overflow-hidden">
+      <Image
+        src={tidur ? KOMI_IMG.tidurSudah : KOMI_IMG.tidurBelum}
+        alt=""
+        fill
+        priority
+        sizes="460px"
+        className="object-cover object-top transition-opacity duration-500"
+      />
 
-      <Panel>
-        <StatusBars
-          kenyang={state.kenyang}
-          mood={state.mood}
-          energy={state.energy}
-          update={state.update}
+      <Link
+        href="/kolom-komi"
+        aria-label="Kembali"
+        className="absolute left-2.5 top-2.5 z-30 flex h-10 w-10 items-center justify-center rounded-full border-2 border-white/70 bg-navy/70 text-white shadow-md backdrop-blur-sm transition active:scale-95"
+      >
+        <ArrowLeft className="h-5 w-5" />
+      </Link>
+
+      {/* Bar Mood (pink) & Energy (biru) — posisi & gaya sama dengan Kasih Makan */}
+      <NeedBar
+        icon={<Smile className="h-4 w-4" />}
+        value={state.mood}
+        top={BAR_TOP_1}
+        fill="linear-gradient(to bottom, #ff9ecb, #ff3d92)"
+        badge="linear-gradient(to bottom, #ff9ecb, #ff3d92)"
+      />
+      <NeedBar
+        icon={<Zap className="h-4 w-4" />}
+        value={state.energy}
+        top={BAR_TOP_2}
+        fill="linear-gradient(to bottom, #8fd3ff, #2d9cdb)"
+        badge="linear-gradient(to bottom, #5bbcf2, #2d9cdb)"
+      />
+
+      {/* Zona lampu (kiri) — klik untuk matikan lampu & tidurin Komi */}
+      {!tidur ? (
+        <button
+          onClick={tidurkan}
+          aria-label="Matikan lampu & tidurin Komi"
+          className="absolute left-[3%] top-[37%] z-20 h-[23%] w-[28%] rounded-2xl"
         />
-      </Panel>
+      ) : null}
 
-      <GameButton onClick={handle} className="w-full">
-        🛏️ Tidurin Komi
-      </GameButton>
-    </ActionScreen>
+      {/* Hint / status */}
+      <div className="absolute inset-x-0 bottom-6 z-20 flex justify-center px-6">
+        <p className="rounded-full bg-navy/55 px-4 py-2 text-center font-body text-sm font-semibold text-white shadow-md backdrop-blur-sm">
+          {tidur ? "Komi tidur nyenyak… energy & mood pulih 😴" : "Klik lampu di kiri buat matiin & tidurin Komi 💡"}
+        </p>
+      </div>
+    </div>
   );
 }

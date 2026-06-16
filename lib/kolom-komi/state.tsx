@@ -97,6 +97,8 @@ interface KomiContextValue {
   elus: () => void;
   /** Tidurin Komi — pulihkan Energy. */
   tidurin: () => HasilAksi;
+  /** Pulihkan Energy & Mood perlahan selama Komi tidur. */
+  pulihTidur: (deltaEnergy: number, deltaMood: number) => void;
   /** Reward setelah main mini-game: koin sesuai skor + mood naik. */
   selesaiMain: (skor: number) => HasilAksi;
   bacaBerita: (beritaId: string) => HasilAksi;
@@ -176,6 +178,11 @@ export function KolomKomiProvider({ children }: { children: ReactNode }) {
     );
     return { sukses: true, pesan: "Zzz… Komi tidur nyenyak. Energy pulih! 🛏️" };
   };
+
+  const pulihTidur = (deltaEnergy: number, deltaMood: number) =>
+    setState((s) =>
+      s ? { ...s, energy: clamp(s.energy + deltaEnergy), mood: clamp(s.mood + deltaMood) } : s
+    );
 
   const selesaiMain = (skor: number): HasilAksi => {
     if (!state) return { sukses: false };
@@ -341,6 +348,7 @@ export function KolomKomiProvider({ children }: { children: ReactNode }) {
         beriMakan,
         elus,
         tidurin,
+        pulihTidur,
         selesaiMain,
         bacaBerita,
         selesaiBaca,

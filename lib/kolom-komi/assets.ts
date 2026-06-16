@@ -19,4 +19,8 @@ export const KOMI_IMG = {
   homeBg: "/komi/home-bg.png",
   /** Latar halaman Kasih Makan (dapur + Komi pakai celemek, tanpa bar/mangkok) */
   makanBg: "/komi/komi-makanBG.png",
+  /** Tidurin — Komi masih bangun (lampu menyala) */
+  tidurBelum: "/komi/komitidur_belumtidur.png",
+  /** Tidurin — Komi sudah tidur (lampu mati, zzz) */
+  tidurSudah: "/komi/komitidur_sudahtidur.png",
 };
