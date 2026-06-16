@@ -9,7 +9,7 @@ import { KoinIcon } from "@/components/KolomKomi/KoinIcon";
 
 // Cara mendapatkan Koin (selaras dengan logika di lib/kolom-komi/state.tsx).
 const CARA = [
-  { emoji: "📰", judul: "Baca berita bareng", detail: "+10 Koin tiap artikel baru (sekali per hari)" },
+  { emoji: "📰", judul: "Baca berita bareng", detail: "+5 Koin tiap artikel baru (sekali per hari)" },
   { emoji: "📅", judul: "Check-in harian", detail: "+5 sampai +50 Koin — makin panjang streak, makin besar" },
   { emoji: "🎮", judul: "Main mini-game", detail: "Koin sesuai skor di Main Bareng" },
 ];

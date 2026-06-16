@@ -136,7 +136,7 @@ export default function BacaPage() {
                         <>
                           <span>Baca</span>
                           <span className="opacity-70">·</span>
-                          <span>+10</span>
+                          <span>+5</span>
                           <KoinIcon size={13} />
                         </>
                       )}
