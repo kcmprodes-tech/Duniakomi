@@ -1,6 +1,7 @@
 import { Navbar } from "@/components/landing/Navbar";
 import { Hero } from "@/components/landing/Hero";
 import { KolomKomiShowcase } from "@/components/landing/KolomKomiShowcase";
+import { KontenTeaser } from "@/components/landing/KontenTeaser";
 import { FiturPendukung } from "@/components/landing/FiturPendukung";
 import { ComingLater } from "@/components/landing/ComingLater";
 import { EditorialGuard } from "@/components/landing/EditorialGuard";
@@ -14,6 +15,7 @@ export default function Home() {
       <main className="flex-1">
         <Hero />
         <KolomKomiShowcase />
+        <KontenTeaser />
         <FiturPendukung />
         <ComingLater />
         <EditorialGuard />
