@@ -1,7 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 import { useKolomKomi } from "@/lib/kolom-komi/state";
+import { KOMI_IMG } from "@/lib/kolom-komi/assets";
 import { ActionScreen } from "@/components/KolomKomi/ActionScreen";
 import { TangkapIkan } from "@/components/KolomKomi/TangkapIkan";
 import { LemparIkan } from "@/components/KolomKomi/LemparIkan";
@@ -26,6 +30,7 @@ export default function MainPage() {
 
   const game = GAMES.find((g) => g.id === pilih);
 
+  // Layar main game terpilih.
   if (game) {
     const Comp = game.Comp;
     return (
@@ -41,24 +46,37 @@ export default function MainPage() {
     );
   }
 
+  // Selector: scene Komi main + panel carousel game (scroll horizontal).
   return (
-    <ActionScreen title="Main Bareng" koin={state.koin}>
-      <p className="font-body text-sm font-semibold text-navy/70">
-        Pilih permainan buat main bareng Komi! 🎮
-      </p>
-      <div className="grid grid-cols-2 gap-3">
-        {GAMES.map((g) => (
-          <button
-            key={g.id}
-            onClick={() => setPilih(g.id)}
-            className="flex flex-col items-center gap-1.5 rounded-3xl border-2 border-navy/10 bg-white/90 p-4 text-center shadow-md transition hover:-translate-y-0.5 hover:border-orange/40 hover:shadow-lg active:translate-y-0 active:scale-95"
-          >
-            <span className="text-4xl">{g.emoji}</span>
-            <p className="font-display text-sm font-extrabold text-navy">{g.nama}</p>
-            <p className="font-body text-[11px] leading-snug text-gray-text">{g.desc}</p>
-          </button>
-        ))}
+    <div className="absolute inset-0 overflow-hidden">
+      <Image src={KOMI_IMG.gameBg} alt="" fill priority sizes="460px" className="object-cover object-top" />
+
+      <Link
+        href="/kolom-komi"
+        aria-label="Kembali"
+        className="absolute left-2.5 top-2.5 z-30 flex h-10 w-10 items-center justify-center rounded-full border-2 border-white/70 bg-navy/70 text-white shadow-md backdrop-blur-sm transition active:scale-95"
+      >
+        <ArrowLeft className="h-5 w-5" />
+      </Link>
+
+      <div className="absolute inset-x-0 bottom-0 z-20 rounded-t-[2rem] bg-[#3a2417] pb-5 pt-4 shadow-[0_-8px_30px_rgba(0,0,0,0.4)]">
+        <p className="px-6 text-center font-display text-base font-extrabold text-white">
+          Pilih permainan buat main bareng Komi! 🎮
+        </p>
+        <div className="mt-3 flex gap-3 overflow-x-auto px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {GAMES.map((g) => (
+            <button
+              key={g.id}
+              onClick={() => setPilih(g.id)}
+              className="flex w-[150px] shrink-0 flex-col items-center gap-1 rounded-3xl border border-white/70 bg-gradient-to-b from-[#eaf4ff] to-white p-3 text-center shadow-md transition active:scale-95"
+            >
+              <span className="text-[40px] leading-none drop-shadow-sm">{g.emoji}</span>
+              <p className="mt-1 font-display text-sm font-extrabold text-navy">{g.nama}</p>
+              <p className="font-body text-[11px] leading-snug text-gray-text">{g.desc}</p>
+            </button>
+          ))}
+        </div>
       </div>
-    </ActionScreen>
+    </div>
   );
 }
