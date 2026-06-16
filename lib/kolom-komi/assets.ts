@@ -29,4 +29,6 @@ export const KOMI_IMG = {
   gameBg: "/komi/komi-game.png",
   /** Latar halaman Ajak Jalan (Komi siap jalan-jalan) */
   jalanBg: "/komi/komi-jalan.png",
+  /** Latar halaman Dandani (Komi di ruang ganti) */
+  dandaniBg: "/komi/dandani.png",
 };
