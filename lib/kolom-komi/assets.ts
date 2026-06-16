@@ -8,9 +8,9 @@ export const KOMI_IMG = {
   /** Latar ruangan */
   room: "/komi/room.png",
   /** Logo "Kolom Komi" */
-  logo: "/komi/logo-kolom-komi.png",
-  /** Cover mancing: latar kolam */
-  coverBg: "/komi/cover-bg.png",
+  logo: "/komi/logo-kolom.png",
+  /** Cover splash (Komi sudah menyatu di latar) */
+  coverBg: "/komi/cover-kolom-tanpalogo.png",
   /** Cover mancing: Komi sedang mancing (transparan) */
   mancing: "/komi/komi-mancing.png",
   /** Logo KOMPAS.com versi putih */

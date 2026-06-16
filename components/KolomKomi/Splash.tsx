@@ -5,8 +5,8 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { KOMI_IMG } from "@/lib/kolom-komi/assets";
 
-// Layar cover + loading (tema mancing) sebelum masuk game.
-// Layer: latar kolam + logo + Komi mancing + bar loading beranimasi + logo KOMPAS.
+// Layar cover + loading sebelum masuk game.
+// Layer: latar cover (Komi sudah menyatu) + logo + bar loading + logo KOMPAS.
 export function Splash({ onDone }: { onDone: () => void }) {
   useEffect(() => {
     const t = setTimeout(onDone, 2600);
@@ -27,7 +27,7 @@ export function Splash({ onDone }: { onDone: () => void }) {
         initial={{ opacity: 0, y: -16, scale: 0.92 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className="absolute left-1/2 top-[2%] z-10 h-[27%] w-[88%] -translate-x-1/2 translate-y-[40px]"
+        className="absolute left-1/2 top-[3.5%] z-10 h-[30%] w-[72%] -translate-x-1/2"
       >
         <Image
           src={KOMI_IMG.logo}
@@ -38,18 +38,6 @@ export function Splash({ onDone }: { onDone: () => void }) {
           className="object-contain drop-shadow-lg"
         />
       </motion.div>
-
-      {/* Komi sedang mancing (diam, ukuran +30%) */}
-      <div className="absolute bottom-[18%] left-1/2 h-[78%] w-[96%] -translate-x-1/2 translate-y-[140px]">
-        <Image
-          src={KOMI_IMG.mancing}
-          alt="Komi mancing"
-          fill
-          priority
-          sizes="480px"
-          className="object-contain object-bottom drop-shadow-xl"
-        />
-      </div>
 
       {/* Bar loading */}
       <div className="absolute bottom-[11.5%] left-1/2 w-[62%] -translate-x-1/2">
