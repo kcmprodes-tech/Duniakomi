@@ -34,13 +34,7 @@ export default function MainPage() {
   if (game) {
     const Comp = game.Comp;
     return (
-      <ActionScreen title={game.nama} koin={state.koin}>
-        <button
-          onClick={() => setPilih(null)}
-          className="-mt-1 self-start font-body text-sm font-bold text-navy/60 transition active:scale-95"
-        >
-          ‹ Semua game
-        </button>
+      <ActionScreen title={game.nama} koin={state.koin} onBack={() => setPilih(null)}>
         <Comp onSelesai={selesaiMain} />
       </ActionScreen>
     );

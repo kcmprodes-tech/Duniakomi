@@ -10,24 +10,30 @@ import { KoinIcon } from "./KoinIcon";
 export function ActionScreen({
   title,
   koin,
+  onBack,
   children,
 }: {
   title: string;
   /** Tampilkan counter Koin di kanan header (opsional). */
   koin?: number;
+  /** Kalau diisi, tombol kembali memanggil ini (mis. balik ke selector), bukan ke home. */
+  onBack?: () => void;
   children: ReactNode;
 }) {
+  const backClass =
+    "inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-[#3a4d7a] to-[#1a2845] text-white shadow-[0_4px_0_0_var(--edge),inset_0_2px_2px_rgba(255,255,255,0.4)] transition-[transform,box-shadow] active:translate-y-[3px] active:shadow-[0_1px_0_0_var(--edge)]";
   return (
     <div className="flex min-h-dvh flex-col">
       <header className="sticky top-0 z-30 flex items-center gap-3 bg-gradient-to-b from-white/90 via-white/70 to-transparent px-4 pb-5 pt-5 backdrop-blur-[2px]">
-        <Link
-          href="/kolom-komi"
-          aria-label="Kembali"
-          style={{ ["--edge" as string]: "#0d1428" }}
-          className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-[#3a4d7a] to-[#1a2845] text-white shadow-[0_4px_0_0_var(--edge),inset_0_2px_2px_rgba(255,255,255,0.4)] transition-[transform,box-shadow] active:translate-y-[3px] active:shadow-[0_1px_0_0_var(--edge)]"
-        >
-          <ArrowLeft className="h-5 w-5" />
-        </Link>
+        {onBack ? (
+          <button onClick={onBack} aria-label="Kembali" style={{ ["--edge" as string]: "#0d1428" }} className={backClass}>
+            <ArrowLeft className="h-5 w-5" />
+          </button>
+        ) : (
+          <Link href="/kolom-komi" aria-label="Kembali" style={{ ["--edge" as string]: "#0d1428" }} className={backClass}>
+            <ArrowLeft className="h-5 w-5" />
+          </Link>
+        )}
         <h1 className="flex-1 truncate font-display text-2xl font-extrabold text-navy [text-shadow:0_1px_0_rgba(255,255,255,0.7)]">
           {title}
         </h1>
