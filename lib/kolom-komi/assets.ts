@@ -33,6 +33,6 @@ export const KOMI_IMG = {
   dandaniBg: "/komi/dandani.png",
   /** Hero banner landing — desktop (lebar) */
   heroBanner: "/komi/BG-duniakomi.png",
-  /** Hero banner landing — mobile (potret) */
-  heroBannerMobile: "/komi/hero-banner-mobile.png",
+  /** Hero banner landing — mobile (potret 9:16) */
+  heroBannerMobile: "/komi/BGmobile-duniakomi.png",
 };
