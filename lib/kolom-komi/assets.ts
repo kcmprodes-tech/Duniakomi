@@ -16,7 +16,7 @@ export const KOMI_IMG = {
   /** Logo KOMPAS.com versi putih */
   kompasPutih: "/komi/kompas-putih.png",
   /** Latar halaman home (ruang dalam rumah) */
-  homeBg: "/komi/home-bg.png",
+  homeBg: "/komi/bg-halamanutama.png",
   /** Latar halaman Kasih Makan (dapur + Komi pakai celemek, tanpa bar/mangkok) */
   makanBg: "/komi/komi-makanBG.png",
   /** Tidurin — Komi masih bangun (lampu menyala) */
