@@ -140,7 +140,7 @@ export default function MakanPage() {
       {/* Zona mulut (target) */}
       <div
         ref={mouthRef}
-        className={`absolute left-[33%] top-[30%] z-10 h-[13%] w-[34%] rounded-full transition ${
+        className={`absolute left-[33%] top-[43%] z-10 h-[12%] w-[34%] rounded-full transition ${
           drag ? "bg-white/20 ring-4 ring-white/60" : ""
         }`}
       />
@@ -152,7 +152,7 @@ export default function MakanPage() {
             initial={{ opacity: 0, y: 0, scale: 0.8 }}
             animate={{ opacity: 1, y: -40, scale: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute left-1/2 top-[30%] z-30 -translate-x-1/2 rounded-full bg-white/95 px-3 py-1 font-display text-sm font-extrabold text-orange shadow-md"
+            className="absolute left-1/2 top-[42%] z-30 -translate-x-1/2 rounded-full bg-white/95 px-3 py-1 font-display text-sm font-extrabold text-orange shadow-md"
           >
             {nyam.teks}
           </motion.div>
