@@ -31,4 +31,8 @@ export const KOMI_IMG = {
   jalanBg: "/komi/komi-jalan.png",
   /** Latar halaman Dandani (Komi di ruang ganti) */
   dandaniBg: "/komi/dandani.png",
+  /** Hero banner landing — desktop (lebar) */
+  heroBanner: "/komi/hero-banner.png",
+  /** Hero banner landing — mobile (potret) */
+  heroBannerMobile: "/komi/hero-banner-mobile.png",
 };
