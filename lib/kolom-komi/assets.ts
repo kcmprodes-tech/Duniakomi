@@ -27,4 +27,6 @@ export const KOMI_IMG = {
   bacaBg: "/komi/komi-baca.png",
   /** Latar halaman Main Bareng (Komi main game di bean bag) */
   gameBg: "/komi/komi-game.png",
+  /** Latar halaman Ajak Jalan (Komi siap jalan-jalan) */
+  jalanBg: "/komi/komi-jalan.png",
 };
