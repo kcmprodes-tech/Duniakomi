@@ -1,9 +1,9 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, type ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, Heart } from "lucide-react";
+import { ArrowLeft, Utensils, Smile } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useKolomKomi } from "@/lib/kolom-komi/state";
 import { FOODS, type Food } from "@/lib/kolom-komi/foods";
@@ -11,29 +11,40 @@ import { KOMI_IMG } from "@/lib/kolom-komi/assets";
 import { Loader } from "@/components/KolomKomi/Loader";
 import { playSfx } from "@/lib/kolom-komi/sound";
 
-// Posisi elemen overlay (% dari tinggi layar) — dipas-kan ke komposit komi-makan.png.
-const BAR1_TOP = 14.0;
-const BAR2_TOP = 22.6;
+// Posisi overlay (% tinggi layar) — dipas-kan ke komi-makanBG.png.
+const BAR1_TOP = 10.0;
+const BAR2_TOP = 15.4;
 
-// Satu bar kebutuhan bergaya desain: hati + track + isi pink + ujung hijau + angka.
-function NeedBar({ value, top }: { value: number; top: number }) {
+// Bar kebutuhan: ikon + warna disamakan dengan halaman home (Kenyang oranye, Mood pink).
+function NeedBar({
+  icon,
+  value,
+  top,
+  fill,
+  badge,
+}: {
+  icon: ReactNode;
+  value: number;
+  top: number;
+  fill: string;
+  badge: string;
+}) {
   const pct = Math.round(Math.max(0, Math.min(100, value)));
   return (
-    <div className="absolute left-2 right-3 z-20 flex items-center gap-1.5" style={{ top: `${top}%` }}>
-      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border-2 border-white bg-gradient-to-b from-[#ff5b8a] to-[#e0144c] shadow">
-        <Heart className="h-4 w-4 fill-white text-white" />
+    <div className="absolute left-1.5 right-2 z-20 flex items-center gap-1.5" style={{ top: `${top}%` }}>
+      <span
+        className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border-2 border-white text-white shadow"
+        style={{ background: badge }}
+      >
+        {icon}
       </span>
-      <div className="relative h-[22px] flex-1 overflow-hidden rounded-full border-2 border-white bg-[#5e2238] shadow">
+      <div className="relative h-[22px] flex-1 overflow-hidden rounded-full border-2 border-white shadow" style={{ background: "rgba(28,16,22,0.5)" }}>
         <div
-          className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-b from-[#ff6fae] to-[#ec3f86] transition-[width] duration-500"
-          style={{ width: `${pct}%` }}
+          className="absolute inset-y-0 left-0 rounded-full transition-[width] duration-500"
+          style={{ width: `${pct}%`, background: fill }}
         />
-        <div
-          className="absolute inset-y-[1px] w-3 rounded-full bg-gradient-to-b from-[#8fe06a] to-[#4ea62e]"
-          style={{ left: `calc(${pct}% - 12px)` }}
-        />
-        <span className="absolute inset-0 flex items-center justify-end pr-2.5 font-display text-[11px] font-extrabold text-white [text-shadow:0_1px_1px_rgba(0,0,0,0.5)]">
-          {pct}/100
+        <span className="absolute inset-0 flex items-center justify-end pr-2.5 font-display text-[11px] font-extrabold text-white [text-shadow:0_1px_1px_rgba(0,0,0,0.55)]">
+          {pct}%
         </span>
       </div>
     </div>
@@ -61,7 +72,7 @@ export default function MakanPage() {
     setTimeout(() => setPesan(null), 1800);
     if (r.sukses) {
       playSfx("pop");
-      setNyam({ teks: `+${food.efek.kenyang} 🍜` });
+      setNyam({ teks: `+${food.efek.kenyang} 🍴` });
       setTimeout(() => setNyam(null), 900);
     }
   };
@@ -102,7 +113,6 @@ export default function MakanPage() {
     <div className="absolute inset-0 overflow-hidden">
       <Image src={KOMI_IMG.makanBg} alt="" fill priority sizes="460px" className="object-cover object-top" />
 
-      {/* Tombol kembali */}
       <Link
         href="/kolom-komi"
         aria-label="Kembali"
@@ -111,26 +121,38 @@ export default function MakanPage() {
         <ArrowLeft className="h-5 w-5" />
       </Link>
 
-      {/* 2 bar: Kenyang & Mood */}
-      <NeedBar value={state.kenyang} top={BAR1_TOP} />
-      <NeedBar value={state.mood} top={BAR2_TOP} />
+      {/* Bar Kenyang (oranye) & Mood (pink) — sama seperti home */}
+      <NeedBar
+        icon={<Utensils className="h-4 w-4" />}
+        value={state.kenyang}
+        top={BAR1_TOP}
+        fill="linear-gradient(to bottom, #ffd27a, #f08020)"
+        badge="linear-gradient(to bottom, #ffbe57, #f08020)"
+      />
+      <NeedBar
+        icon={<Smile className="h-4 w-4" />}
+        value={state.mood}
+        top={BAR2_TOP}
+        fill="linear-gradient(to bottom, #ff9ecb, #ff3d92)"
+        badge="linear-gradient(to bottom, #ff9ecb, #ff3d92)"
+      />
 
-      {/* Zona mulut (target jatuhkan makanan) */}
+      {/* Zona mulut (target) */}
       <div
         ref={mouthRef}
-        className={`absolute left-[33%] top-[37%] z-10 h-[15%] w-[34%] rounded-full transition ${
+        className={`absolute left-[33%] top-[30%] z-10 h-[13%] w-[34%] rounded-full transition ${
           drag ? "bg-white/20 ring-4 ring-white/60" : ""
         }`}
       />
 
-      {/* Efek "nyam" di mulut */}
+      {/* Efek "nyam" */}
       <AnimatePresence>
         {nyam ? (
           <motion.div
             initial={{ opacity: 0, y: 0, scale: 0.8 }}
             animate={{ opacity: 1, y: -40, scale: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute left-1/2 top-[40%] z-30 -translate-x-1/2 rounded-full bg-white/95 px-3 py-1 font-display text-sm font-extrabold text-orange shadow-md"
+            className="absolute left-1/2 top-[30%] z-30 -translate-x-1/2 rounded-full bg-white/95 px-3 py-1 font-display text-sm font-extrabold text-orange shadow-md"
           >
             {nyam.teks}
           </motion.div>
@@ -144,17 +166,17 @@ export default function MakanPage() {
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="absolute left-1/2 top-[27%] z-30 w-[80%] max-w-xs -translate-x-1/2 rounded-2xl border-2 border-navy/10 bg-white/95 px-4 py-2 text-center font-body text-sm font-medium text-navy shadow-md"
+            className="absolute left-1/2 top-[21%] z-30 w-[80%] max-w-xs -translate-x-1/2 rounded-2xl border-2 border-navy/10 bg-white/95 px-4 py-2 text-center font-body text-sm font-medium text-navy shadow-md"
           >
             {pesan}
           </motion.div>
         ) : null}
       </AnimatePresence>
 
-      {/* Carousel mangkok (bawah) */}
-      <div className="absolute inset-x-0 bottom-0 z-20 h-[30%]">
-        <div className="pointer-events-none absolute inset-0 rounded-t-[2rem] border-t-2 border-[#caa06a] shadow-[0_-6px_18px_rgba(0,0,0,0.3)]" style={{ background: "linear-gradient(to bottom, #b3793f, #7a4d28)" }} />
-        <p className="absolute left-0 right-0 top-1.5 z-10 text-center font-body text-[11px] font-bold text-white/90 [text-shadow:0_1px_2px_rgba(0,0,0,0.6)]">
+      {/* Carousel makanan — langsung di atas meja */}
+      <div className="absolute inset-x-0 bottom-0 z-20 h-[37%]">
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/25 to-transparent" />
+        <p className="absolute left-0 right-0 top-1.5 z-10 text-center font-body text-[12px] font-bold text-white [text-shadow:0_1px_3px_rgba(0,0,0,0.8)]">
           Geser & tarik makanan ke mulut Komi 👆
         </p>
         <div className="absolute inset-x-0 bottom-2 top-9 flex touch-pan-x items-center gap-3 overflow-x-auto px-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -164,22 +186,22 @@ export default function MakanPage() {
               onPointerDown={(e) => onDown(e, f)}
               onPointerMove={onMove}
               onPointerUp={onUp}
-              className="relative flex w-[126px] shrink-0 cursor-grab touch-pan-x flex-col items-center active:cursor-grabbing"
+              className="relative flex w-[140px] shrink-0 cursor-grab touch-pan-x flex-col items-center active:cursor-grabbing"
             >
               {f.badge ? (
-                <span className="absolute -top-1 right-1 z-10 rounded-full border border-white bg-gradient-to-b from-[#ffbe57] to-[#f08020] px-1.5 py-0.5 font-display text-[8px] font-extrabold uppercase text-white shadow">
+                <span className="absolute -top-1 right-2 z-10 rounded-full border border-white bg-gradient-to-b from-[#ffbe57] to-[#f08020] px-1.5 py-0.5 font-display text-[8px] font-extrabold uppercase text-white shadow">
                   {f.badge}
                 </span>
               ) : null}
               <Image
                 src={f.img!}
                 alt={f.nama}
-                width={126}
-                height={88}
+                width={140}
+                height={117}
                 draggable={false}
-                className="pointer-events-none drop-shadow-lg"
+                className="pointer-events-none drop-shadow-xl"
               />
-              <span className="mt-0.5 font-display text-[11px] font-extrabold text-white [text-shadow:0_1px_2px_rgba(0,0,0,0.7)]">
+              <span className="mt-0.5 font-display text-[12px] font-extrabold text-white [text-shadow:0_1px_3px_rgba(0,0,0,0.85)]">
                 {f.nama}
               </span>
             </div>
@@ -187,13 +209,13 @@ export default function MakanPage() {
         </div>
       </div>
 
-      {/* Mangkok melayang saat diseret */}
+      {/* Makanan melayang saat diseret */}
       {drag ? (
         <Image
           src={drag.food.img!}
           alt=""
-          width={150}
-          height={105}
+          width={170}
+          height={142}
           draggable={false}
           style={{ position: "fixed", left: drag.x, top: drag.y, transform: "translate(-50%,-50%)", zIndex: 60, pointerEvents: "none" }}
           className="drop-shadow-2xl"

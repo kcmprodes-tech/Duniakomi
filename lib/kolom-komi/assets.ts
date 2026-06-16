@@ -17,6 +17,6 @@ export const KOMI_IMG = {
   kompasPutih: "/komi/kompas-putih.png",
   /** Latar halaman home (ruang dalam rumah) */
   homeBg: "/komi/home-bg.png",
-  /** Latar halaman Kasih Makan (dapur + Komi pakai celemek) */
-  makanBg: "/komi/komi-makan.png",
+  /** Latar halaman Kasih Makan (dapur + Komi pakai celemek, tanpa bar/mangkok) */
+  makanBg: "/komi/komi-makanBG.png",
 };
