@@ -9,12 +9,14 @@ import { useKolomKomi } from "@/lib/kolom-komi/state";
 import { OUTFITS, type Outfit } from "@/lib/kolom-komi/items";
 import { KOMI_IMG } from "@/lib/kolom-komi/assets";
 import { Loader } from "@/components/KolomKomi/Loader";
+import { SceneOverlay } from "@/components/KolomKomi/SceneOverlay";
 import { KoinIcon } from "@/components/KolomKomi/KoinIcon";
 import { playSfx } from "@/lib/kolom-komi/sound";
 
 export default function DandaninPage() {
   const { state, beliItem, pakaiItem } = useKolomKomi();
   const [pesan, setPesan] = useState<string | null>(null);
+  const [bgLoaded, setBgLoaded] = useState(false);
 
   if (!state) return <Loader />;
 
@@ -47,7 +49,17 @@ export default function DandaninPage() {
 
   return (
     <div className="absolute inset-0 overflow-hidden">
-      <Image src={KOMI_IMG.dandaniBg} alt="" fill priority sizes="460px" className="object-cover object-top" />
+      <Image
+        src={KOMI_IMG.dandaniBg}
+        alt=""
+        fill
+        priority
+        sizes="460px"
+        className="object-cover object-top"
+        onLoad={() => setBgLoaded(true)}
+        onError={() => setBgLoaded(true)}
+      />
+      <SceneOverlay show={!bgLoaded} />
 
       <Link
         href="/kolom-komi"

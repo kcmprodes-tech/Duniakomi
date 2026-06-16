@@ -7,12 +7,14 @@ import { ArrowLeft, Smile, Zap } from "lucide-react";
 import { useKolomKomi } from "@/lib/kolom-komi/state";
 import { KOMI_IMG } from "@/lib/kolom-komi/assets";
 import { Loader } from "@/components/KolomKomi/Loader";
+import { SceneOverlay } from "@/components/KolomKomi/SceneOverlay";
 import { NeedBar, BAR_TOP_1, BAR_TOP_2 } from "@/components/KolomKomi/NeedBar";
 import { playSfx } from "@/lib/kolom-komi/sound";
 
 export default function TidurPage() {
   const { state, pulihTidur } = useKolomKomi();
   const [tidur, setTidur] = useState(false);
+  const [bgLoaded, setBgLoaded] = useState(false);
 
   // Ref biar interval pakai versi terbaru tanpa re-create tiap render.
   const pulihRef = useRef(pulihTidur);
@@ -51,7 +53,10 @@ export default function TidurPage() {
         priority
         sizes="460px"
         className="object-cover object-top transition-opacity duration-500"
+        onLoad={() => setBgLoaded(true)}
+        onError={() => setBgLoaded(true)}
       />
+      <SceneOverlay show={!bgLoaded} />
 
       <Link
         href="/kolom-komi"

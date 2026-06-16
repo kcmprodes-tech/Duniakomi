@@ -9,12 +9,14 @@ import { useKolomKomi } from "@/lib/kolom-komi/state";
 import { FOODS, type Food } from "@/lib/kolom-komi/foods";
 import { KOMI_IMG } from "@/lib/kolom-komi/assets";
 import { Loader } from "@/components/KolomKomi/Loader";
+import { SceneOverlay } from "@/components/KolomKomi/SceneOverlay";
 import { NeedBar, BAR_TOP_1, BAR_TOP_2 } from "@/components/KolomKomi/NeedBar";
 import { playSfx } from "@/lib/kolom-komi/sound";
 
 export default function MakanPage() {
   const { state, beriMakan } = useKolomKomi();
   const [pesan, setPesan] = useState<string | null>(null);
+  const [bgLoaded, setBgLoaded] = useState(false);
   const [drag, setDrag] = useState<{ food: Food; x: number; y: number } | null>(null);
   const [nyam, setNyam] = useState<{ teks: string } | null>(null);
   const mouthRef = useRef<HTMLDivElement>(null);
@@ -72,7 +74,17 @@ export default function MakanPage() {
 
   return (
     <div className="absolute inset-0 overflow-hidden">
-      <Image src={KOMI_IMG.makanBg} alt="" fill priority sizes="460px" className="object-cover object-top" />
+      <Image
+        src={KOMI_IMG.makanBg}
+        alt=""
+        fill
+        priority
+        sizes="460px"
+        className="object-cover object-top"
+        onLoad={() => setBgLoaded(true)}
+        onError={() => setBgLoaded(true)}
+      />
+      <SceneOverlay show={!bgLoaded} />
 
       <Link
         href="/kolom-komi"

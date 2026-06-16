@@ -12,6 +12,7 @@ import { KOMI_IMG } from "@/lib/kolom-komi/assets";
 import { InAppBrowser } from "@/components/KolomKomi/InAppBrowser";
 import { Toast } from "@/components/KolomKomi/Toast";
 import { Loader } from "@/components/KolomKomi/Loader";
+import { SceneOverlay } from "@/components/KolomKomi/SceneOverlay";
 import { KoinIcon } from "@/components/KolomKomi/KoinIcon";
 import { playSfx } from "@/lib/kolom-komi/sound";
 
@@ -38,6 +39,7 @@ export default function BacaPage() {
   const [toast, setToast] = useState<ToastInfo | null>(null);
   const [pct, setPct] = useState(COLLAPSED);
   const [dragging, setDragging] = useState(false);
+  const [bgLoaded, setBgLoaded] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const start = useRef({ y: 0, pct: COLLAPSED, h: 0 });
 
@@ -78,7 +80,17 @@ export default function BacaPage() {
 
   return (
     <div ref={containerRef} className="absolute inset-0 overflow-hidden">
-      <Image src={KOMI_IMG.bacaBg} alt="" fill priority sizes="460px" className="object-cover object-top" />
+      <Image
+        src={KOMI_IMG.bacaBg}
+        alt=""
+        fill
+        priority
+        sizes="460px"
+        className="object-cover object-top"
+        onLoad={() => setBgLoaded(true)}
+        onError={() => setBgLoaded(true)}
+      />
+      <SceneOverlay show={!bgLoaded} />
 
       <Link
         href="/kolom-komi"

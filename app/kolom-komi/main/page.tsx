@@ -13,6 +13,7 @@ import { SembunyiKomi } from "@/components/KolomKomi/SembunyiKomi";
 import { BersihBersih } from "@/components/KolomKomi/BersihBersih";
 import { TebakBerita } from "@/components/KolomKomi/TebakBerita";
 import { Loader } from "@/components/KolomKomi/Loader";
+import { SceneOverlay } from "@/components/KolomKomi/SceneOverlay";
 import { playSfx } from "@/lib/kolom-komi/sound";
 
 const GAMES = [
@@ -26,6 +27,7 @@ const GAMES = [
 export default function MainPage() {
   const { state, selesaiMain } = useKolomKomi();
   const [pilih, setPilih] = useState<string | null>(null);
+  const [bgLoaded, setBgLoaded] = useState(false);
 
   if (!state) return <Loader />;
 
@@ -44,7 +46,17 @@ export default function MainPage() {
   // Selector: scene Komi main + panel carousel game (scroll horizontal).
   return (
     <div className="absolute inset-0 overflow-hidden">
-      <Image src={KOMI_IMG.gameBg} alt="" fill priority sizes="460px" className="object-cover object-top" />
+      <Image
+        src={KOMI_IMG.gameBg}
+        alt=""
+        fill
+        priority
+        sizes="460px"
+        className="object-cover object-top"
+        onLoad={() => setBgLoaded(true)}
+        onError={() => setBgLoaded(true)}
+      />
+      <SceneOverlay show={!bgLoaded} />
 
       <Link
         href="/kolom-komi"

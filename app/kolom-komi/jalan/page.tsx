@@ -10,17 +10,29 @@ import { KANAL, type Kanal } from "@/lib/kolom-komi/kanal";
 import { KOMI_IMG } from "@/lib/kolom-komi/assets";
 import { InAppBrowser } from "@/components/KolomKomi/InAppBrowser";
 import { Loader } from "@/components/KolomKomi/Loader";
+import { SceneOverlay } from "@/components/KolomKomi/SceneOverlay";
 import { playSfx } from "@/lib/kolom-komi/sound";
 
 export default function JalanPage() {
   const { state } = useKolomKomi();
   const [aktif, setAktif] = useState<Kanal | null>(null);
+  const [bgLoaded, setBgLoaded] = useState(false);
 
   if (!state) return <Loader />;
 
   return (
     <div className="absolute inset-0 overflow-hidden">
-      <Image src={KOMI_IMG.jalanBg} alt="" fill priority sizes="460px" className="object-cover object-top" />
+      <Image
+        src={KOMI_IMG.jalanBg}
+        alt=""
+        fill
+        priority
+        sizes="460px"
+        className="object-cover object-top"
+        onLoad={() => setBgLoaded(true)}
+        onError={() => setBgLoaded(true)}
+      />
+      <SceneOverlay show={!bgLoaded} />
 
       <Link
         href="/kolom-komi"

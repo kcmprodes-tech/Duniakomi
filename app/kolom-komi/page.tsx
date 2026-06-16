@@ -11,6 +11,7 @@ import { KOMI_IMG } from "@/lib/kolom-komi/assets";
 import { KomiStage } from "@/components/KolomKomi/KomiStage";
 import { CheckInPanel } from "@/components/KolomKomi/CheckInPanel";
 import { Loader } from "@/components/KolomKomi/Loader";
+import { SceneOverlay } from "@/components/KolomKomi/SceneOverlay";
 import { KoinIcon } from "@/components/KolomKomi/KoinIcon";
 import { Onboarding } from "@/components/KolomKomi/Onboarding";
 import { playSfx } from "@/lib/kolom-komi/sound";
@@ -58,6 +59,7 @@ export default function HubPage() {
   const { state } = useKolomKomi();
   const [checkinOpen, setCheckinOpen] = useState(false);
   const [pesan, setPesan] = useState<string | null>(null);
+  const [bgLoaded, setBgLoaded] = useState(false);
 
   useEffect(() => {
     if (!pesan) return;
@@ -80,7 +82,17 @@ export default function HubPage() {
   return (
     <div className="absolute inset-0 overflow-hidden">
       {/* Latar ruang */}
-      <Image src={KOMI_IMG.homeBg} alt="" fill priority sizes="460px" className="object-cover" />
+      <Image
+        src={KOMI_IMG.homeBg}
+        alt=""
+        fill
+        priority
+        sizes="460px"
+        className="object-cover"
+        onLoad={() => setBgLoaded(true)}
+        onError={() => setBgLoaded(true)}
+      />
+      <SceneOverlay show={!bgLoaded} />
 
       {/* Badge Koin (kiri atas) → detail poin */}
       <Link
