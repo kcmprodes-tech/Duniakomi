@@ -27,6 +27,7 @@ export default function TidurPage() {
       const s = stateRef.current;
       if (s && s.energy >= 100 && s.mood >= 100) {
         clearInterval(id);
+        setTidur(false); // bar penuh → Komi bangun otomatis
         return;
       }
       pulihRef.current(3, 3);
@@ -36,9 +37,8 @@ export default function TidurPage() {
 
   if (!state) return <Loader />;
 
-  const tidurkan = () => {
-    if (tidur) return;
-    setTidur(true);
+  const toggleTidur = () => {
+    setTidur((t) => !t); // tidur <-> bangun
     playSfx("pop");
   };
 
@@ -77,19 +77,17 @@ export default function TidurPage() {
         badge="linear-gradient(to bottom, #5bbcf2, #2d9cdb)"
       />
 
-      {/* Zona lampu (kiri) — klik untuk matikan lampu & tidurin Komi */}
-      {!tidur ? (
-        <button
-          onClick={tidurkan}
-          aria-label="Matikan lampu & tidurin Komi"
-          className="absolute left-[3%] top-[37%] z-20 h-[23%] w-[28%] rounded-2xl"
-        />
-      ) : null}
+      {/* Zona lampu (kiri) — klik untuk tidurin / bangunin Komi */}
+      <button
+        onClick={toggleTidur}
+        aria-label={tidur ? "Nyalakan lampu & bangunkan Komi" : "Matikan lampu & tidurin Komi"}
+        className="absolute left-[3%] top-[37%] z-20 h-[23%] w-[28%] rounded-2xl"
+      />
 
       {/* Hint / status */}
       <div className="absolute inset-x-0 bottom-6 z-20 flex justify-center px-6">
         <p className="rounded-full bg-navy/55 px-4 py-2 text-center font-body text-sm font-semibold text-white shadow-md backdrop-blur-sm">
-          {tidur ? "Komi tidur nyenyak… energy & mood pulih 😴" : "Klik lampu di kiri buat matiin & tidurin Komi 💡"}
+          {tidur ? "Komi tidur… klik lampu lagi buat bangunin 😴" : "Klik lampu di kiri buat matiin & tidurin Komi 💡"}
         </p>
       </div>
     </div>
