@@ -59,7 +59,7 @@ function blip(freq: number, dur: number, type: OscillatorType, vol: number, dela
   osc.stop(t0 + dur + 0.02);
 }
 
-export type SfxName = "tap" | "pop" | "coin" | "success" | "win" | "giggle";
+export type SfxName = "tap" | "pop" | "coin" | "success" | "win" | "giggle" | "select" | "open" | "buy";
 
 export function playSfx(name: SfxName) {
   if (!settings.sfx) return;
@@ -83,6 +83,16 @@ export function playSfx(name: SfxName) {
       break;
     case "giggle":
       [700, 900, 800, 1000].forEach((f, i) => blip(f, 0.07, "sine", 0.12, i * 0.06));
+      break;
+    case "select":
+      blip(540, 0.05, "triangle", 0.1);
+      blip(720, 0.04, "triangle", 0.08, 0.03);
+      break;
+    case "open":
+      [520, 700, 940].forEach((f, i) => blip(f, 0.1, "sine", 0.12, i * 0.05));
+      break;
+    case "buy":
+      [784, 1047, 1319].forEach((f, i) => blip(f, 0.09, "triangle", 0.15, i * 0.06));
       break;
   }
 }

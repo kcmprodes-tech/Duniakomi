@@ -13,6 +13,7 @@ import { CheckInPanel } from "@/components/KolomKomi/CheckInPanel";
 import { Loader } from "@/components/KolomKomi/Loader";
 import { KoinIcon } from "@/components/KolomKomi/KoinIcon";
 import { Onboarding } from "@/components/KolomKomi/Onboarding";
+import { playSfx } from "@/lib/kolom-komi/sound";
 
 // Lingkaran progres (dinamis): ring conic-gradient + bola glossy + ikon + %.
 function StatCircle({
@@ -85,6 +86,7 @@ export default function HubPage() {
       <Link
         href="/kolom-komi/poin"
         aria-label="Detail Koin"
+        onClick={() => playSfx("select")}
         className="absolute left-3 top-3 z-20 flex items-center gap-1.5 rounded-full border-2 border-[#e6951b] bg-gradient-to-b from-[#ffd34d] to-[#ffb01f] px-3 py-1 shadow-md transition active:scale-95"
       >
         <KoinIcon size={20} />
@@ -95,7 +97,7 @@ export default function HubPage() {
 
       {/* Badge DAY (kanan atas) → buka check-in */}
       <button
-        onClick={() => setCheckinOpen(true)}
+        onClick={() => { playSfx("select"); setCheckinOpen(true); }}
         aria-label="Check-in harian"
         className="absolute right-3 top-3 z-20 flex items-center gap-1.5 rounded-full border-2 border-[#6b32c9] bg-gradient-to-b from-[#9b5cff] to-[#7a2ff0] px-3 py-1 shadow-md transition active:scale-95"
       >
@@ -115,6 +117,7 @@ export default function HubPage() {
         <Link
           href="/kolom-komi/dandanin"
           aria-label="Dandani Komi"
+          onClick={() => playSfx("select")}
           className="block transition active:scale-95"
         >
           <Image src="/komi/dandan.png" alt="Dandani Komi" width={56} height={56} className="drop-shadow-md" />
@@ -122,6 +125,7 @@ export default function HubPage() {
         <Link
           href="/kolom-komi/setting"
           aria-label="Pengaturan"
+          onClick={() => playSfx("select")}
           className="block transition active:scale-95"
         >
           <Image src="/komi/setting.png" alt="Pengaturan" width={56} height={56} className="drop-shadow-md" />
@@ -154,6 +158,7 @@ export default function HubPage() {
             key={a.href}
             href={a.href}
             aria-label={a.label}
+            onClick={() => playSfx("select")}
             className={`relative block h-[60px] w-[60px] shrink-0 transition hover:-translate-y-0.5 active:scale-95 ${
               a.href === "/kolom-komi/tidur" && energyLow ? "animate-pulse" : ""
             }`}

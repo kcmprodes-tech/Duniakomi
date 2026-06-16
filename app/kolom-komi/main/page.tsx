@@ -13,6 +13,7 @@ import { SembunyiKomi } from "@/components/KolomKomi/SembunyiKomi";
 import { BersihBersih } from "@/components/KolomKomi/BersihBersih";
 import { TebakBerita } from "@/components/KolomKomi/TebakBerita";
 import { Loader } from "@/components/KolomKomi/Loader";
+import { playSfx } from "@/lib/kolom-komi/sound";
 
 const GAMES = [
   { id: "tangkap", emoji: "🎣", nama: "Tangkap Ikan", desc: "Tap ikan sebanyak mungkin!", Comp: TangkapIkan },
@@ -61,7 +62,7 @@ export default function MainPage() {
           {GAMES.map((g) => (
             <button
               key={g.id}
-              onClick={() => setPilih(g.id)}
+              onClick={() => { playSfx("select"); setPilih(g.id); }}
               className="flex w-[150px] shrink-0 flex-col items-center gap-1 rounded-3xl border border-white/70 bg-gradient-to-b from-[#eaf4ff] to-white p-3 text-center shadow-md transition active:scale-95"
             >
               <span className="text-[40px] leading-none drop-shadow-sm">{g.emoji}</span>

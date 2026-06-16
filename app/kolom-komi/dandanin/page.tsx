@@ -10,6 +10,7 @@ import { OUTFITS, type Outfit } from "@/lib/kolom-komi/items";
 import { KOMI_IMG } from "@/lib/kolom-komi/assets";
 import { Loader } from "@/components/KolomKomi/Loader";
 import { KoinIcon } from "@/components/KolomKomi/KoinIcon";
+import { playSfx } from "@/lib/kolom-komi/sound";
 
 export default function DandaninPage() {
   const { state, beliItem, pakaiItem } = useKolomKomi();
@@ -34,9 +35,13 @@ export default function DandaninPage() {
     if (!owned) {
       const r = beliItem(o.id);
       flash(r.pesan ?? "");
-      if (r.sukses) pakaiItem(o.id); // langsung dipakai setelah dibeli
+      if (r.sukses) {
+        playSfx("buy");
+        pakaiItem(o.id); // langsung dipakai setelah dibeli
+      }
       return;
     }
+    playSfx("pop");
     pakaiItem(equipped === o.id ? null : o.id); // toggle pakai/lepas
   };
 
@@ -91,7 +96,7 @@ export default function DandaninPage() {
         <p className="px-5 font-display text-base font-extrabold text-navy">Kostum Komi 🎩</p>
         <div className="mt-3 flex gap-3 overflow-x-auto px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {/* Opsi lepas kostum */}
-          <button onClick={() => pakaiItem(null)} className="flex w-[84px] shrink-0 flex-col items-center gap-1 active:scale-95">
+          <button onClick={() => { playSfx("select"); pakaiItem(null); }} className="flex w-[84px] shrink-0 flex-col items-center gap-1 active:scale-95">
             <div
               className={`relative flex h-[76px] w-[76px] items-center justify-center rounded-2xl border-2 shadow-sm ${
                 !equipped ? "border-emerald-400 bg-emerald-50" : "border-navy/10 bg-white"

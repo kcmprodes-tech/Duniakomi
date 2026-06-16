@@ -10,6 +10,7 @@ import { KANAL, type Kanal } from "@/lib/kolom-komi/kanal";
 import { KOMI_IMG } from "@/lib/kolom-komi/assets";
 import { InAppBrowser } from "@/components/KolomKomi/InAppBrowser";
 import { Loader } from "@/components/KolomKomi/Loader";
+import { playSfx } from "@/lib/kolom-komi/sound";
 
 export default function JalanPage() {
   const { state } = useKolomKomi();
@@ -41,7 +42,7 @@ export default function JalanPage() {
           {KANAL.map((k) => (
             <button
               key={k.id}
-              onClick={() => setAktif(k)}
+              onClick={() => { playSfx("open"); setAktif(k); }}
               className="flex w-[140px] shrink-0 flex-col items-center gap-1 rounded-3xl border border-white/60 bg-gradient-to-b from-[#c7f5e3] to-[#9fe7cf] p-3 text-center shadow-md transition active:scale-95"
             >
               <span className="text-[38px] leading-none drop-shadow-sm">{k.tempatEmoji}</span>

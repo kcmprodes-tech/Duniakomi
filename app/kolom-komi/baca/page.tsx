@@ -13,6 +13,7 @@ import { InAppBrowser } from "@/components/KolomKomi/InAppBrowser";
 import { Toast } from "@/components/KolomKomi/Toast";
 import { Loader } from "@/components/KolomKomi/Loader";
 import { KoinIcon } from "@/components/KolomKomi/KoinIcon";
+import { playSfx } from "@/lib/kolom-komi/sound";
 
 // Warna thumbnail per kategori berita.
 const WARNA: Record<string, string> = {
@@ -127,7 +128,7 @@ export default function BacaPage() {
                     <h3 className="font-display text-[15px] font-extrabold leading-tight text-navy">{b.judul}</h3>
                     <p className="mt-0.5 line-clamp-2 font-body text-[11px] leading-snug text-gray-text">{b.ringkasan}</p>
                     <button
-                      onClick={() => setAktif(b)}
+                      onClick={() => { playSfx("open"); setAktif(b); }}
                       className="mt-1.5 inline-flex w-fit items-center gap-1 rounded-full bg-gradient-to-b from-[#ffbe57] to-[#f08020] py-1.5 pl-3 pr-2.5 font-display text-[12px] font-extrabold text-white shadow [text-shadow:0_1px_1px_rgba(0,0,0,0.22)] transition active:scale-95"
                     >
                       {sudah ? (
