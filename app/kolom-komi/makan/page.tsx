@@ -152,7 +152,7 @@ export default function MakanPage() {
         <p className="absolute left-0 right-0 top-1.5 z-10 text-center font-body text-[12px] font-bold text-white [text-shadow:0_1px_3px_rgba(0,0,0,0.8)]">
           Geser & tarik makanan ke mulut Komi 👆
         </p>
-        <div className="absolute inset-x-0 bottom-2 top-9 flex touch-pan-x items-center gap-3 overflow-x-auto px-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="absolute inset-x-0 bottom-2 top-9 flex touch-pan-x items-center gap-3 overflow-x-auto overscroll-x-contain px-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {FOODS.map((f) => (
             <div
               key={f.id}

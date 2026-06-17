@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { KolomKomiProvider } from "@/lib/kolom-komi/state";
 import { KOMI_IMG } from "@/lib/kolom-komi/assets";
 import { SplashGate } from "@/components/KolomKomi/SplashGate";
+import { NoSwipeNav } from "@/components/KolomKomi/NoSwipeNav";
 
 export const metadata: Metadata = {
   title: "Kolom Komi — Temani Komi tiap hari",
@@ -11,6 +12,7 @@ export const metadata: Metadata = {
 export default function KolomKomiLayout({ children }: { children: ReactNode }) {
   return (
     <KolomKomiProvider>
+      <NoSwipeNav />
       <div className="flex min-h-dvh justify-center bg-navy sm:items-center sm:py-6">
         {/* Bingkai game: full-screen di HP; di tablet/desktop jadi rasio 9:16 yang mengisi tinggi layar */}
         <div

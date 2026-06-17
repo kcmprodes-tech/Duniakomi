@@ -70,7 +70,7 @@ export default function MainPage() {
         <p className="px-6 text-center font-display text-base font-extrabold text-white">
           Pilih permainan buat main bareng Komi! 🎮
         </p>
-        <div className="mt-3 flex gap-3 overflow-x-auto px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="mt-3 flex gap-3 overflow-x-auto overscroll-x-contain px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {GAMES.map((g) => (
             <button
               key={g.id}

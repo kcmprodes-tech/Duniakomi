@@ -106,7 +106,7 @@ export default function DandaninPage() {
       {/* Panel bawah: pilih kostum */}
       <div className="absolute inset-x-0 bottom-0 z-20 rounded-t-[2rem] bg-cream pb-5 pt-4 shadow-[0_-8px_30px_rgba(0,0,0,0.25)]">
         <p className="px-5 font-display text-base font-extrabold text-navy">Kostum Komi 🎩</p>
-        <div className="mt-3 flex gap-3 overflow-x-auto px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="mt-3 flex gap-3 overflow-x-auto overscroll-x-contain px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {/* Opsi lepas kostum */}
           <button onClick={() => { playSfx("select"); pakaiItem(null); }} className="flex w-[84px] shrink-0 flex-col items-center gap-1 active:scale-95">
             <div
