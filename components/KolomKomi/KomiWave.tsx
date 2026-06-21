@@ -121,6 +121,22 @@ export function KomiWave({
 
   return (
     <div className="relative" style={{ width: size, height: size }}>
+      {/* Bayangan tanah (contact shadow) di bawah kaki Komi biar tidak terkesan mengambang.
+          Diposisikan sedikit di bawah kaki (bottom negatif) supaya menggenang di lantai. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 -translate-x-1/2"
+        style={{
+          bottom: "-4%",
+          width: "64%",
+          height: "13%",
+          borderRadius: "50%",
+          background:
+            "radial-gradient(ellipse at center, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.34) 45%, rgba(0,0,0,0) 76%)",
+          filter: "blur(5px)",
+        }}
+      />
+
       {WAVE_FRAMES.map((src, i) => (
         <Image
           key={`w${i}`}
