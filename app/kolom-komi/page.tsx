@@ -163,21 +163,31 @@ export default function HubPage() {
         ) : null}
       </AnimatePresence>
 
-      {/* 5 tombol aksi (bawah) */}
-      <div className="absolute bottom-3 left-1/2 z-20 flex -translate-x-1/2 -translate-y-[30px] items-center gap-2">
-        {AKSI.map((a) => (
-          <Link
-            key={a.href}
-            href={a.href}
-            aria-label={a.label}
-            onClick={() => playSfx("select")}
-            className={`relative block h-[60px] w-[60px] shrink-0 transition hover:-translate-y-0.5 active:scale-95 ${
-              a.href === "/kolom-komi/tidur" && energyLow ? "animate-pulse" : ""
-            }`}
-          >
-            <Image src={a.src} alt={a.label} fill sizes="60px" className="object-contain drop-shadow-md" />
-          </Link>
-        ))}
+      {/* 5 tombol aksi (bawah) di atas panel kayu */}
+      <div className="absolute bottom-3 left-1/2 z-20 w-[360px] max-w-[calc(100%-0.75rem)] -translate-x-1/2 -translate-y-[14px]">
+        <Image
+          src="/komi/background-button.png"
+          alt=""
+          width={360}
+          height={94}
+          priority
+          className="h-auto w-full drop-shadow-lg"
+        />
+        <div className="absolute inset-0 flex items-center justify-center gap-2 px-4">
+          {AKSI.map((a) => (
+            <Link
+              key={a.href}
+              href={a.href}
+              aria-label={a.label}
+              onClick={() => playSfx("select")}
+              className={`relative block h-[56px] w-[56px] shrink-0 transition hover:-translate-y-0.5 active:scale-95 ${
+                a.href === "/kolom-komi/tidur" && energyLow ? "animate-pulse" : ""
+              }`}
+            >
+              <Image src={a.src} alt={a.label} fill sizes="56px" className="object-contain drop-shadow-md" />
+            </Link>
+          ))}
+        </div>
       </div>
 
       {/* Panel check-in */}
