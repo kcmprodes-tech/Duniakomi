@@ -22,7 +22,8 @@ export default function TidurPage() {
   const stateRef = useRef(state);
   stateRef.current = state;
 
-  // Selama tidur: isi Energy & Mood perlahan sampai penuh (±7-9 detik).
+  // Selama tidur: isi Energy & Mood perlahan (+1 per 200ms ≈ 0→100 dalam ~20 detik,
+  // gaya Talking Tom yang santai). Increment kecil = bar terisi lebih halus.
   useEffect(() => {
     if (!tidur) return;
     const id = setInterval(() => {
@@ -32,8 +33,8 @@ export default function TidurPage() {
         setTidur(false); // bar penuh → Komi bangun otomatis
         return;
       }
-      pulihRef.current(3, 3);
-    }, 280);
+      pulihRef.current(1, 1);
+    }, 200);
     return () => clearInterval(id);
   }, [tidur]);
 
