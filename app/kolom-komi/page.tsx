@@ -164,27 +164,27 @@ export default function HubPage() {
       </AnimatePresence>
 
       {/* 5 tombol aksi (bawah) di atas panel kayu */}
-      <div className="absolute bottom-3 left-1/2 z-20 w-[360px] max-w-[calc(100%-0.75rem)] -translate-x-1/2 -translate-y-[14px]">
+      <div className="absolute inset-x-5 bottom-8 z-20">
         <Image
           src="/komi/background-button.png"
           alt=""
-          width={360}
-          height={94}
+          width={1000}
+          height={260}
           priority
           className="h-auto w-full drop-shadow-lg"
         />
-        <div className="absolute inset-0 flex items-center justify-center gap-2 px-4">
+        <div className="absolute inset-0 flex items-center justify-center gap-[2%] px-[3.5%]">
           {AKSI.map((a) => (
             <Link
               key={a.href}
               href={a.href}
               aria-label={a.label}
               onClick={() => playSfx("select")}
-              className={`relative block h-[56px] w-[56px] shrink-0 ${
+              className={`relative h-[82%] flex-1 ${
                 a.href === "/kolom-komi/tidur" && energyLow ? "animate-pulse" : ""
               }`}
             >
-              <Image src={a.src} alt={a.label} fill sizes="56px" className="object-contain drop-shadow-md" />
+              <Image src={a.src} alt={a.label} fill sizes="20vw" className="object-contain drop-shadow-md" />
             </Link>
           ))}
         </div>

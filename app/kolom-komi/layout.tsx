@@ -20,11 +20,13 @@ export default function KolomKomiLayout({ children }: { children: ReactNode }) {
           __html: `
             .kk-tap a:not([class*="translate"]),
             .kk-tap button:not([class*="translate"]) {
-              transition: transform 0.14s cubic-bezier(0.2, 0.7, 0.3, 1.3);
+              transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+              will-change: transform;
             }
             .kk-tap a:not([class*="translate"]):active,
             .kk-tap button:not([class*="translate"]):active {
-              transform: scale(1.14);
+              transform: scale(1.25);
+              transition-duration: 0.12s;
             }
             @media (prefers-reduced-motion: reduce) {
               .kk-tap a:not([class*="translate"]):active,
