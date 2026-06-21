@@ -50,8 +50,8 @@ function StatCircle({
 const AKSI = [
   { src: "/komi/makan.png", href: "/kolom-komi/makan", label: "Kasih Makan" },
   { src: "/komi/baca.png", href: "/kolom-komi/baca", label: "Baca Bareng" },
-  { src: "/komi/travel.png", href: "/kolom-komi/jalan", label: "Ajak Jalan" },
-  { src: "/komi/play.png", href: "/kolom-komi/main", label: "Main Bareng" },
+  { src: "/komi/jalan.png", href: "/kolom-komi/jalan", label: "Ajak Jalan" },
+  { src: "/komi/game.png", href: "/kolom-komi/main", label: "Main Bareng" },
   { src: "/komi/tidur.png", href: "/kolom-komi/tidur", label: "Tidurin" },
 ];
 
@@ -180,11 +180,18 @@ export default function HubPage() {
               href={a.href}
               aria-label={a.label}
               onClick={() => playSfx("select")}
-              className={`relative block h-[56px] w-[56px] shrink-0 transition hover:-translate-y-0.5 active:scale-95 ${
-                a.href === "/kolom-komi/tidur" && energyLow ? "animate-pulse" : ""
-              }`}
+              className="block shrink-0"
             >
-              <Image src={a.src} alt={a.label} fill sizes="56px" className="object-contain drop-shadow-md" />
+              <motion.span
+                className={`relative block h-[56px] w-[56px] ${
+                  a.href === "/kolom-komi/tidur" && energyLow ? "animate-pulse" : ""
+                }`}
+                whileHover={{ y: -4 }}
+                whileTap={{ scale: 0.78, rotate: -5 }}
+                transition={{ type: "spring", stiffness: 600, damping: 12 }}
+              >
+                <Image src={a.src} alt={a.label} fill sizes="56px" className="object-contain drop-shadow-md" />
+              </motion.span>
             </Link>
           ))}
         </div>
