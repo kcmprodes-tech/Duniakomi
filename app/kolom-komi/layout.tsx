@@ -13,10 +13,30 @@ export default function KolomKomiLayout({ children }: { children: ReactNode }) {
   return (
     <KolomKomiProvider>
       <NoSwipeNav />
+      {/* Efek tekan untuk SEMUA tombol di dalam game: disentuh -> sedikit membesar,
+          dilepas -> balik normal. Elemen ber-transform (mis. -translate) dilewati. */}
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
+            .kk-tap a:not([class*="translate"]),
+            .kk-tap button:not([class*="translate"]) {
+              transition: transform 0.14s cubic-bezier(0.2, 0.7, 0.3, 1.3);
+            }
+            .kk-tap a:not([class*="translate"]):active,
+            .kk-tap button:not([class*="translate"]):active {
+              transform: scale(1.14);
+            }
+            @media (prefers-reduced-motion: reduce) {
+              .kk-tap a:not([class*="translate"]):active,
+              .kk-tap button:not([class*="translate"]):active { transform: none; }
+            }
+          `,
+        }}
+      />
       <div className="flex min-h-dvh justify-center bg-navy sm:items-center sm:py-6">
         {/* Bingkai game: full-screen di HP; di tablet/desktop jadi rasio 9:16 yang mengisi tinggi layar */}
         <div
-          className="relative min-h-dvh w-full max-w-[460px] overflow-hidden bg-cream bg-cover bg-center sm:aspect-[9/16] sm:h-[calc(100dvh-3rem)] sm:min-h-0 sm:w-auto sm:max-w-[calc(100vw-3rem)] sm:rounded-[2.5rem] sm:shadow-2xl"
+          className="kk-tap relative min-h-dvh w-full max-w-[460px] overflow-hidden bg-cream bg-cover bg-center sm:aspect-[9/16] sm:h-[calc(100dvh-3rem)] sm:min-h-0 sm:w-auto sm:max-w-[calc(100vw-3rem)] sm:rounded-[2.5rem] sm:shadow-2xl"
           style={{ backgroundImage: `url(${KOMI_IMG.room})` }}
         >
           {/* Scrim lembut agar UI tetap terbaca di atas latar */}

@@ -180,18 +180,11 @@ export default function HubPage() {
               href={a.href}
               aria-label={a.label}
               onClick={() => playSfx("select")}
-              className="block shrink-0"
+              className={`relative block h-[56px] w-[56px] shrink-0 ${
+                a.href === "/kolom-komi/tidur" && energyLow ? "animate-pulse" : ""
+              }`}
             >
-              <motion.span
-                className={`relative block h-[56px] w-[56px] ${
-                  a.href === "/kolom-komi/tidur" && energyLow ? "animate-pulse" : ""
-                }`}
-                whileHover={{ y: -4 }}
-                whileTap={{ scale: 0.78, rotate: -5 }}
-                transition={{ type: "spring", stiffness: 600, damping: 12 }}
-              >
-                <Image src={a.src} alt={a.label} fill sizes="56px" className="object-contain drop-shadow-md" />
-              </motion.span>
+              <Image src={a.src} alt={a.label} fill sizes="56px" className="object-contain drop-shadow-md" />
             </Link>
           ))}
         </div>
