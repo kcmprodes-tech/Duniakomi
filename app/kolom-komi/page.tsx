@@ -98,7 +98,7 @@ export default function HubPage() {
         href="/kolom-komi/poin"
         aria-label="Detail Koin"
         onClick={() => playSfx("select")}
-        className="absolute left-3 top-3 z-20 flex items-center justify-center bg-contain bg-center bg-no-repeat transition active:scale-95"
+        className="absolute left-5 top-3 z-20 flex items-center justify-center bg-contain bg-center bg-no-repeat transition active:scale-95"
         style={{ width: "111px", height: "32px", backgroundImage: "url(/komi/background-koin.png)" }}
       >
         <span className="-translate-x-[2px] font-display text-[15px] font-extrabold leading-none text-white [text-shadow:0_1px_0_#d98512]">
@@ -110,21 +110,21 @@ export default function HubPage() {
       <button
         onClick={() => { playSfx("select"); setCheckinOpen(true); }}
         aria-label="Check-in harian"
-        className="absolute right-3 top-3 z-20 flex items-center gap-1.5 rounded-full border-2 border-[#6b32c9] bg-gradient-to-b from-[#9b5cff] to-[#7a2ff0] px-3 py-1 shadow-md transition active:scale-95"
+        className="absolute right-5 top-3 z-20 flex items-center gap-1.5 rounded-full border-2 border-[#6b32c9] bg-gradient-to-b from-[#9b5cff] to-[#7a2ff0] px-3 py-1 shadow-md transition active:scale-95"
       >
         <CalendarCheck className="h-5 w-5 text-white" />
         <span className="font-display text-base font-extrabold text-white">DAY {state.streak}</span>
       </button>
 
       {/* Lingkaran progres (kiri) */}
-      <div className="absolute left-2 top-[19%] z-10 flex flex-col gap-2.5">
+      <div className="absolute left-5 top-[19%] z-10 flex flex-col gap-2.5">
         {stats.map((s, i) => (
           <StatCircle key={i} icon={s.icon} value={s.value} fill={s.fill} ring={s.ring} />
         ))}
       </div>
 
       {/* Tombol kanan: Dandani + Setting */}
-      <div className="absolute right-2 top-[19%] z-10 flex flex-col gap-3">
+      <div className="absolute right-5 top-[19%] z-10 flex flex-col gap-3">
         <Link
           href="/kolom-komi/dandanin"
           aria-label="Dandani Komi"
