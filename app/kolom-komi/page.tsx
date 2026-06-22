@@ -12,7 +12,6 @@ import { KomiStage } from "@/components/KolomKomi/KomiStage";
 import { CheckInPanel } from "@/components/KolomKomi/CheckInPanel";
 import { Loader } from "@/components/KolomKomi/Loader";
 import { SceneOverlay } from "@/components/KolomKomi/SceneOverlay";
-import { KoinIcon } from "@/components/KolomKomi/KoinIcon";
 import { Onboarding } from "@/components/KolomKomi/Onboarding";
 import { playSfx } from "@/lib/kolom-komi/sound";
 
@@ -99,10 +98,10 @@ export default function HubPage() {
         href="/kolom-komi/poin"
         aria-label="Detail Koin"
         onClick={() => playSfx("select")}
-        className="absolute left-3 top-3 z-20 flex items-center gap-1.5 rounded-full border-2 border-[#e6951b] bg-gradient-to-b from-[#ffd34d] to-[#ffb01f] px-3 py-1 shadow-md transition active:scale-95"
+        className="absolute left-3 top-3 z-20 flex items-center justify-center bg-contain bg-center bg-no-repeat transition active:scale-95"
+        style={{ width: "111px", height: "32px", backgroundImage: "url(/komi/background-koin.png)" }}
       >
-        <KoinIcon size={20} />
-        <span className="font-display text-lg font-extrabold text-white [text-shadow:0_1px_0_#d98512]">
+        <span className="-translate-x-[2px] font-display text-[15px] font-extrabold leading-none text-white [text-shadow:0_1px_0_#d98512]">
           {state.koin}
         </span>
       </Link>
