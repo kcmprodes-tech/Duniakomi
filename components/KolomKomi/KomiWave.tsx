@@ -37,7 +37,9 @@ export function KomiWave({
   accessory?: string;
   onReaksi?: (teks: string) => void;
 }) {
-  const { elus } = useKolomKomi();
+  const { state, elus } = useKolomKomi();
+  // "Perlu ditidurkan": mood & energy sama-sama di bawah 20% → tampilkan animasi ngantuk.
+  const sleepy = !!state && state.mood < 20 && state.energy < 20;
   const [active, setActive] = useState<Active>({ set: "wave", frame: 0 });
   const laughingRef = useRef(false);
   const laughTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
@@ -111,7 +113,7 @@ export function KomiWave({
     elus();
     onReaksi?.(REAKSI[id]);
     // Perut & kaki = titik geli → Komi tertawa.
-    if (id === "perut" || id === "kaki") {
+    if (!sleepy && (id === "perut" || id === "kaki")) {
       tertawa();
       playSfx("giggle");
     } else {
@@ -137,34 +139,45 @@ export function KomiWave({
         }}
       />
 
-      {WAVE_FRAMES.map((src, i) => (
-        <Image
-          key={`w${i}`}
-          src={src}
-          alt="Komi"
-          fill
-          unoptimized
-          priority={i === 0}
-          sizes="420px"
-          className={`object-contain object-bottom drop-shadow-xl ${
-            active.set === "wave" && active.frame === i ? "" : "invisible"
-          }`}
+      {sleepy ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src="/komi/komi-ngantuk.webp"
+          alt="Komi mengantuk"
+          className="absolute inset-0 h-full w-full object-contain object-bottom drop-shadow-xl"
         />
-      ))}
+      ) : (
+        <>
+          {WAVE_FRAMES.map((src, i) => (
+            <Image
+              key={`w${i}`}
+              src={src}
+              alt="Komi"
+              fill
+              unoptimized
+              priority={i === 0}
+              sizes="420px"
+              className={`object-contain object-bottom drop-shadow-xl ${
+                active.set === "wave" && active.frame === i ? "" : "invisible"
+              }`}
+            />
+          ))}
 
-      {LAUGH_FRAMES.map((src, i) => (
-        <Image
-          key={`l${i}`}
-          src={src}
-          alt=""
-          fill
-          unoptimized
-          sizes="420px"
-          className={`object-contain object-bottom drop-shadow-xl ${
-            active.set === "laugh" && active.frame === i ? "" : "invisible"
-          }`}
-        />
-      ))}
+          {LAUGH_FRAMES.map((src, i) => (
+            <Image
+              key={`l${i}`}
+              src={src}
+              alt=""
+              fill
+              unoptimized
+              sizes="420px"
+              className={`object-contain object-bottom drop-shadow-xl ${
+                active.set === "laugh" && active.frame === i ? "" : "invisible"
+              }`}
+            />
+          ))}
+        </>
+      )}
 
       {accessory ? (
         <span className="absolute left-1/2 top-[2%] -translate-x-1/2 text-3xl drop-shadow">
