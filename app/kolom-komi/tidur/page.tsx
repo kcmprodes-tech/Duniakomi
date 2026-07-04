@@ -26,10 +26,12 @@ export default function TidurPage() {
   const stateRef = useRef(state);
   stateRef.current = state;
 
-  // Prefetch transisi biar tidak nge-flash saat lampu diklik.
+  // Prefetch transisi & sedang-tidur biar tidak nge-flash saat lampu diklik / masuk tidur.
   useEffect(() => {
-    const img = new window.Image();
-    img.src = KOMI_IMG.tidurTransisi;
+    [KOMI_IMG.tidurTransisi, KOMI_IMG.tidurSedang].forEach((src) => {
+      const img = new window.Image();
+      img.src = src;
+    });
   }, []);
 
   // Transisi ngantuk → tidur (webp sekali jalan), lalu masuk fase "tidur".
@@ -77,7 +79,7 @@ export default function TidurPage() {
 
   return (
     <div className="absolute inset-0 overflow-hidden">
-      {/* Scene: ngantuk (loop) ATAU transisi/tidur (sekali jalan, tahan frame akhir) */}
+      {/* Scene: ngantuk (loop) / transisi (sekali jalan) / sedang tidur (loop) */}
       {phase === "ngantuk" ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
@@ -88,11 +90,21 @@ export default function TidurPage() {
           onLoad={() => setBgLoaded(true)}
           onError={() => setBgLoaded(true)}
         />
-      ) : (
+      ) : phase === "transisi" ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
           key={`transisi-${cycle}`}
           src={KOMI_IMG.tidurTransisi}
+          alt=""
+          className="absolute inset-0 h-full w-full object-cover object-top"
+          onLoad={() => setBgLoaded(true)}
+          onError={() => setBgLoaded(true)}
+        />
+      ) : (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          key="sedang-tidur"
+          src={KOMI_IMG.tidurSedang}
           alt=""
           className="absolute inset-0 h-full w-full object-cover object-top"
           onLoad={() => setBgLoaded(true)}
