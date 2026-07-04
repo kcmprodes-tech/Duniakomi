@@ -31,6 +31,8 @@ export const KOMI_IMG = {
   tidurSedang: "/komi/sedang-tidur.webp",
   /** Tidurin — transisi tidur → bangun (sekali jalan) */
   tidurBangun: "/komi/transisi-bangun.webp",
+  /** Tidurin — Komi sudah bangun & segar (loop, mengulet) saat mood & energy ≥ 60% */
+  tidurSegar: "/komi/komi-bangun-segar.webp",
   /** Latar halaman Baca Bareng (Komi baca di teras) */
   bacaBg: "/komi/komi-baca.png",
   /** Latar halaman Main Bareng (Komi main game di bean bag) */

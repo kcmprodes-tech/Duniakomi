@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Smile, Zap } from "lucide-react";
 import { useKolomKomi } from "@/lib/kolom-komi/state";
@@ -15,10 +14,9 @@ import { playSfx } from "@/lib/kolom-komi/sound";
 const TRANSISI_MS = 5084; // ngantuk → tidur
 const BANGUN_MS = 5084; // tidur → bangun
 
-type Phase = "ngantuk" | "transisi" | "tidur" | "bangun";
+type Phase = "ngantuk" | "transisi" | "tidur" | "bangun" | "segar";
 
 export default function TidurPage() {
-  const router = useRouter();
   const { state, pulihTidur } = useKolomKomi();
   const [phase, setPhase] = useState<Phase>("ngantuk");
   const [cycle, setCycle] = useState(0); // paksa webp transisi replay dari frame 0
@@ -31,7 +29,7 @@ export default function TidurPage() {
 
   // Prefetch semua webp transisi biar tidak nge-flash saat pindah fase.
   useEffect(() => {
-    [KOMI_IMG.tidurTransisi, KOMI_IMG.tidurSedang, KOMI_IMG.tidurBangun].forEach((src) => {
+    [KOMI_IMG.tidurTransisi, KOMI_IMG.tidurSedang, KOMI_IMG.tidurBangun, KOMI_IMG.tidurSegar].forEach((src) => {
       const img = new window.Image();
       img.src = src;
     });
@@ -60,20 +58,20 @@ export default function TidurPage() {
     return () => clearInterval(id);
   }, [phase]);
 
-  // Transisi bangun (sekali jalan) → kalau masih ngantuk (mood & energy < 60%) balik ke ngantuk,
-  // kalau sudah segar (≥ 60%) kembali ke halaman utama.
+  // Transisi bangun (sekali jalan) → kalau mood & energy sudah ≥ 60% lanjut ke "segar" (loop),
+  // kalau masih kurang balik ke "ngantuk".
   useEffect(() => {
     if (phase !== "bangun") return;
     const t = setTimeout(() => {
       const s = stateRef.current;
-      if (s && s.mood < 60 && s.energy < 60) {
-        setPhase("ngantuk");
+      if (s && s.mood >= 60 && s.energy >= 60) {
+        setPhase("segar");
       } else {
-        router.push("/kolom-komi");
+        setPhase("ngantuk");
       }
     }, BANGUN_MS);
     return () => clearTimeout(t);
-  }, [phase, router]);
+  }, [phase]);
 
   if (!state) return <Loader />;
 
@@ -97,7 +95,9 @@ export default function TidurPage() {
         ? "Komi mulai terlelap… 💤"
         : phase === "bangun"
           ? "Komi bangun… 🌅"
-          : "Klik lampu di nakas buat matiin & tidurin Komi 💡";
+          : phase === "segar"
+            ? "Komi udah segar & bugar! 🌟"
+            : "Klik lampu di nakas buat matiin & tidurin Komi 💡";
 
   return (
     <div className="absolute inset-0 overflow-hidden">
@@ -132,11 +132,21 @@ export default function TidurPage() {
           onLoad={() => setBgLoaded(true)}
           onError={() => setBgLoaded(true)}
         />
-      ) : (
+      ) : phase === "bangun" ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
           key={`bangun-${cycle}`}
           src={KOMI_IMG.tidurBangun}
+          alt=""
+          className="absolute inset-0 h-full w-full object-cover object-top"
+          onLoad={() => setBgLoaded(true)}
+          onError={() => setBgLoaded(true)}
+        />
+      ) : (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          key="segar"
+          src={KOMI_IMG.tidurSegar}
           alt=""
           className="absolute inset-0 h-full w-full object-cover object-top"
           onLoad={() => setBgLoaded(true)}
