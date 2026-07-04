@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { useKolomKomi } from "@/lib/kolom-komi/state";
@@ -46,13 +45,11 @@ export default function MainPage() {
   // Selector: scene Komi main + panel carousel game (scroll horizontal).
   return (
     <div className="absolute inset-0 overflow-hidden">
-      <Image
-        src={KOMI_IMG.gameBg}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={KOMI_IMG.gamePlayAnim}
         alt=""
-        fill
-        priority
-        sizes="460px"
-        className="object-cover object-top"
+        className="absolute inset-0 h-full w-full object-cover object-top"
         onLoad={() => setBgLoaded(true)}
         onError={() => setBgLoaded(true)}
       />
