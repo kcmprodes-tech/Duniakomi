@@ -23,6 +23,10 @@ export const KOMI_IMG = {
   tidurBelum: "/komi/komitidur_belumtidur.png",
   /** Tidurin — Komi sudah tidur (lampu mati, zzz) */
   tidurSudah: "/komi/komitidur_sudahtidur.png",
+  /** Tidurin — animasi Komi ngantuk di ranjang (loop, ber-background) */
+  tidurNgantukScene: "/komi/komi-ngantuk-scene.webp",
+  /** Tidurin — transisi ngantuk → tidur (sekali jalan, tahan frame akhir) */
+  tidurTransisi: "/komi/ngantuk-tidur.webp",
   /** Latar halaman Baca Bareng (Komi baca di teras) */
   bacaBg: "/komi/komi-baca.png",
   /** Latar halaman Main Bareng (Komi main game di bean bag) */
