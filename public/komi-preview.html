@@ -1,0 +1,35 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Preview Komi Ciluk-ba</title>
+<style>
+  body { margin:0; font-family: system-ui, sans-serif; background:#1a2845; color:#fff; }
+  h1 { text-align:center; font-size:17px; padding:16px 0 4px; margin:0; }
+  p { text-align:center; opacity:.75; margin:0 0 16px; font-size:13px; }
+  .row { display:flex; flex-wrap:wrap; gap:18px; justify-content:center; padding:0 16px 26px; }
+  .card { width:280px; border-radius:20px; overflow:hidden; box-shadow:0 8px 30px rgba(0,0,0,.4); }
+  .label { font-size:12px; text-align:center; padding:8px; background:rgba(0,0,0,.35); }
+  .stage { height:340px; display:flex; align-items:flex-end; justify-content:center; }
+  .stage img { height:320px; }
+  .room { background:linear-gradient(#cfe8ff, #f3e2c7); }
+  .checker { background:
+      conic-gradient(#ddd 90deg,#fff 90deg 180deg,#ddd 180deg 270deg,#fff 270deg) 0 0/24px 24px; }
+  .btn { display:block; margin:0 auto 34px; padding:12px 22px; font-size:15px; font-weight:700;
+         border:0; border-radius:999px; background:#f08020; color:#fff; cursor:pointer; }
+  .btn:active { transform:scale(.96); }
+</style></head><body>
+
+<h1>Versi LOOP terus</h1>
+<p>Berulang tanpa henti — buat lihat gerakannya: lambai → ciluk-ba → baa → lambai.</p>
+<div class="row">
+  <div class="card"><div class="stage room"><img src="/komi/komi-cilukba.webp"></div><div class="label">Di latar ruangan</div></div>
+  <div class="card"><div class="stage checker"><img src="/komi/komi-cilukba.webp"></div><div class="label">Papan catur (cek edge)</div></div>
+</div>
+
+<h1>Versi MAIN SEKALI</h1>
+<p>Main sekali lalu berhenti di frame terakhir. Klik tombol untuk putar ulang.</p>
+<div class="row">
+  <div class="card"><div class="stage room"><img id="once" src="/komi/komi-cilukba-once.webp"></div><div class="label">Main sekali</div></div>
+</div>
+<button class="btn" onclick="once.src='/komi/komi-cilukba-once.webp?'+Date.now()">▶ Putar sekali lagi</button>
+
+</body></html>

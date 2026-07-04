@@ -1,0 +1,25 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Preview Komi Makan (spritesheet)</title>
+<style>
+  body { margin:0; font-family: system-ui, sans-serif; background:#1a2845; color:#fff; }
+  h1 { text-align:center; font-size:17px; padding:16px 0 4px; margin:0; }
+  p { text-align:center; opacity:.75; margin:0 0 16px; font-size:13px; }
+  .row { display:flex; flex-wrap:wrap; gap:18px; justify-content:center; padding:0 16px 30px; }
+  .card { width:300px; border-radius:20px; overflow:hidden; box-shadow:0 8px 30px rgba(0,0,0,.4); }
+  .label { font-size:12px; text-align:center; padding:8px; background:rgba(0,0,0,.35); }
+  .stage { height:300px; display:flex; align-items:center; justify-content:center; }
+  .stage img { height:280px; }
+  .checker { background:
+      conic-gradient(#ddd 90deg,#fff 90deg 180deg,#ddd 180deg 270deg,#fff 270deg) 0 0/24px 24px; }
+  .cream { background:linear-gradient(#fff3e0,#ffe2b8); }
+  .dark { background:#2d3a5f; }
+</style></head><body>
+<h1>Preview animasi Komi Makan (20 ekspresi, loop)</h1>
+<p>Hasil potong + cutout otomatis dari grid (durasi per-frame 1,5–2,5s, loop ~38 detik). Cek edge di papan catur.</p>
+<div class="row">
+  <div class="card"><div class="stage cream"><img src="/komi/komi-makan-anim.webp"></div><div class="label">Latar krem</div></div>
+  <div class="card"><div class="stage checker"><img src="/komi/komi-makan-anim.webp"></div><div class="label">Papan catur (cek edge)</div></div>
+  <div class="card"><div class="stage dark"><img src="/komi/komi-makan-anim.webp"></div><div class="label">Latar gelap</div></div>
+</div>
+</body></html>
