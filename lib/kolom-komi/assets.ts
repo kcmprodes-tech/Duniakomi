@@ -17,6 +17,10 @@ export const KOMI_IMG = {
   kompasPutih: "/komi/kompas-putih.png",
   /** Latar halaman home (ruang dalam rumah) */
   homeBg: "/komi/bg-halamanutama.png",
+  /** Home — scene beranda (Komi berdiri di ruang tamu, frame idle statis) */
+  homeBeranda: "/komi/komi-beranda.webp",
+  /** Home — animasi Komi (lambai sebentar + kedip), sekali jalan */
+  homeAnim: "/komi/komi-home.webp",
   /** Latar halaman Kasih Makan (dapur + Komi pakai celemek, tanpa bar/mangkok) */
   makanBg: "/komi/komi-makanBG.png",
   /** Tidurin — Komi masih bangun (lampu menyala) */

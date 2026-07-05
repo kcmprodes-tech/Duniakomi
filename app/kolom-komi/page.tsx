@@ -1,17 +1,14 @@
 "use client";
 
-import { useEffect, useState, type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import { CalendarCheck, Utensils, Smile, Zap, Newspaper } from "lucide-react";
 import { useKolomKomi } from "@/lib/kolom-komi/state";
-import { cariOutfit } from "@/lib/kolom-komi/items";
-import { KOMI_IMG } from "@/lib/kolom-komi/assets";
-import { KomiStage } from "@/components/KolomKomi/KomiStage";
+import { KomiHomeScene } from "@/components/KolomKomi/KomiHomeScene";
 import { CheckInPanel } from "@/components/KolomKomi/CheckInPanel";
 import { Loader } from "@/components/KolomKomi/Loader";
-import { SceneOverlay } from "@/components/KolomKomi/SceneOverlay";
 import { Onboarding } from "@/components/KolomKomi/Onboarding";
 import { playSfx } from "@/lib/kolom-komi/sound";
 
@@ -57,18 +54,9 @@ const AKSI = [
 export default function HubPage() {
   const { state } = useKolomKomi();
   const [checkinOpen, setCheckinOpen] = useState(false);
-  const [pesan, setPesan] = useState<string | null>(null);
-  const [bgLoaded, setBgLoaded] = useState(false);
-
-  useEffect(() => {
-    if (!pesan) return;
-    const t = setTimeout(() => setPesan(null), 2200);
-    return () => clearTimeout(t);
-  }, [pesan]);
 
   if (!state) return <Loader />;
 
-  const equipped = state.equippedItem ? cariOutfit(state.equippedItem) : undefined;
   const energyLow = state.energy < 30;
 
   const stats = [
@@ -80,18 +68,8 @@ export default function HubPage() {
 
   return (
     <div className="absolute inset-0 overflow-hidden">
-      {/* Latar ruang */}
-      <Image
-        src={KOMI_IMG.homeBg}
-        alt=""
-        fill
-        priority
-        sizes="460px"
-        className="object-cover"
-        onLoad={() => setBgLoaded(true)}
-        onError={() => setBgLoaded(true)}
-      />
-      <SceneOverlay show={!bgLoaded} />
+      {/* Scene home: idle (beranda) 3 detik → animasi (komi-home) → idle 5 detik → loop */}
+      <KomiHomeScene />
 
       {/* Badge Koin (kiri atas) → detail poin */}
       <Link
@@ -142,25 +120,6 @@ export default function HubPage() {
           <Image src="/komi/setting.png" alt="Pengaturan" width={56} height={56} className="drop-shadow-md" />
         </Link>
       </div>
-
-      {/* Komi di tengah (diam, melambai tiap 5 detik, bisa di-sentuh) */}
-      <div className="absolute bottom-[10%] left-1/2 z-0 -translate-x-1/2 -translate-y-[70px]">
-        <KomiStage size={378} accessory={equipped?.emoji} onReaksi={setPesan} />
-      </div>
-
-      {/* Balon reaksi sementara */}
-      <AnimatePresence>
-        {pesan ? (
-          <motion.div
-            initial={{ opacity: 0, y: -8, scale: 0.96 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0 }}
-            className="absolute left-1/2 top-[14%] z-30 w-[78%] max-w-xs -translate-x-1/2 rounded-2xl border-2 border-navy/10 bg-white/95 px-4 py-2 text-center font-body text-sm font-medium text-navy shadow-md"
-          >
-            {pesan}
-          </motion.div>
-        ) : null}
-      </AnimatePresence>
 
       {/* 5 tombol aksi (bawah) di atas panel kayu */}
       <div className="absolute inset-x-5 bottom-8 z-20">
