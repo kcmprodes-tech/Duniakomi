@@ -21,6 +21,8 @@ export const KOMI_IMG = {
   homeBeranda: "/komi/komi-beranda.webp",
   /** Home — animasi Komi (lambai sebentar + kedip), sekali jalan */
   homeAnim: "/komi/komi-home.webp",
+  /** Home — Komi tertawa (dipicu tap perut), sekali jalan */
+  homeTertawa: "/komi/komi-tertawa.webp",
   /** Latar halaman Kasih Makan (dapur + Komi pakai celemek, tanpa bar/mangkok) */
   makanBg: "/komi/komi-makanBG.png",
   /** Tidurin — Komi masih bangun (lampu menyala) */
